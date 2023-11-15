@@ -34,7 +34,11 @@
   "scripts": {
     "clean": "rm -rf dist",
     "build": "yarn clean && rollup --config rollup.config.js --bundleConfigAsCjs",
-    "demo": "rollup --config rollup.test.config.js --bundleConfigAsCjs -w"
+    "test:copy": "cp test/index.js .hass/config/www/home-assistant-query-selector-tests.js",
+    "start:ha": "docker run --rm -p8123:8123 -v ${PWD}/.hass/config:/config homeassistant/home-assistant:2023.11.1",
+    "start:ha:win": "docker run --rm -p8123:8123 -v %cd%/.hass/config:/config homeassistant/home-assistant:2023.11.1",
+    "demo": "yarn build && yarn test:copy && yarn start:ha",
+    "demo:win": "yarn build && yarn test:copy && yarn start:ha:win"
   },
   "dependencies": {
     "shadow-dom-selector": "^1.0.2"
@@ -42,6 +46,7 @@
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^15.2.3",
     "rollup": "^4.4.1",
+    "rollup-plugin-istanbul": "^5.0.0",
     "rollup-plugin-serve": "^2.0.2",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-ts": "^3.4.5",

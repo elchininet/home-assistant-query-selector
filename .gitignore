@@ -2,3 +2,7 @@
 /dist
 .DS_Store
 /demo/demo.js
+.hass/config/www/home-assistant-query-selector-tests.js
+/test/index.js
+/test/index.d.ts
+/local.env
