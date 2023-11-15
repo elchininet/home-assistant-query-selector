@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "module": "esnext",
+    "target": "ES2015",
+    "lib": ["DOM", "ES2017"],
+    "types": ["node"],
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "noImplicitAny": true,
+    "removeComments": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@types": ["@types"],
+      "@constants": ["constants"],
+      "@selectors": ["selectors"],
+      "@utilities": ["utilities"],
+      "@lib": ["lib"]
+    }
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
+}
