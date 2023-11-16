@@ -1,5 +1,17 @@
 describe('template spec', () => {
   it('passes', () => {
-    cy.visit('https://localhost:8123');
+    cy.onboarding();
+    cy.window()
+      .then((window) => {
+        expect(window).to.haveOwnProperty('HAQuerySelector');
+        const instance = new window.HAQuerySelector();
+        instance.addEventListener('onLovelacePanelLoad', (event: CustomEvent) => {
+          console.log('onLovelacePanelLoad', event.detail);
+        });
+        instance.addEventListener('onLovelacePanelChange', (event: CustomEvent) => {
+          console.log('onLovelacePanelChange', event.detail);
+        });
+        instance.init();
+      });
   });
 });

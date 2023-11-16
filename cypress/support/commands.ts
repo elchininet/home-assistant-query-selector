@@ -35,3 +35,118 @@
 //     }
 //   }
 // }
+
+
+
+Cypress.Commands.add('onboarding', () => {
+    cy.visit('http://localhost:8123')
+      .then(() => {
+        cy
+          .get('ha-onboarding')
+          .shadow()
+          .find('onboarding-welcome')
+          .shadow()
+          .find('ha-button')
+          .click();
+
+        cy
+          .get('ha-onboarding')
+          .shadow()
+          .find('onboarding-create-user')
+          .shadow()
+          .as('create-user');
+
+        cy.get('@create-user')
+          .find('ha-form')
+          .shadow()
+          .as('form');
+
+        cy.get('@form')
+          .find('ha-selector:nth-of-type(1)')
+          .shadow()
+          .find('ha-selector-text')
+          .shadow()
+          .find('ha-textfield')
+          .shadow()
+          .find('input[name="name"]')
+          .click()
+          .type('Test');
+
+        cy
+          .get('@form')
+          .find('ha-selector:nth-of-type(3)')
+          .shadow()
+          .find('ha-selector-text')
+          .shadow()
+          .find('ha-textfield')
+          .shadow()
+          .find('input[name="password"]')
+          .click()
+          .type('Test123!');
+
+        cy
+          .get('@form')
+          .find('ha-selector:nth-of-type(4)')
+          .shadow()
+          .find('ha-selector-text')
+          .shadow()
+          .find('ha-textfield')
+          .shadow()
+          .find('input[name="password_confirm"]')
+          .click()
+          .type('Test123!');
+
+        cy.get('@create-user')
+          .find('.footer mwc-button')
+          .click();
+
+        cy
+          .get('ha-onboarding')
+          .shadow()
+          .find('onboarding-core-config')
+          .shadow()
+          .find('onboarding-location')
+          .shadow()
+          .find('.footer mwc-button')
+          .click();
+
+        cy
+          .get('ha-onboarding')
+          .shadow()
+          .find('onboarding-core-config')
+          .shadow()
+          .as('form-country');
+
+        cy.get('@form-country')
+          .find('ha-country-picker')
+          .shadow()
+          .find('ha-select')
+          .as('select');
+
+        cy.get('@select')
+          .click();
+
+        cy.get('@select')
+          .find('ha-list-item:nth-of-type(1)')
+          .click();
+
+        cy.get('@form-country')
+          .find('.footer mwc-button')
+          .click();
+
+        cy.get('ha-onboarding')
+          .shadow()
+          .find('onboarding-analytics')
+          .shadow()
+          .find('.footer mwc-button')
+          .click();
+
+        cy.get('ha-onboarding')
+          .shadow()
+          .find('onboarding-integrations')
+          .shadow()
+          .find('.footer mwc-button')
+          .click();
+          
+      });
+});

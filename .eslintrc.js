@@ -23,5 +23,6 @@ module.exports = {
         '@typescript-eslint/ban-ts-ignore': 0,
         '@typescript-eslint/ban-ts-comment': 0,
         'no-trailing-spaces': [2, { skipBlankLines: true }],
+        '@typescript-eslint/no-namespace': 'off'
     }
 };
