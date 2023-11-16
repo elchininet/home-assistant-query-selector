@@ -34,6 +34,12 @@
   "scripts": {
     "clean": "rm -rf dist",
     "build": "yarn clean && rollup --config rollup.config.js --bundleConfigAsCjs",
+    "lint": "eslint \"src/**/*.ts\"",
+    "coverage:report": "nyc report --reporter=lcov --reporter=text-summary",
+    "test": "cypress run",
+    "test:open": "cypress open",
+    "test:ts": "tsc --noEmit",
+    "test:ci": "start-server-and-test demo http://localhost:8123 test && yarn coverage:report",
     "test:copy": "cp test/index.js .hass/config/www/home-assistant-query-selector-tests.js",
     "start:ha": "docker run --rm -p8123:8123 -v ${PWD}/.hass/config:/config homeassistant/home-assistant:2023.11.1",
     "start:ha:win": "docker run --rm -p8123:8123 -v %cd%/.hass/config:/config homeassistant/home-assistant:2023.11.1",
