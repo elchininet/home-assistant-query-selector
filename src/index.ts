@@ -34,10 +34,11 @@ class HAQuerySelector extends EventTarget {
     #panelResolverObserver: MutationObserver;
     #watchDashboardsBinded: (mutations: MutationRecord[]) => void;
 
-    public init() {
+    public listen() {
         this.#watchDashboardsBinded = this.#watchDashboards.bind(this);
         this.#updateRootElements();
         this.#updateResolverElements();
+        this.#panelResolverObserver?.disconnect();
         this.#panelResolverObserver = new MutationObserver(this.#watchDashboardsBinded);
         this.#haResolverElements[HA_RESOLVER_ELEMENT.PARTIAL_PANEL_RESOLVER].element.then((partialPanelResolver: Element): void => {
             this.#panelResolverObserver.observe(partialPanelResolver, {

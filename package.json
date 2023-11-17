@@ -36,16 +36,14 @@
     "build": "yarn clean && rollup --config rollup.config.js --bundleConfigAsCjs",
     "lint": "eslint \"src/**/*.ts\"",
     "coverage:report": "nyc report --reporter=lcov --reporter=text-summary",
-    "test": "cypress run",
-    "test:open": "cypress open",
     "test:ts": "tsc --noEmit",
-    "test:ci": "yarn demo && yarn test && yarn coverage:report && yarn stop:ha || yarn stop:ha",
+    "test:run": "cypress run",
+    "test:open": "cypress open",
+    "test:ci": "yarn demo:ha && yarn test:run && yarn coverage:report && yarn stop:ha",
     "test:copy": "cp test/index.js .hass/config/www/home-assistant-query-selector-tests.js",
     "start:ha": "docker run --rm -d -p8123:8123 -v ${PWD}/.hass/config:/config homeassistant/home-assistant:2023.11.1",
-    "start:ha:win": "docker run --rm -d -p8123:8123 -v %cd%/.hass/config:/config homeassistant/home-assistant:2023.11.1",
-    "stop:ha": "docker stop $(docker ps -a -q  --filter ancestor=homeassistant/home-assistant:2023.11.1)",
-    "demo": "yarn build && yarn test:copy && yarn start:ha",
-    "demo:win": "yarn build && yarn test:copy && yarn start:ha:win"
+    "stop:ha": "docker stop $(docker ps -a -q  --filter ancestor=homeassistant/home-assistant:2023.11.1) || true",
+    "demo:ha": "yarn build && yarn test:copy && yarn start:ha"
   },
   "dependencies": {
     "shadow-dom-selector": "^1.0.2"
