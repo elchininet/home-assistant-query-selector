@@ -32,7 +32,7 @@
   "author": "ElChiniNet",
   "license": "Apache-2.0",
   "scripts": {
-    "clean": "rm -rf dist",
+    "clean": "rm -rf dist .nyc_output coverage || true",
     "build": "yarn clean && rollup --config rollup.config.js --bundleConfigAsCjs",
     "lint": "eslint \"src/**/*.ts\"",
     "coverage:report": "nyc report --reporter=lcov --reporter=text-summary",
