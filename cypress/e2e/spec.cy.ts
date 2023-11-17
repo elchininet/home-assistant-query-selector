@@ -10,6 +10,7 @@ describe('template spec', () => {
         const doc = win.document;
         const instance = new win.HAQuerySelector();
 
+        // Promise to get the elements from the event
         const getOnInitElements = () => {
           return new Cypress.Promise<HomeAssistantElement>((resolve) => {
             const onLovelacePanelLoad = (event: CustomEvent) => {
@@ -25,7 +26,7 @@ describe('template spec', () => {
           return getOnInitElements()
             .then(async (elements) => {
 
-              expect(Object.keys(elements).length).to.equal(9);
+              // Check the returned properties
               expect(Object.keys(elements).sort()).to.deep.equal([
                 'HOME_ASSISTANT',
                 'HOME_ASSISTANT_MAIN',
@@ -38,6 +39,7 @@ describe('template spec', () => {
                 'HUI_VIEW'
               ].sort());
               
+              // Check that all the properties are Promises
               expect(elements.HOME_ASSISTANT.element).to.be.instanceof(win.Promise);
               expect(elements.HOME_ASSISTANT_MAIN.element).to.be.instanceOf(win.Promise);
               expect(elements.HA_SIDEBAR.element).to.be.instanceOf(win.Promise);
@@ -48,6 +50,7 @@ describe('template spec', () => {
               expect(elements.HEADER.element).to.be.instanceOf(win.Promise);
               expect(elements.HUI_VIEW.element).to.be.instanceOf(win.Promise);
 
+              // Chck the elements
               expect(
                 await elements.HOME_ASSISTANT.element
               ).to.be.equal(
@@ -199,6 +202,20 @@ describe('template spec', () => {
                   .querySelector('hui-root')
                   .shadowRoot
               );
+
+              // Query non-existent elements should return null
+              expect(
+                await elements.HOME_ASSISTANT.querySelector('$ home-assistant-main$ do-not-exists', { retries: 5, delay: 1})
+              ).to.null;
+
+              expect(
+                (await elements.HOME_ASSISTANT.querySelectorAll('$ home-assistant-main$ do-not-exists', { retries: 5, delay: 1})).length
+              ).to.be.equal(0);
+
+              expect(
+                await elements.HOME_ASSISTANT.shadowRootQuerySelector('$ home-assistant-main$ do-not-exists$', { retries: 5, delay: 1})
+              ).to.null;
+
             });
         });
       });
