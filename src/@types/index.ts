@@ -15,9 +15,9 @@ export type HomeAssistantNodeDescriptor = {
 export type ElementProps = {
     element: Promise<Element | null>;
     children?: HomeAssistantElement;
-    querySelector: <E extends Element = Element>(selector: string) => Promise<E | null>;
-    querySelectorAll: <E extends Element = Element>(selector: string) => Promise<NodeListOf<E>>;
-    shadowRootQuerySelector: (selector: string) => Promise<ShadowRoot | null>;
+    querySelector: <E extends Element = Element>(selector: string, asyncProps?: HAQuerySelectorConfig) => Promise<E | null>;
+    querySelectorAll: <E extends Element = Element>(selector: string, asyncProps?: HAQuerySelectorConfig) => Promise<NodeListOf<E>>;
+    shadowRootQuerySelector: (selector: string, asyncProps?: HAQuerySelectorConfig) => Promise<ShadowRoot | null>;
 };
 
 export type HomeAssistantElement = {

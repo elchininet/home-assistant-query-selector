@@ -6,6 +6,7 @@ export default defineConfig({
       require('@cypress/code-coverage/task')(on, config);
       return config;
     },
+    testIsolation: false,
   },
-  screenshotOnRunFailure: false
+  screenshotOnRunFailure: false,
 });

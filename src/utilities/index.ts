@@ -51,13 +51,11 @@ export const getAsyncElements = (
 
         const element: Promise<Element | null> = fromElement
             ? fromElement.then((element: Element | null) => {
-                return element
-                    ? asyncQuerySelector(
-                        element,
-                        getQuery(nodeDescriptor.selector, insideShadowRoot),
-                        config
-                    )
-                    : null;
+                return asyncQuerySelector(
+                    element,
+                    getQuery(nodeDescriptor.selector, insideShadowRoot),
+                    config
+                );
             })
             : asyncQuerySelector(nodeDescriptor.selector, config);
 
@@ -68,38 +66,38 @@ export const getAsyncElements = (
                 nodeDescriptor.children,
                 element
             ),
-            async querySelector(selector: string) {
+            async querySelector(selector: string, asyncProps: HAQuerySelectorConfig = {}) {
                 const el = await element;
-                if (el) {
-                    return await asyncQuerySelector(
-                        el,
-                        selector,
-                        config
-                    );
-                }
-                return null;
+                return await asyncQuerySelector(
+                    el,
+                    selector,
+                    {
+                        ...config,
+                        ...asyncProps
+                    }
+                );
             },
-            async querySelectorAll(selector: string) {
+            async querySelectorAll(selector: string, asyncProps: HAQuerySelectorConfig = {}) {
                 const el = await element;
-                if (el) {
-                    return await asyncQuerySelectorAll(
-                        el,
-                        selector,
-                        config
-                    );
-                }
-                return document.querySelectorAll('invalid selector');
+                return await asyncQuerySelectorAll(
+                    el,
+                    selector,
+                    {
+                        ...config,
+                        ...asyncProps
+                    }
+                );
             },
-            async shadowRootQuerySelector(selector: string) {
+            async shadowRootQuerySelector(selector: string, asyncProps: HAQuerySelectorConfig = {}) {
                 const el = await element;
-                if (el) {
-                    return await asyncShadowRootQuerySelector(
-                        el,
-                        selector,
-                        config
-                    );
-                }
-                return null;
+                return await asyncShadowRootQuerySelector(
+                    el,
+                    selector,
+                    {
+                        ...config,
+                        ...asyncProps
+                    }
+                );
             }
         };
 

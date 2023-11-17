@@ -39,11 +39,6 @@ export default [
             ts({
                 browserslist: false
             }),
-            terser({
-                output: {
-                    comments: false
-                }
-            }),
             istanbul({
                 exclude: [
                     'test/index.ts',
