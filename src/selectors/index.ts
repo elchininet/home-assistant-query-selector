@@ -48,7 +48,7 @@ export const ROOT_SELECTORS: HomeAssistantNodeDescriptor = {
                         }
                     }
                 }
-            }            
+            }
         }
     }
 };

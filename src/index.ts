@@ -63,10 +63,6 @@ class HAQuerySelector extends EventTarget {
             HA_ROOT_ELEMENT,
             this.#homeAssistantRootTree
         );
-        this.#dispatchEvent(
-            HAQuerySelectorEvent.ON_LOVELACE_PANEL_LOAD,
-            this.#haRootElements
-        );
     }
 
     #updateResolverElements() {
@@ -82,7 +78,7 @@ class HAQuerySelector extends EventTarget {
             this.#homeAssistantResolverTree
         );
         this.#dispatchEvent(
-            HAQuerySelectorEvent.ON_LOVELACE_PANEL_CHANGE,
+            HAQuerySelectorEvent.ON_LOVELACE_PANEL_LOAD,
             {
                 ...this.#haRootElements,
                 ...this.#haResolverElements
@@ -104,5 +100,6 @@ class HAQuerySelector extends EventTarget {
 
 export {
     HAQuerySelector,
-    HAQuerySelectorEvent
+    HAQuerySelectorEvent,
+    HomeAssistantElement
 };

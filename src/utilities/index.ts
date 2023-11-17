@@ -47,7 +47,7 @@ export const getAsyncElements = (
                 }
                 : acc;
 
-        } 
+        }
 
         const element: Promise<Element | null> = fromElement
             ? fromElement.then((element: Element | null) => {
@@ -114,7 +114,7 @@ export const searchNode = (
     node: HomeAssistantElement
 ): ElementProps => {
     const entries = Object.entries(node) as [string, ElementProps][];
-    for (let entry of entries) {
+    for (const entry of entries) {
         if (entry[0] === key) {
             return entry[1];
         } else {
@@ -137,7 +137,7 @@ export const flatHomeAssistantTree = <T extends object>(
             const { children, ...rest } = node;
             acc[key] = {
                 ...rest
-            };        
+            };
             return acc;
         },
         {} as Record<string, HAElement>

@@ -21,6 +21,5 @@ export enum HA_RESOLVER_ELEMENT {
 }
 
 export enum HAQuerySelectorEvent {
-    ON_LOVELACE_PANEL_LOAD = 'onLovelacePanelLoad',
-    ON_LOVELACE_PANEL_CHANGE = 'onLovelacePanelChange'
+    ON_LOVELACE_PANEL_LOAD = 'onLovelacePanelLoad'
 }
