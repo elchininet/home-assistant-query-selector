@@ -43,7 +43,11 @@
     "test:copy": "cp test/index.js .hass/config/www/home-assistant-query-selector-tests.js",
     "start:ha": "docker run --rm -d -p8123:8123 -v ${PWD}/.hass/config:/config homeassistant/home-assistant:2023.11.1",
     "stop:ha": "docker stop $(docker ps -a -q  --filter ancestor=homeassistant/home-assistant:2023.11.1) || true",
-    "demo:ha": "yarn build && yarn test:copy && yarn start:ha"
+    "demo:ha": "yarn build && yarn test:copy && yarn start:ha",
+    "prepare": "yarn build",
+    "prepublishOnly": "yarn lint && yarn test:ts && yarn test:ci",
+    "version": "git add .",
+    "postversion": "git push && git push --tags"
   },
   "dependencies": {
     "shadow-dom-selector": "^1.0.2"
