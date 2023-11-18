@@ -12,7 +12,7 @@ As I develop and maintain several Home Assistant plugins that needs to do the af
 
 This is from where the idea of `home-assistant-query-selector` comes from. Imagine insteantiating a class, and without querying for any element, just wait for them to be created and rendered in the `DOM`, and after that, a function that you have created gets automatically executed. That would be handy, because in that way, `Home Assistant` plugins could be agnostic to the `DOM` tree, and if someting changes with a new version and all the plugins break at the same time, the changes to fix it could be done in a single place, the rest of the plugins just need to update to the new version of this library once the patch is released.
 
-And something very important, [several end-to-end tests are in place in this library](https://github.com/elchininet/home-assistant-query-selector/actions/runs/6909640095/job/18801363213), if one wants to test if the new version of Home Assistant will break something from the library, one just needs to run a command and a series of test will be run to check that.
+And something very important, [several end-to-end tests are in place in this library](https://github.com/elchininet/home-assistant-query-selector/actions/runs/6909640095/job/18801363213), if one wants to test if the new version of `Home Assistant` will break something from the library, one just needs to run a command and a series of test will be run to check that.
 
 ![end-to-end tests](./images/tests.png)
 
