@@ -16,7 +16,7 @@ This is from where the idea of `home-assistant-query-selector` comes from. Imagi
 
 There are exhaustive end-to-end tests in place in this library, when a new version of `Home Assistant` is released, running the end-to-end tests in this repository will ensure that the library still works with the new version, so no need to manually check this.
 
-![end-to-end tests](./images/tests.png)
+![end-to-end tests](https://raw.githubusercontent.com/elchininet/home-assistant-query-selector/master/images/tests.png)
 
 ### Code example
 
@@ -156,7 +156,7 @@ The dispatched event is a [CustomEvent] and its `detail` property is an object c
 
 This is the list of the elements available inside the `detail` property of the `onLovelacePanelLoad` event:
 
-![dom tree](./images/dom-tree.png)
+![dom tree](https://raw.githubusercontent.com/elchininet/home-assistant-query-selector/master/images/dom-tree.png)
 
 | Detail element           | DOM element              |
 | ------------------------ | ------------------------ |
@@ -243,7 +243,7 @@ The dispatched event is a [CustomEvent] and its `detail` property is an object c
 
 This is the list of the elements available inside the `detail` property of the `onLovelaveHistoryAndLogBookDialogOpen` event:
 
-![more-info dialog dom tree](./images/more-info-dialog-history-dom-tree.png)
+![more-info dialog dom tree](https://raw.githubusercontent.com/elchininet/home-assistant-query-selector/master/images/more-info-dialog-history-dom-tree.png)
 
 | Detail element                            | DOM element                        |
 | ----------------------------------------- | ---------------------------------- |
@@ -284,7 +284,7 @@ The dispatched event is a [CustomEvent] and its `detail` property is an object c
 
 This is the list of the elements available inside the `detail` property of the `onLovelaveSettingsDialogOpen` event:
 
-![more-info dialog dom tree](./images/more-info-dialog-settings-dom-tree.png)
+![more-info dialog dom tree](https://raw.githubusercontent.com/elchininet/home-assistant-query-selector/master/images/more-info-dialog-settings-dom-tree.png)
 
 | Detail element                 | DOM element             |
 | ------------------------------ | ----------------------- |
