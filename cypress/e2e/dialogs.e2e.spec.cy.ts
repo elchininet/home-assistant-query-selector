@@ -371,6 +371,66 @@ describe('HAQuerySelector for more-info dialogs', () => {
 
                     });
 
+                // Open the history and logbook
+                cy
+                    .get('@dialogHeaderButtons')
+                    .eq(1)
+                    .click();
+
+                    cy
+                    .get('@onLovelaveHistoryAndLogBookDialogOpen')
+                    .its('lastCall.args.0.detail')
+                    .then(async (elements) => {
+
+                        expect(
+                            await elements.HA_DIALOG_MORE_INFO_HISTORY_AND_LOGBOOK.element
+                        ).to.be.equal(
+                            doc
+                                .querySelector('home-assistant')
+                                .shadowRoot
+                                .querySelector('ha-more-info-dialog')
+                                .shadowRoot
+                                .querySelector('ha-dialog .content ha-more-info-history-and-logbook')
+                        );
+
+                    });
+
+                // Return to the more-info dialog
+                cy
+                    .get('@dialog-header')
+                    .find('ha-icon-button-prev')
+                    .click();
+
+                // Open the config
+                cy
+                    .get('@dialogHeaderButtons')
+                    .eq(2)
+                    .click();
+
+                    cy
+                    .get('@onLovelaveSettingsDialogOpen')
+                    .its('lastCall.args.0.detail')
+                    .then(async (elements) => {
+                        
+                        expect(
+                            await elements.HA_DIALOG_MORE_INFO_SETTINGS.element
+                        ).to.be.equal(
+                            doc
+                                .querySelector('home-assistant')
+                                .shadowRoot
+                                .querySelector('ha-more-info-dialog')
+                                .shadowRoot
+                                .querySelector('ha-dialog .content ha-more-info-settings')
+                        );
+
+                    });
+
+                // Return to the more-info dialog
+                cy
+                    .get('@dialog-header')
+                    .find('ha-icon-button-prev')
+                    .click();
+
             });
 
     });
