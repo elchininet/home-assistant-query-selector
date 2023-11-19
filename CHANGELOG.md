@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.2.0] - 2023-11-19
+## [1.1.0] - 2023-11-19
 
 - Add suport for three more events:
 
