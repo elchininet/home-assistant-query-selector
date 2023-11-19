@@ -3,7 +3,7 @@ import { HAQuerySelector } from '../src';
 declare global {
   namespace Cypress {
     interface Chainable {
-      login(): Chainable<void>;
+      onboard(): Chainable<void>;
     }
   }
   interface Window {

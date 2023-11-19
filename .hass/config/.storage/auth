@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "auth",
+  "data": {
+    "users": [
+      {
+        "id": "07f1ae59328645aead3a9a494cf21a0d",
+        "group_ids": [
+          "system-read-only"
+        ],
+        "is_owner": false,
+        "is_active": true,
+        "name": "Home Assistant Content",
+        "system_generated": true,
+        "local_only": false
+      },
+      {
+        "id": "fc2e3347fd7e46e09d247aabb6222a7c",
+        "group_ids": [
+          "system-admin"
+        ],
+        "is_owner": true,
+        "is_active": true,
+        "name": "Test",
+        "system_generated": false,
+        "local_only": false
+      }
+    ],
+    "groups": [
+      {
+        "id": "system-admin",
+        "name": "Administrators"
+      },
+      {
+        "id": "system-users",
+        "name": "Users"
+      },
+      {
+        "id": "system-read-only",
+        "name": "Read Only"
+      }
+    ],
+    "credentials": [
+      {
+        "id": "eeeb72ebf3c5431fa09202904f12c6c3",
+        "user_id": "fc2e3347fd7e46e09d247aabb6222a7c",
+        "auth_provider_type": "homeassistant",
+        "auth_provider_id": null,
+        "data": {
+          "username": "test"
+        }
+      },
+      {
+        "id": "4ecd668c7a1b42748552b5dc7654dc89",
+        "user_id": "fc2e3347fd7e46e09d247aabb6222a7c",
+        "auth_provider_type": "trusted_networks",
+        "auth_provider_id": null,
+        "data": {
+          "user_id": "fc2e3347fd7e46e09d247aabb6222a7c"
+        }
+      }
+    ],
+    "refresh_tokens": [
+    ]
+  }
+}

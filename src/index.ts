@@ -87,7 +87,7 @@ class HAQuerySelector extends EventTarget {
         haDialogElements.HA_DIALOG_CONTENT
             .element
             .then((dialogContent: Element) => {
-                this.#dialogsContentObserver?.disconnect();
+                this.#dialogsContentObserver.disconnect();
                 this.#dialogsContentObserver.observe(dialogContent, {
                     childList: true
                 });
@@ -97,9 +97,9 @@ class HAQuerySelector extends EventTarget {
             dialogElement
         );
         const MoreInfoDialogEventMapper = {
-            [HA_DIALOG_ELEMENT.HA_MORE_INFO_DIALOG_INFO]: HAQuerySelectorEvent.ON_LOVELACE_MORE_INFO_DIALOG_LOAD,
-            [HA_DIALOG_ELEMENT.HA_DIALOG_MORE_INFO_HISTORY_AND_LOGBOOK]: HAQuerySelectorEvent.ON_LOVELACE_HISTORY_AND_LOGBOOK_DIALOG_LOAD,
-            [HA_DIALOG_ELEMENT.HA_DIALOG_MORE_INFO_SETTINGS]: HAQuerySelectorEvent.ON_LOVELACE_SETTINGS_DIALOG_LOAD,
+            [HA_DIALOG_ELEMENT.HA_MORE_INFO_DIALOG_INFO]: HAQuerySelectorEvent.ON_LOVELACE_MORE_INFO_DIALOG_OPEN,
+            [HA_DIALOG_ELEMENT.HA_DIALOG_MORE_INFO_HISTORY_AND_LOGBOOK]: HAQuerySelectorEvent.ON_LOVELACE_HISTORY_AND_LOGBOOK_DIALOG_OPEN,
+            [HA_DIALOG_ELEMENT.HA_DIALOG_MORE_INFO_SETTINGS]: HAQuerySelectorEvent.ON_LOVELACE_SETTINGS_DIALOG_OPEN,
         } as const;
         this.#dispatchEvent(
             MoreInfoDialogEventMapper[dialogElement],
@@ -121,7 +121,7 @@ class HAQuerySelector extends EventTarget {
         this.#haRootElements[HA_ROOT_ELEMENT.HOME_ASSISTANT]
             .shadowRootQuerySelector('$')
             .then((shadowRoot: ShadowRoot): void => {
-                this.#dialogsObserver?.disconnect();
+                this.#dialogsObserver.disconnect();
                 this.#dialogsObserver.observe(shadowRoot, {
                     childList: true
                 });
@@ -143,7 +143,7 @@ class HAQuerySelector extends EventTarget {
         this.#haResolverElements[HA_RESOLVER_ELEMENT.PARTIAL_PANEL_RESOLVER]
             .element
             .then((partialPanelResolver: Element): void => {
-                this.#panelResolverObserver?.disconnect();
+                this.#panelResolverObserver.disconnect();
                 this.#panelResolverObserver.observe(partialPanelResolver, {
                     childList: true
                 });
@@ -197,6 +197,6 @@ class HAQuerySelector extends EventTarget {
 
 export {
     HAQuerySelector,
-    HAQuerySelectorEvent,
-    HomeAssistantElement
+    HomeAssistantElement,
+    HAQuerySelectorEvent
 };

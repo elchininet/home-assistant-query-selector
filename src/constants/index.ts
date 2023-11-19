@@ -32,7 +32,7 @@ export enum HA_DIALOG_ELEMENT {
 
 export enum HAQuerySelectorEvent {
     ON_LOVELACE_PANEL_LOAD = 'onLovelacePanelLoad',
-    ON_LOVELACE_MORE_INFO_DIALOG_LOAD = 'onLovelaveMoreInfoDialogLoad',
-    ON_LOVELACE_HISTORY_AND_LOGBOOK_DIALOG_LOAD = 'onLovelaveHistoryAndLogBookDialogLoad',
-    ON_LOVELACE_SETTINGS_DIALOG_LOAD = 'onLovelaveSettingsDialogLoad'
+    ON_LOVELACE_MORE_INFO_DIALOG_OPEN = 'onLovelaveMoreInfoDialogOpen',
+    ON_LOVELACE_HISTORY_AND_LOGBOOK_DIALOG_OPEN = 'onLovelaveHistoryAndLogBookDialogOpen',
+    ON_LOVELACE_SETTINGS_DIALOG_OPEN = 'onLovelaveSettingsDialogOpen'
 }
