@@ -8,7 +8,8 @@ export default defineConfig({
     },
     testIsolation: false,
     defaultCommandTimeout: 15000,
-    pageLoadTimeout: 15000
+    pageLoadTimeout: 15000,
+    experimentalRunAllSpecs: true
   },
   screenshotOnRunFailure: false,
 });
