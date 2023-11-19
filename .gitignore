@@ -6,11 +6,3 @@
 /test/index.d.ts
 /coverage
 /.nyc_output
-/.hass/*
-!/.hass/.storage
-!/.hass/.HA_SERSION
-!/.hass/automations.yaml
-!/.hass/configuration.yaml
-!/.hass/scenes.yaml
-!/.hass/secrets.yaml
-!/.hass/config/www/*

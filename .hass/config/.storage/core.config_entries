@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "core.config_entries",
+  "data": {
+    "entries": [
+      {
+        "entry_id": "8206f586b0c7136611f850c994a3bf45",
+        "version": 1,
+        "domain": "shopping_list",
+        "title": "Shopping list",
+        "data": {},
+        "options": {},
+        "pref_disable_new_entities": false,
+        "pref_disable_polling": false,
+        "source": "onboarding",
+        "unique_id": "shopping_list",
+        "disabled_by": null
+      },
+      {
+        "entry_id": "f1e89483524523e3c6c3384623e8a73a",
+        "version": 1,
+        "domain": "google_translate",
+        "title": "Google Translate text-to-speech",
+        "data": {
+          "language": "en",
+          "tld": "com"
+        },
+        "options": {},
+        "pref_disable_new_entities": false,
+        "pref_disable_polling": false,
+        "source": "onboarding",
+        "unique_id": null,
+        "disabled_by": null
+      },
+      {
+        "entry_id": "e685452750f4c575b29818ceccacfe01",
+        "version": 1,
+        "domain": "radio_browser",
+        "title": "Radio Browser",
+        "data": {},
+        "options": {},
+        "pref_disable_new_entities": false,
+        "pref_disable_polling": false,
+        "source": "onboarding",
+        "unique_id": null,
+        "disabled_by": null
+      },
+      {
+        "entry_id": "01610f70c0e22e9f7885ad5cf0ebe8cb",
+        "version": 1,
+        "domain": "sun",
+        "title": "Sun",
+        "data": {},
+        "options": {},
+        "pref_disable_new_entities": false,
+        "pref_disable_polling": false,
+        "source": "import",
+        "unique_id": null,
+        "disabled_by": null
+      }
+    ]
+  }
+}

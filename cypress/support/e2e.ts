@@ -22,5 +22,13 @@ Cypress.on('uncaught:exception', () => {
     return false;
 });
 
+const origLog = Cypress.log;
+Cypress.log = function (opts, ...other) {
+    if (opts.displayName === 'fetch') {
+        return;
+    }
+    return origLog(opts, ...other);
+};
+
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
