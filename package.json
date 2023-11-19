@@ -33,7 +33,6 @@
   "license": "Apache-2.0",
   "scripts": {
     "clean": "rm -rf dist .nyc_output coverage",
-    "clean:ha": "pushd .hass/config/.storage && rm `ls | grep -v '^trace*'` || true && popd && pushd .hass/config && rm `ls home*` || true && popd",
     "build": "yarn clean && rollup --config rollup.config.js --bundleConfigAsCjs",
     "lint": "eslint \"src/**/*.ts\"",
     "coverage:report": "nyc report --reporter=lcov --reporter=text-summary",
