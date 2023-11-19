@@ -10,6 +10,8 @@ describe('HAQuerySelector for more-info dialogs', () => {
             .window()
             .its('HAQuerySelector');
 
+        cy.waitForHomeAssistantDOM();
+
         cy
             .get('home-assistant')
             .shadow()

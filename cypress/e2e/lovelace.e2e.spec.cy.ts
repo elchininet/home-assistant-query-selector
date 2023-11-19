@@ -10,6 +10,8 @@ describe('HAQuerySelector for lovelace dashboards', () => {
             .window()
             .its('HAQuerySelector');
 
+        cy.waitForHomeAssistantDOM();
+
         cy
             .window()
             .then((win) => {

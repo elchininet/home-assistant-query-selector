@@ -36,6 +36,8 @@
 //   }
 // }
 
+import 'cypress-wait-until';
+
 Cypress.Commands.add('ingress', () => {
 
     cy.session('home-assistant', () => {
@@ -47,5 +49,21 @@ Cypress.Commands.add('ingress', () => {
 
     });
           
+
+});
+
+Cypress.Commands.add('waitForHomeAssistantDOM', () => {
+
+    cy.waitUntil(() => (
+        cy
+            .get('home-assistant')
+            .shadow()
+            .find('home-assistant-main')
+            .shadow()
+            .find('ha-drawer partial-panel-resolver ha-panel-lovelace')
+            .shadow()
+            .find('hui-root')
+            .shadow()
+    ));
 
 });
