@@ -59,6 +59,7 @@
     "@typescript-eslint/eslint-plugin": "^6.11.0",
     "@typescript-eslint/parser": "^6.11.0",
     "cypress": "^13.5.1",
+    "cypress-wait-until": "^2.0.1",
     "eslint": "^8.53.0",
     "rollup": "^4.4.1",
     "rollup-plugin-istanbul": "^5.0.0",
