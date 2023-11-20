@@ -1,5 +1,7 @@
 export const $ = '$';
 
+export const TIMESTAMP_THESHOLD = 500;
+
 export const DEFAULT_CONFIG = {
     retries: 100,
     delay: 50
