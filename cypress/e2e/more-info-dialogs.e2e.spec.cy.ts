@@ -54,20 +54,20 @@ describe('HAQuerySelector for more-info dialogs', () => {
             .window()
             .then((win) => {
                 instance = new win.HAQuerySelector();
-                const onLovelaveMoreInfoDialogOpen = cy.stub().as('onLovelaveMoreInfoDialogOpen');
-                const onLovelaveHistoryAndLogBookDialogOpen = cy.stub().as('onLovelaveHistoryAndLogBookDialogOpen');
-                const onLovelaveSettingsDialogOpen = cy.stub().as('onLovelaveSettingsDialogOpen');
+                const onLovelaceMoreInfoDialogOpen = cy.stub().as('onLovelaceMoreInfoDialogOpen');
+                const onLovelaceHistoryAndLogBookDialogOpen = cy.stub().as('onLovelaceHistoryAndLogBookDialogOpen');
+                const onLovelaceSettingsDialogOpen = cy.stub().as('onLovelaceSettingsDialogOpen');
                 instance.addEventListener(
                     HAQuerySelectorEvent.ON_LOVELACE_MORE_INFO_DIALOG_OPEN,
-                    onLovelaveMoreInfoDialogOpen
+                    onLovelaceMoreInfoDialogOpen
                 );
                 instance.addEventListener(
                     HAQuerySelectorEvent.ON_LOVELACE_HISTORY_AND_LOGBOOK_DIALOG_OPEN,
-                    onLovelaveHistoryAndLogBookDialogOpen
+                    onLovelaceHistoryAndLogBookDialogOpen
                 );
                 instance.addEventListener(
                     HAQuerySelectorEvent.ON_LOVELACE_SETTINGS_DIALOG_OPEN,
-                    onLovelaveSettingsDialogOpen
+                    onLovelaceSettingsDialogOpen
                 );
                 instance.listen();
             });
@@ -96,15 +96,15 @@ describe('HAQuerySelector for more-info dialogs', () => {
 
         // At the beginning none of the event should be triggered
         cy
-            .get('@onLovelaveMoreInfoDialogOpen')
+            .get('@onLovelaceMoreInfoDialogOpen')
             .should('not.be.called');
             
         cy
-            .get('@onLovelaveHistoryAndLogBookDialogOpen')
+            .get('@onLovelaceHistoryAndLogBookDialogOpen')
             .should('not.be.called');
 
         cy
-            .get('@onLovelaveSettingsDialogOpen')
+            .get('@onLovelaceSettingsDialogOpen')
             .should('not.be.called');
 
         // Open a more-info dialog
@@ -112,22 +112,22 @@ describe('HAQuerySelector for more-info dialogs', () => {
             .get('@card')
             .click();
 
-        // Only onLovelaveMoreInfoDialogOpen should be triggered
+        // Only onLovelaceMoreInfoDialogOpen should be triggered
         cy
-            .get('@onLovelaveMoreInfoDialogOpen')
+            .get('@onLovelaceMoreInfoDialogOpen')
             .should('be.calledOnce');
 
         cy
-            .get('@onLovelaveHistoryAndLogBookDialogOpen')
+            .get('@onLovelaceHistoryAndLogBookDialogOpen')
             .should('not.be.called');
 
         cy
-            .get('@onLovelaveSettingsDialogOpen')
+            .get('@onLovelaceSettingsDialogOpen')
             .should('not.be.called');
 
-        // Check the shape of the onLovelaveMoreInfoDialogOpen
+        // Check the shape of the onLovelaceMoreInfoDialogOpen
         cy
-            .get('@onLovelaveMoreInfoDialogOpen')
+            .get('@onLovelaceMoreInfoDialogOpen')
             .its('lastCall.args.0.detail')
             .then((elements) => {
                 expect(elements).to.have.keys([
@@ -144,22 +144,22 @@ describe('HAQuerySelector for more-info dialogs', () => {
             .eq(1)
             .click();
 
-        // Only the onLovelaveHistoryAndLogBookDialogOpen should be triggered
+        // Only the onLovelaceHistoryAndLogBookDialogOpen should be triggered
         cy
-            .get('@onLovelaveMoreInfoDialogOpen')
+            .get('@onLovelaceMoreInfoDialogOpen')
             .should('be.calledOnce');
 
         cy
-            .get('@onLovelaveHistoryAndLogBookDialogOpen')
+            .get('@onLovelaceHistoryAndLogBookDialogOpen')
             .should('be.calledOnce');
 
         cy
-            .get('@onLovelaveSettingsDialogOpen')
+            .get('@onLovelaceSettingsDialogOpen')
             .should('not.be.called');
 
-        // Check the shape of the onLovelaveHistoryAndLogBookDialogOpen
+        // Check the shape of the onLovelaceHistoryAndLogBookDialogOpen
         cy
-            .get('@onLovelaveHistoryAndLogBookDialogOpen')
+            .get('@onLovelaceHistoryAndLogBookDialogOpen')
             .its('lastCall.args.0.detail')
             .then((elements) => {
                 expect(elements).to.have.keys([
@@ -176,17 +176,17 @@ describe('HAQuerySelector for more-info dialogs', () => {
             .find('ha-icon-button-prev')
             .click();
 
-        // onLovelaveMoreInfoDialogOpen should be triggered twice
+        // onLovelaceMoreInfoDialogOpen should be triggered twice
         cy
-            .get('@onLovelaveMoreInfoDialogOpen')
+            .get('@onLovelaceMoreInfoDialogOpen')
             .should('be.calledTwice');
 
         cy
-            .get('@onLovelaveHistoryAndLogBookDialogOpen')
+            .get('@onLovelaceHistoryAndLogBookDialogOpen')
             .should('be.calledOnce');
 
         cy
-            .get('@onLovelaveSettingsDialogOpen')
+            .get('@onLovelaceSettingsDialogOpen')
             .should('not.be.called');
 
         
@@ -196,22 +196,22 @@ describe('HAQuerySelector for more-info dialogs', () => {
             .eq(2)
             .click();
 
-        // Only onLovelaveSettingsDialogOpen should be triggered
+        // Only onLovelaceSettingsDialogOpen should be triggered
         cy
-            .get('@onLovelaveMoreInfoDialogOpen')
+            .get('@onLovelaceMoreInfoDialogOpen')
             .should('be.calledTwice');
 
         cy
-            .get('@onLovelaveHistoryAndLogBookDialogOpen')
+            .get('@onLovelaceHistoryAndLogBookDialogOpen')
             .should('be.calledOnce');
 
         cy
-            .get('@onLovelaveSettingsDialogOpen')
+            .get('@onLovelaceSettingsDialogOpen')
             .should('be.calledOnce');
 
-        // Check the shape of the onLovelaveSettingsDialogOpen
+        // Check the shape of the onLovelaceSettingsDialogOpen
         cy
-            .get('@onLovelaveSettingsDialogOpen')
+            .get('@onLovelaceSettingsDialogOpen')
             .its('lastCall.args.0.detail')
             .then((elements) => {
                 expect(elements).to.have.keys([
@@ -228,17 +228,17 @@ describe('HAQuerySelector for more-info dialogs', () => {
             .find('ha-icon-button-prev')
             .click();
 
-        // onLovelaveMoreInfoDialogOpen should be triggered thrice
+        // onLovelaceMoreInfoDialogOpen should be triggered thrice
         cy
-            .get('@onLovelaveMoreInfoDialogOpen')
+            .get('@onLovelaceMoreInfoDialogOpen')
             .should('be.calledThrice');
 
         cy
-            .get('@onLovelaveHistoryAndLogBookDialogOpen')
+            .get('@onLovelaceHistoryAndLogBookDialogOpen')
             .should('be.calledOnce');
 
         cy
-            .get('@onLovelaveSettingsDialogOpen')
+            .get('@onLovelaceSettingsDialogOpen')
             .should('be.calledOnce');
         
     });
@@ -254,7 +254,7 @@ describe('HAQuerySelector for more-info dialogs', () => {
                     .click();
 
                 cy
-                    .get('@onLovelaveMoreInfoDialogOpen')
+                    .get('@onLovelaceMoreInfoDialogOpen')
                     .its('lastCall.args.0.detail')
                     .then((elements) => {
                         expect(elements.HA_MORE_INFO_DIALOG.element).to.be.instanceOf(win.Promise);
@@ -270,7 +270,7 @@ describe('HAQuerySelector for more-info dialogs', () => {
                     .click();
                     
                 cy
-                    .get('@onLovelaveHistoryAndLogBookDialogOpen')
+                    .get('@onLovelaceHistoryAndLogBookDialogOpen')
                     .its('lastCall.args.0.detail')
                     .then((elements) => {
                         expect(elements.HA_MORE_INFO_DIALOG.element).to.be.instanceOf(win.Promise);
@@ -292,7 +292,7 @@ describe('HAQuerySelector for more-info dialogs', () => {
                     .click();
 
                 cy
-                    .get('@onLovelaveSettingsDialogOpen')
+                    .get('@onLovelaceSettingsDialogOpen')
                     .its('lastCall.args.0.detail')
                     .then((elements) => {
                         expect(elements.HA_MORE_INFO_DIALOG.element).to.be.instanceOf(win.Promise);
@@ -325,7 +325,7 @@ describe('HAQuerySelector for more-info dialogs', () => {
                     .click();
 
                 cy
-                    .get('@onLovelaveMoreInfoDialogOpen')
+                    .get('@onLovelaceMoreInfoDialogOpen')
                     .its('lastCall.args.0.detail')
                     .then(async (elements) => {
                         
@@ -380,7 +380,7 @@ describe('HAQuerySelector for more-info dialogs', () => {
                     .click();
 
                     cy
-                    .get('@onLovelaveHistoryAndLogBookDialogOpen')
+                    .get('@onLovelaceHistoryAndLogBookDialogOpen')
                     .its('lastCall.args.0.detail')
                     .then(async (elements) => {
 
@@ -410,7 +410,7 @@ describe('HAQuerySelector for more-info dialogs', () => {
                     .click();
 
                     cy
-                    .get('@onLovelaveSettingsDialogOpen')
+                    .get('@onLovelaceSettingsDialogOpen')
                     .its('lastCall.args.0.detail')
                     .then(async (elements) => {
                         

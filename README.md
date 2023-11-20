@@ -64,7 +64,7 @@ instance.addEventListener('onLovelacePanelLoad', ({ detail }) => {
 });
 
 // This event will be triggered every time a more-info dialog is open
-instance.addEventListener('onLovelaveMoreInfoDialogOpen', ({ detail }) => {
+instance.addEventListener('onLovelaceMoreInfoDialogOpen', ({ detail }) => {
 
     // When the ha-more-info-info element is available in the DOM
     detail.HA_MORE_INFO_DIALOG_INFO.element.then((dialogInfo) => {
@@ -179,12 +179,12 @@ All the available elements contain an `element` property and three methods:
 | `querySelectorAll`        | Method to query multiple decendants of this element |
 | `shadowRootQuerySelector` | Method to query for descendants shadowRoots of this element  |
 
-#### onLovelaveMoreInfoDialogOpen
+#### onLovelaceMoreInfoDialogOpen
 
 This event is triggered when a more-info dialog is open or when one returns to the main view of the more-info dialog from the `History` or `Settings` view inside the dialog.
 
 ```typescript
-instance.addEventListener('onLovelaveMoreInfoDialogOpen', function({detail}) {
+instance.addEventListener('onLovelaceMoreInfoDialogOpen', function({detail}) {
     /* detail:
     {
         HA_MORE_INFO_DIALOG: {...},
@@ -198,9 +198,9 @@ instance.addEventListener('onLovelaveMoreInfoDialogOpen', function({detail}) {
 
 The dispatched event is a [CustomEvent] and its `detail` property is an object containing the main `Home Assistant` `DOM` elements inside a more-info dialog. All the properties and methods included in each element are Promises, so they are async and will be resolved when the element is ready to work with it.
 
-##### onLovelaveMoreInfoDialogOpen event elements
+##### onLovelaceMoreInfoDialogOpen event elements
 
-This is the list of the elements available inside the `detail` property of the `onLovelaveMoreInfoDialogOpen` event:
+This is the list of the elements available inside the `detail` property of the `onLovelaceMoreInfoDialogOpen` event:
 
 ![more-info dialog dom tree](./images/more-info-dialog-dom-tree.png)
 
@@ -220,12 +220,12 @@ All the available elements contain an `element` property and three methods:
 | `querySelectorAll`        | Method to query multiple decendants of this element |
 | `shadowRootQuerySelector` | Method to query for descendants shadowRoots of this element  |
 
-#### onLovelaveHistoryAndLogBookDialogOpen
+#### onLovelaceHistoryAndLogBookDialogOpen
 
 This event is triggered when the `History` view is opened from the header actions of a more-info dialog.
 
 ```typescript
-instance.addEventListener('onLovelaveHistoryAndLogBookDialogOpen', function({detail}) {
+instance.addEventListener('onLovelaceHistoryAndLogBookDialogOpen', function({detail}) {
     /* detail:
     {
         HA_MORE_INFO_DIALOG: {...},
@@ -239,9 +239,9 @@ instance.addEventListener('onLovelaveHistoryAndLogBookDialogOpen', function({det
 
 The dispatched event is a [CustomEvent] and its `detail` property is an object containing the main `Home Assistant` `DOM` elements inside a more-info dialog `History` view. All the properties and methods included in each element are Promises, so they are async and will be resolved when the element is ready to work with it.
 
-##### onLovelaveHistoryAndLogBookDialogOpen event elements
+##### onLovelaceHistoryAndLogBookDialogOpen event elements
 
-This is the list of the elements available inside the `detail` property of the `onLovelaveHistoryAndLogBookDialogOpen` event:
+This is the list of the elements available inside the `detail` property of the `onLovelaceHistoryAndLogBookDialogOpen` event:
 
 ![more-info dialog dom tree](https://raw.githubusercontent.com/elchininet/home-assistant-query-selector/master/images/more-info-dialog-history-dom-tree.png)
 
@@ -261,12 +261,12 @@ All the available elements contain an `element` property and three methods:
 | `querySelectorAll`        | Method to query multiple decendants of this element |
 | `shadowRootQuerySelector` | Method to query for descendants shadowRoots of this element  |
 
-#### onLovelaveSettingsDialogOpen
+#### onLovelaceSettingsDialogOpen
 
 This event is triggered when the `Settings` view is opened from the header actions of a more-info dialog.
 
 ```typescript
-instance.addEventListener('onLovelaveSettingsDialogOpen', function({detail}) {
+instance.addEventListener('onLovelaceSettingsDialogOpen', function({detail}) {
     /* detail:
     {
         HA_MORE_INFO_DIALOG: {...},
@@ -280,9 +280,9 @@ instance.addEventListener('onLovelaveSettingsDialogOpen', function({detail}) {
 
 The dispatched event is a [CustomEvent] and its `detail` property is an object containing the main `Home Assistant` `DOM` elements inside a more-info dialog `Settings` view. All the properties and methods included in each element are Promises, so they are async and will be resolved when the element is ready to work with it.
 
-##### onLovelaveSettingsDialogOpen event elements
+##### onLovelaceSettingsDialogOpen event elements
 
-This is the list of the elements available inside the `detail` property of the `onLovelaveSettingsDialogOpen` event:
+This is the list of the elements available inside the `detail` property of the `onLovelaceSettingsDialogOpen` event:
 
 ![more-info dialog dom tree](https://raw.githubusercontent.com/elchininet/home-assistant-query-selector/master/images/more-info-dialog-settings-dom-tree.png)
 

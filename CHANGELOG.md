@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.2] - 2023-11-20
+
+- Fix typos in events prefixes
+
+    * `onLovelaveMoreInfoDialogOpen` => `onLovelaceMoreInfoDialogOpen`
+    * `onLovelaveHistoryAndLogBookDialogOpen` => `onLovelaceHistoryAndLogBookDialogOpen`
+    * `onLovelaveSettingsDialogOpen` => `onLovelaceSettingsDialogOpen`
+
 ## [1.1.0] - 2023-11-19
 
 - Add suport for three more events:
