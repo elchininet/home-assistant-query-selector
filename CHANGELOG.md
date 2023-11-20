@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.3] - 2023-11-20
+
+- Do not bundle `shadow-dom-selector` inside the final bundle of `home-assistant-query-selector`
+
 ## [1.1.2] - 2023-11-20
 
 - Fix typos in events prefixes
