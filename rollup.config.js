@@ -6,7 +6,6 @@ import istanbul from 'rollup-plugin-istanbul';
 export default [
     {
         plugins: [
-            nodeResolve(),
             ts({
                 browserslist: false
             }),
@@ -20,18 +19,14 @@ export default [
         output: [
             {
                 file: 'dist/index.js',
-                format: 'cjs',
+                format: 'cjs'
             },
             {
                 file: 'dist/esm/index.js',
                 format: 'esm'
-            },
-            {
-                file: 'dist/test/index.js',
-                format: 'iife',
-                name: 'HomeAssistantQuerySelector'
             }
-        ]
+        ],
+        external: ['shadow-dom-selector']
     },
     {
         plugins: [
