@@ -304,6 +304,8 @@ describe('HAQuerySelector for lovelace dashboards', () => {
             .eq(4)
             .click();
 
+        cy.wait(1000);
+
         cy
             .get('@onLovelacePanelLoad')
             .should('not.be.calledTwice');
@@ -313,9 +315,13 @@ describe('HAQuerySelector for lovelace dashboards', () => {
             .eq(0)
             .click();
 
+        cy.wait(1000);
+
         cy
             .get('@onLovelacePanelLoad')
             .should('be.calledTwice');
+
+        cy.wait(1000);
 
         cy.wrap(null).then(() => {
             instance.listen();

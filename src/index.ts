@@ -1,13 +1,15 @@
 import {
     HAQuerySelectorConfig,
     HomeAssistantElement,
-    HAElement
+    HAElement,
+    ElementProps
 } from '@types';
 import {
     DEFAULT_CONFIG,
     HA_ROOT_ELEMENT,
     HA_RESOLVER_ELEMENT,
     HA_DIALOG_ELEMENT,
+    TIMESTAMP_THESHOLD,
     HAQuerySelectorEvent
 } from '@constants';
 import {
@@ -33,28 +35,38 @@ class HAQuerySelector extends EventTarget {
     }
 
     #config: HAQuerySelectorConfig;
+
     #dialogTree: HomeAssistantElement;
     #homeAssistantRootTree: HomeAssistantElement;
     #homeAssistantResolverTree: HomeAssistantElement;
+
     #haDialogElements: Record<keyof typeof HA_DIALOG_ELEMENT, HAElement>;
     #haRootElements: Record<keyof typeof HA_ROOT_ELEMENT, HAElement>;
     #haResolverElements: Record<keyof typeof HA_RESOLVER_ELEMENT, HAElement>;
+
     #dialogsObserver: MutationObserver;
     #dialogsContentObserver: MutationObserver;
     #panelResolverObserver: MutationObserver;
+    #lovelaceObserver: MutationObserver;
+
     #watchDialogsBinded: (mutations: MutationRecord[]) => void;
     #watchDialogsContentBinded: (mutations: MutationRecord[]) => void;
     #watchDashboardsBinded: (mutations: MutationRecord[]) => void;
+    #watchLovelaceBinded: (mutations: MutationRecord[]) => void;
+
+    #timestap: number;
 
     public listen() {
 
         this.#watchDialogsBinded = this.#watchDialogs.bind(this);
         this.#watchDialogsContentBinded = this.#watchDialogsContent.bind(this);
         this.#watchDashboardsBinded = this.#watchDashboards.bind(this);
+        this.#watchLovelaceBinded = this.#watchLovelace.bind(this);
 
         this.#dialogsObserver = new MutationObserver(this.#watchDialogsBinded);
         this.#dialogsContentObserver = new MutationObserver(this.#watchDialogsContentBinded);
         this.#panelResolverObserver = new MutationObserver(this.#watchDashboardsBinded);
+        this.#lovelaceObserver = new MutationObserver(this.#watchLovelaceBinded);
 
         this.#updateRootElements();
         this.#updateResolverElements();
@@ -129,6 +141,12 @@ class HAQuerySelector extends EventTarget {
     }
 
     #updateResolverElements() {
+        // Avoid triggering onLovelacePanelLoad twice on yaml mode
+        const timestamp = Date.now();
+        if (timestamp - this.#timestap < TIMESTAMP_THESHOLD) {
+            return;
+        }
+        this.#timestap = timestamp;
         this.#homeAssistantResolverTree = getAsyncElements(
             this.#config,
             RESOLVER_SELECTORS,
@@ -148,6 +166,14 @@ class HAQuerySelector extends EventTarget {
                     childList: true
                 });
         });
+        this.#haResolverElements[HA_RESOLVER_ELEMENT.HA_PANEL_LOVELACE]
+            .shadowRootQuerySelector('$')
+            .then((lovelaceShadowRoot: ShadowRoot) => {
+                this.#lovelaceObserver.disconnect();
+                this.#lovelaceObserver.observe(lovelaceShadowRoot, {
+                    childList: true
+                });
+            });
         this.#dispatchEvent(
             HAQuerySelectorEvent.ON_LOVELACE_PANEL_LOAD,
             {
@@ -193,10 +219,21 @@ class HAQuerySelector extends EventTarget {
         });
     }
 
+    #watchLovelace(mutations: MutationRecord[]) {
+        mutations.forEach(({ addedNodes }): void => {
+            addedNodes.forEach((node: Element): void => {
+                if (node.localName === QUERY_SELECTORS.HUI_ROOT) {
+                    this.#updateResolverElements();
+                }
+            });
+        });
+    }
+
 }
 
 export {
     HAQuerySelector,
     HomeAssistantElement,
-    HAQuerySelectorEvent
+    HAQuerySelectorEvent,
+    ElementProps
 };
