@@ -2,7 +2,8 @@ import {
     HAQuerySelectorConfig,
     HomeAssistantElement,
     HAElement,
-    ElementProps
+    ElementProps,
+    HAQuerySelectorEventListener
 } from '@types';
 import {
     DEFAULT_CONFIG,
@@ -55,22 +56,6 @@ class HAQuerySelector extends EventTarget {
     #watchLovelaceBinded: (mutations: MutationRecord[]) => void;
 
     #timestap: number;
-
-    public listen() {
-
-        this.#watchDialogsBinded = this.#watchDialogs.bind(this);
-        this.#watchDialogsContentBinded = this.#watchDialogsContent.bind(this);
-        this.#watchDashboardsBinded = this.#watchDashboards.bind(this);
-        this.#watchLovelaceBinded = this.#watchLovelace.bind(this);
-
-        this.#dialogsObserver = new MutationObserver(this.#watchDialogsBinded);
-        this.#dialogsContentObserver = new MutationObserver(this.#watchDialogsContentBinded);
-        this.#panelResolverObserver = new MutationObserver(this.#watchDashboardsBinded);
-        this.#lovelaceObserver = new MutationObserver(this.#watchLovelaceBinded);
-
-        this.#updateRootElements();
-        this.#updateResolverElements();
-    }
 
     #dispatchEvent(type: HAQuerySelectorEvent, detail?: Record<string, HAElement>) {
         this.dispatchEvent(
@@ -229,11 +214,87 @@ class HAQuerySelector extends EventTarget {
         });
     }
 
+    public listen() {
+
+        this.#watchDialogsBinded = this.#watchDialogs.bind(this);
+        this.#watchDialogsContentBinded = this.#watchDialogsContent.bind(this);
+        this.#watchDashboardsBinded = this.#watchDashboards.bind(this);
+        this.#watchLovelaceBinded = this.#watchLovelace.bind(this);
+
+        this.#dialogsObserver = new MutationObserver(this.#watchDialogsBinded);
+        this.#dialogsContentObserver = new MutationObserver(this.#watchDialogsContentBinded);
+        this.#panelResolverObserver = new MutationObserver(this.#watchDashboardsBinded);
+        this.#lovelaceObserver = new MutationObserver(this.#watchLovelaceBinded);
+
+        this.#updateRootElements();
+        this.#updateResolverElements();
+    }
+    
+    public override addEventListener(
+        type: `${HAQuerySelectorEvent.ON_LOVELACE_PANEL_LOAD}`,
+        callback: HAQuerySelectorEventListener<
+            Record<
+                keyof typeof HA_ROOT_ELEMENT |
+                keyof typeof HA_RESOLVER_ELEMENT,
+                HAElement
+            >
+        >,
+        options?: boolean | AddEventListenerOptions
+    ): void;
+    public override addEventListener(
+        type: `${HAQuerySelectorEvent.ON_LOVELACE_MORE_INFO_DIALOG_OPEN}`,
+        callback: HAQuerySelectorEventListener<
+            Record<
+                Exclude<
+                    keyof typeof HA_DIALOG_ELEMENT,
+                    'HA_DIALOG_MORE_INFO_HISTORY_AND_LOGBOOK' |
+                    'HA_DIALOG_MORE_INFO_SETTINGS'
+                >,
+                HAElement
+            >
+        >,
+        options?: boolean | AddEventListenerOptions
+    ): void;
+    public override addEventListener(
+        type: `${HAQuerySelectorEvent.ON_LOVELACE_HISTORY_AND_LOGBOOK_DIALOG_OPEN}`,
+        callback: HAQuerySelectorEventListener<
+            Record<
+                Exclude<
+                    keyof typeof HA_DIALOG_ELEMENT,
+                    'HA_MORE_INFO_DIALOG_INFO' |
+                    'HA_DIALOG_MORE_INFO_SETTINGS'
+                >,
+                HAElement
+            >
+        >,
+        options?: boolean | AddEventListenerOptions
+    ): void;
+    public override addEventListener(
+        type: `${HAQuerySelectorEvent.ON_LOVELACE_SETTINGS_DIALOG_OPEN}`,
+        callback: HAQuerySelectorEventListener<
+            Record<
+                Exclude<
+                    keyof typeof HA_DIALOG_ELEMENT,
+                    'HA_MORE_INFO_DIALOG_INFO' |
+                    'HA_DIALOG_MORE_INFO_HISTORY_AND_LOGBOOK'
+                >,
+                HAElement
+            >
+        >,
+        options?: boolean | AddEventListenerOptions
+    ): void;
+    public override addEventListener(
+        type: string,
+        callback: EventListenerOrEventListenerObject,
+        options?: boolean | AddEventListenerOptions
+    ): void {
+        super.addEventListener(type, callback, options);
+    }
+
 }
 
 export {
     HAQuerySelector,
-    HomeAssistantElement,
     HAQuerySelectorEvent,
     ElementProps
 };
