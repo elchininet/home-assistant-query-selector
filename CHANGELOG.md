@@ -4,6 +4,8 @@
 
 - Do not bundle `shadow-dom-selector` inside the final bundle of `home-assistant-query-selector`
 - Trigger the `onLovelacePanelLoad` event also when closing the raw configuration editor
+- Improve the types when using the `detail` property of the `CustomEvent`
+
 
 ## [1.1.2] - 2023-11-20
 
