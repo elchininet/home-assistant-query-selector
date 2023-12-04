@@ -39,9 +39,10 @@ instance.addEventListener('onLovelacePanelLoad', ({ detail }) => {
         });
     
     // When the sidebar is available in the DOM
-    HA_SIDEBAR.then((sidebar) => {
-        // Do whatever we want with the sidebar
-    });
+    HA_SIDEBAR.element
+        then((sidebar) => {
+            // Do whatever we want with the sidebar
+        });
 
     // Querying the ha-sidebar element from the home-assistant element
     HOME_ASSISTANT.selector.$['home-assistant-main'].$['ha-sidebar'].element
