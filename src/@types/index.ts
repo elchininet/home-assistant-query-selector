@@ -1,7 +1,6 @@
-export type HAQuerySelectorConfig = {
-    retries?: number;
-    delay?: number;
-};
+import type { AsyncSelectorProxy, AsyncParams } from 'shadow-dom-selector';
+
+export type HAQuerySelectorConfig = AsyncParams;
 
 export type NodeDescriptorProps = {
     selector: string,
@@ -15,9 +14,7 @@ export type HomeAssistantNodeDescriptor = {
 export type ElementProps = {
     element: Promise<Element | null>;
     children?: HomeAssistantElement;
-    querySelector: <E extends Element = Element>(selector: string, asyncProps?: HAQuerySelectorConfig) => Promise<E | null>;
-    querySelectorAll: <E extends Element = Element>(selector: string, asyncProps?: HAQuerySelectorConfig) => Promise<NodeListOf<E>>;
-    shadowRootQuerySelector: (selector: string, asyncProps?: HAQuerySelectorConfig) => Promise<ShadowRoot | null>;
+    selector: AsyncSelectorProxy;
 };
 
 export type HomeAssistantElement = {

@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.0.0] - 2023-12-04
+
+- Change `querySelector`, `querySelectorAll` and `shadowRootQuerySelector` by the [shadow-dom-selector async dot notation](https://github.com/elchininet/shadow-dom-selector#buildasyncselector).
+
 ## [1.1.3] - 2023-11-20
 
 - Do not bundle `shadow-dom-selector` inside the final bundle of `home-assistant-query-selector`

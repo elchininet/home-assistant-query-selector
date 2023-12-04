@@ -50,7 +50,7 @@
     "postversion": "git push && git push --tags"
   },
   "dependencies": {
-    "shadow-dom-selector": "^1.0.2"
+    "shadow-dom-selector": "^2.0.4"
   },
   "devDependencies": {
     "@cypress/code-coverage": "^3.12.10",
