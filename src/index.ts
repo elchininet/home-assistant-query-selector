@@ -116,7 +116,7 @@ class HAQuerySelector extends EventTarget {
             this.#homeAssistantRootTree
         );
         this.#haRootElements[HA_ROOT_ELEMENT.HOME_ASSISTANT]
-            .shadowRootQuerySelector('$')
+            .selector.$.element
             .then((shadowRoot: ShadowRoot): void => {
                 this.#dialogsObserver.disconnect();
                 this.#dialogsObserver.observe(shadowRoot, {
@@ -152,7 +152,7 @@ class HAQuerySelector extends EventTarget {
                 });
         });
         this.#haResolverElements[HA_RESOLVER_ELEMENT.HA_PANEL_LOVELACE]
-            .shadowRootQuerySelector('$')
+            .selector.$.element
             .then((lovelaceShadowRoot: ShadowRoot) => {
                 this.#lovelaceObserver.disconnect();
                 this.#lovelaceObserver.observe(lovelaceShadowRoot, {

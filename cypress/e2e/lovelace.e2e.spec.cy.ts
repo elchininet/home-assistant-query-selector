@@ -197,7 +197,7 @@ describe('HAQuerySelector for lovelace dashboards', () => {
 
     });
 
-    it('querySelector, querySelectorAll and shadowRootQuerySelector should return the proper elements', () => {
+    it('selector should return the proper elements', () => {
         
         cy
             .window()
@@ -211,15 +211,13 @@ describe('HAQuerySelector for lovelace dashboards', () => {
                     .then(async (elements) => {
 
                         expect(
-                            await elements.HOME_ASSISTANT.querySelector('$ home-assistant-main$ ha-drawer')
+                            await elements.HOME_ASSISTANT.selector.$['home-assistant-main'].$['ha-drawer'].element
                         ).to.be.equal(
                             await elements.HA_DRAWER.element
                         );
 
                         expect(
-                            await elements.HOME_ASSISTANT_MAIN.querySelectorAll(
-                                '$ ha-drawer ha-panel-lovelace$ hui-root$ .header .action-items > ha-button-menu'
-                            )
+                            await elements.HOME_ASSISTANT_MAIN.selector.$['ha-drawer ha-panel-lovelace'].$['hui-root'].$['.header .action-items > ha-button-menu'].all
                         ).to.deep.equal(
                             doc
                                 .querySelector('home-assistant')
@@ -236,7 +234,7 @@ describe('HAQuerySelector for lovelace dashboards', () => {
                         );
 
                         expect(
-                            await elements.HA_PANEL_LOVELACE.shadowRootQuerySelector('$ hui-root$')
+                            await elements.HA_PANEL_LOVELACE.selector.$['hui-root'].$.element
                         ).to.be.equal(
                             doc
                                 .querySelector('home-assistant')
@@ -257,33 +255,40 @@ describe('HAQuerySelector for lovelace dashboards', () => {
     });
 
     it('Non-existent elements should return null', () => {
-        
+
         cy
-            .get('@onLovelacePanelLoad')
-            .its('lastCall.args.0.detail')
-            .then(async (elements) => {
-                expect(
-                    await elements.HOME_ASSISTANT.querySelector(
-                        '$ home-assistant-main$ do-not-exists',
-                        { retries: 5, delay: 1 }
-                    )
-                ).to.null;
+            .window()
+            .then((win) => {
+                const instance = new win.HAQuerySelector({
+                    retries: 1,
+                    delay: 2
+                });
+                const onLovelacePanelLoad = cy.stub().as('localOnLovelacePanelLoad');
+                instance.addEventListener(
+                    HAQuerySelectorEvent.ON_LOVELACE_PANEL_LOAD,
+                    onLovelacePanelLoad
+                );
+                instance.listen();
+                
+                cy
+                    .get('@localOnLovelacePanelLoad')
+                    .its('lastCall.args.0.detail')
+                    .then(async (elements) => {
+                        expect(
+                            await elements.HOME_ASSISTANT.selector.$['home-assistant-main'].$['do-not-exists'].element
+                        ).to.null;
 
-                expect(
-                    (
-                        await elements.HOME_ASSISTANT.querySelectorAll(
-                            '$ home-assistant-main$ do-not-exists',
-                            { retries: 5, delay: 1 }
-                        )
-                    ).length
-                ).to.be.equal(0);
+                        expect(
+                            (
+                                await elements.HOME_ASSISTANT.selector.$['home-assistant-main'].$['do-not-exists'].all
+                            ).length
+                        ).to.be.equal(0);
 
-                expect(
-                    await elements.HOME_ASSISTANT.shadowRootQuerySelector(
-                        '$ home-assistant-main$ do-not-exists$',
-                        { retries: 5, delay: 1 }
-                    )
-                ).to.null;
+                        expect(
+                            await elements.HOME_ASSISTANT.selector.$['home-assistant-main'].$['do-not-exists'].$.element
+                        ).to.null;
+                    });
+
             });
 
     });

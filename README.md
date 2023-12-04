@@ -44,19 +44,19 @@ instance.addEventListener('onLovelacePanelLoad', ({ detail }) => {
     });
 
     // Querying the ha-sidebar element from the home-assistant element
-    HOME_ASSISTANT.querySelector('$ home-assistant-main$ ha-sidebar')
+    HOME_ASSISTANT.selector.$['home-assistant-main'].$['ha-sidebar'].element
         .then((sidebar) => {
             // sidebar === ha-sidebar element
         });
 
     // Querying all the ha-icon-button elements inside the .action-items in the header
-    HEADER.querySelectorAll('.action-items ha-icon-button')
+    HEADER.selector['.action-items ha-icon-button'].all
         .then((buttons) => {
             // buttons === Search, Assist, and Open dashboard menu elements (top-right header buttons)
         });
 
-    // In all the methods one can Specify custom retries and delay
-    HA_PANEL_LOVELACE.shadowRootQuerySelector('$ hui-root$', { retries: 50, delay: 20 })
+    // Querying the hui-root shadowRoot
+    HA_PANEL_LOVELACE.selector.$['hui-root'].$.element
         .then((shadowRoot) => {
             // shadowRoot === hui-root‘s shadowRoot
         });
@@ -170,14 +170,12 @@ This is the list of the elements available inside the `detail` property of the `
 | `HEADER`                 | `.header`                |
 | `HUI_VIEW`               | `hui-view`               |
 
-All the available elements contain an `element` property and three methods:
+All the available elements contain an `element` property and the `selector` property:
 
-| Property or method        | Description                                                  |
-| ------------------------- | ------------------------------------------------------------ | 
-| `element`                 | Promise that resolves in the respective `DOM` element                     |
-| `querySelector`           | Method to query for descendants of this element              |
-| `querySelectorAll`        | Method to query multiple decendants of this element |
-| `shadowRootQuerySelector` | Method to query for descendants shadowRoots of this element  |
+| Property or method        | Description                                                     |
+| ------------------------- | --------------------------------------------------------------- | 
+| `element`                 | Promise that resolves in the respective `DOM` element           |
+| `selector`                | Object that allows one to query for elements using dot notation |
 
 #### onLovelaceMoreInfoDialogOpen
 
@@ -213,12 +211,10 @@ This is the list of the elements available inside the `detail` property of the `
 
 All the available elements contain an `element` property and three methods:
 
-| Property or method        | Description                                                  |
-| ------------------------- | ------------------------------------------------------------ | 
-| `element`                 | Promise that resolves in the respective `DOM` element                     |
-| `querySelector`           | Method to query for descendants of this element              |
-| `querySelectorAll`        | Method to query multiple decendants of this element |
-| `shadowRootQuerySelector` | Method to query for descendants shadowRoots of this element  |
+| Property or method        | Description                                                     |
+| ------------------------- | --------------------------------------------------------------- | 
+| `element`                 | Promise that resolves in the respective `DOM` element           |
+| `selector`                | Object that allows one to query for elements using dot notation |
 
 #### onLovelaceHistoryAndLogBookDialogOpen
 
@@ -254,12 +250,10 @@ This is the list of the elements available inside the `detail` property of the `
 
 All the available elements contain an `element` property and three methods:
 
-| Property or method        | Description                                                  |
-| ------------------------- | ------------------------------------------------------------ | 
-| `element`                 | Promise that resolves in the respective `DOM` element                     |
-| `querySelector`           | Method to query for descendants of this element              |
-| `querySelectorAll`        | Method to query multiple decendants of this element |
-| `shadowRootQuerySelector` | Method to query for descendants shadowRoots of this element  |
+| Property or method        | Description                                                     |
+| ------------------------- | --------------------------------------------------------------- | 
+| `element`                 | Promise that resolves in the respective `DOM` element           |
+| `selector`                | Object that allows one to query for elements using dot notation |
 
 #### onLovelaceSettingsDialogOpen
 
@@ -295,16 +289,14 @@ This is the list of the elements available inside the `detail` property of the `
 
 All the available elements contain an `element` property and three methods:
 
-| Property or method        | Description                                                  |
-| ------------------------- | ------------------------------------------------------------ | 
-| `element`                 | Promise that resolves in the respective `DOM` element                     |
-| `querySelector`           | Method to query for descendants of this element              |
-| `querySelectorAll`        | Method to query multiple decendants of this element |
-| `shadowRootQuerySelector` | Method to query for descendants shadowRoots of this element  |
+| Property or method        | Description                                                     |
+| ------------------------- | --------------------------------------------------------------- | 
+| `element`                 | Promise that resolves in the respective `DOM` element           |
+| `selector`                | Object that allows one to query for elements using dot notation |
 
 ### Note
 
->`querySelector`, `querySelectorAll` and `shadowRootQuerySelector` methods used in the library sue behind the secenes the [asyncQuerySelector], [asyncQuerySelectorAll] and [asyncShadowRootQuerySelector] functions from [shadow-dom-selector], which is highly inspired in the query philosophy of [lovelace-card-mod].
+>The `selector` property used in the library uses behind the secenes the [buildAsyncSelector] utility from [shadow-dom-selector], which is highly inspired in the query philosophy of [lovelace-card-mod].
 
 
 [Home Assistant]: https://www.home-assistant.io
@@ -313,8 +305,6 @@ All the available elements contain an `element` property and three methods:
 [ShadowDOM]: https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM
 [EventTarget]: https://developer.mozilla.org/en-US/docs/Web/API/EventTarget
 [CustomEvent]: https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent
-[asyncQuerySelector]: https://github.com/elchininet/shadow-dom-selector#asyncqueryselector
-[asyncQuerySelectorAll]: https://github.com/elchininet/shadow-dom-selector#asyncqueryselectorall
-[asyncShadowRootQuerySelector]: https://github.com/elchininet/shadow-dom-selector#asyncshadowrootqueryselector
+[buildAsyncSelector]: https://github.com/elchininet/shadow-dom-selector#buildasyncselector
 [shadow-dom-selector]: https://github.com/elchininet/shadow-dom-selector
 [lovelace-card-mod]: https://github.com/thomasloven/lovelace-card-mod

@@ -7,11 +7,7 @@ import {
     HAElement
 } from '@types';
 import { $, HA_DIALOG_ELEMENT } from '@constants';
-import {
-    asyncQuerySelector,
-    asyncQuerySelectorAll,
-    asyncShadowRootQuerySelector
-} from 'shadow-dom-selector';
+import { buildAsyncSelector, asyncQuerySelector } from 'shadow-dom-selector';
 
 const getQuery = (selector: string, shadowRoot: boolean) => shadowRoot
     ? $ + ' ' + selector
@@ -66,39 +62,10 @@ export const getAsyncElements = (
                 nodeDescriptor.children,
                 element
             ),
-            async querySelector(selector: string, asyncProps: HAQuerySelectorConfig = {}) {
-                const el = await element;
-                return await asyncQuerySelector(
-                    el,
-                    selector,
-                    {
-                        ...config,
-                        ...asyncProps
-                    }
-                );
-            },
-            async querySelectorAll(selector: string, asyncProps: HAQuerySelectorConfig = {}) {
-                const el = await element;
-                return await asyncQuerySelectorAll(
-                    el,
-                    selector,
-                    {
-                        ...config,
-                        ...asyncProps
-                    }
-                );
-            },
-            async shadowRootQuerySelector(selector: string, asyncProps: HAQuerySelectorConfig = {}) {
-                const el = await element;
-                return await asyncShadowRootQuerySelector(
-                    el,
-                    selector,
-                    {
-                        ...config,
-                        ...asyncProps
-                    }
-                );
-            }
+            selector: buildAsyncSelector(
+                element,
+                config
+            )
         };
 
         return acc;
