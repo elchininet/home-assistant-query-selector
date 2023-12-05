@@ -25,6 +25,39 @@ import {
     getFinalDialogFlatTree
 } from '@utilities';
 
+type OnLovelacePanelLoadDetail = Record<
+    keyof typeof HA_ROOT_ELEMENT |
+    keyof typeof HA_RESOLVER_ELEMENT,
+    HAElement
+>;
+
+type OnLovelaceMoreInfoDialogOpenDetail = Record<
+    Exclude<
+        keyof typeof HA_DIALOG_ELEMENT,
+        'HA_DIALOG_MORE_INFO_HISTORY_AND_LOGBOOK' |
+        'HA_DIALOG_MORE_INFO_SETTINGS'
+    >,
+    HAElement
+>;
+
+type OnLovelaceHistoryAndLogBookDialogOpenDetail = Record<
+    Exclude<
+        keyof typeof HA_DIALOG_ELEMENT,
+        'HA_MORE_INFO_DIALOG_INFO' |
+        'HA_DIALOG_MORE_INFO_SETTINGS'
+    >,
+    HAElement
+>;
+
+type OnLovelaceSettingsDialogOpenDetail = Record<
+    Exclude<
+        keyof typeof HA_DIALOG_ELEMENT,
+        'HA_MORE_INFO_DIALOG_INFO' |
+        'HA_DIALOG_MORE_INFO_HISTORY_AND_LOGBOOK'
+    >,
+    HAElement
+>;
+
 class HAQuerySelector extends EventTarget {
 
     constructor(config: HAQuerySelectorConfig = {}) {
@@ -233,53 +266,28 @@ class HAQuerySelector extends EventTarget {
     public override addEventListener(
         type: `${HAQuerySelectorEvent.ON_LOVELACE_PANEL_LOAD}`,
         callback: HAQuerySelectorEventListener<
-            Record<
-                keyof typeof HA_ROOT_ELEMENT |
-                keyof typeof HA_RESOLVER_ELEMENT,
-                HAElement
-            >
+            OnLovelacePanelLoadDetail
         >,
         options?: boolean | AddEventListenerOptions
     ): void;
     public override addEventListener(
         type: `${HAQuerySelectorEvent.ON_LOVELACE_MORE_INFO_DIALOG_OPEN}`,
         callback: HAQuerySelectorEventListener<
-            Record<
-                Exclude<
-                    keyof typeof HA_DIALOG_ELEMENT,
-                    'HA_DIALOG_MORE_INFO_HISTORY_AND_LOGBOOK' |
-                    'HA_DIALOG_MORE_INFO_SETTINGS'
-                >,
-                HAElement
-            >
+            OnLovelaceMoreInfoDialogOpenDetail
         >,
         options?: boolean | AddEventListenerOptions
     ): void;
     public override addEventListener(
         type: `${HAQuerySelectorEvent.ON_LOVELACE_HISTORY_AND_LOGBOOK_DIALOG_OPEN}`,
         callback: HAQuerySelectorEventListener<
-            Record<
-                Exclude<
-                    keyof typeof HA_DIALOG_ELEMENT,
-                    'HA_MORE_INFO_DIALOG_INFO' |
-                    'HA_DIALOG_MORE_INFO_SETTINGS'
-                >,
-                HAElement
-            >
+            OnLovelaceHistoryAndLogBookDialogOpenDetail
         >,
         options?: boolean | AddEventListenerOptions
     ): void;
     public override addEventListener(
         type: `${HAQuerySelectorEvent.ON_LOVELACE_SETTINGS_DIALOG_OPEN}`,
         callback: HAQuerySelectorEventListener<
-            Record<
-                Exclude<
-                    keyof typeof HA_DIALOG_ELEMENT,
-                    'HA_MORE_INFO_DIALOG_INFO' |
-                    'HA_DIALOG_MORE_INFO_HISTORY_AND_LOGBOOK'
-                >,
-                HAElement
-            >
+            OnLovelaceSettingsDialogOpenDetail
         >,
         options?: boolean | AddEventListenerOptions
     ): void;
@@ -296,5 +304,9 @@ class HAQuerySelector extends EventTarget {
 export {
     HAQuerySelector,
     HAQuerySelectorEvent,
-    ElementProps
+    ElementProps,
+    OnLovelacePanelLoadDetail,
+    OnLovelaceMoreInfoDialogOpenDetail,
+    OnLovelaceHistoryAndLogBookDialogOpenDetail,
+    OnLovelaceSettingsDialogOpenDetail
 };
