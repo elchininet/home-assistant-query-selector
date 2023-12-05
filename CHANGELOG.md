@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.1.0] - 2023-12-05
+
+- Update `shadow-dom-selector` and use the new dot notation syntax
+
 ## [2.0.0] - 2023-12-04
 
 - Change `querySelector`, `querySelectorAll` and `shadowRootQuerySelector` by the [shadow-dom-selector async dot notation](https://github.com/elchininet/shadow-dom-selector#buildasyncselector).

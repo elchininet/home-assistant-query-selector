@@ -1,4 +1,4 @@
-import type { AsyncSelectorProxy, AsyncParams } from 'shadow-dom-selector';
+import { AsyncSelector, AsyncParams } from 'shadow-dom-selector';
 
 export type HAQuerySelectorConfig = AsyncParams;
 
@@ -14,7 +14,7 @@ export type HomeAssistantNodeDescriptor = {
 export type ElementProps = {
     element: Promise<Element | null>;
     children?: HomeAssistantElement;
-    selector: AsyncSelectorProxy;
+    selector: AsyncSelector<Element>;
 };
 
 export type HomeAssistantElement = {

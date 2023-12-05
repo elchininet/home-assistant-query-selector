@@ -45,19 +45,19 @@ instance.addEventListener('onLovelacePanelLoad', ({ detail }) => {
         });
 
     // Querying the ha-sidebar element from the home-assistant element
-    HOME_ASSISTANT.selector.$['home-assistant-main'].$['ha-sidebar'].element
+    HOME_ASSISTANT.selector.$.query('home-assistant-main').$.query('ha-sidebar').element
         .then((sidebar) => {
             // sidebar === ha-sidebar element
         });
 
     // Querying all the ha-icon-button elements inside the .action-items in the header
-    HEADER.selector['.action-items ha-icon-button'].all
+    HEADER.selector.query('.action-items ha-icon-button').all
         .then((buttons) => {
             // buttons === Search, Assist, and Open dashboard menu elements (top-right header buttons)
         });
 
     // Querying the hui-root shadowRoot
-    HA_PANEL_LOVELACE.selector.$['hui-root'].$.element
+    HA_PANEL_LOVELACE.selector.$.query('hui-root').$.element
         .then((shadowRoot) => {
             // shadowRoot === hui-root‘s shadowRoot
         });
@@ -297,7 +297,7 @@ All the available elements contain an `element` property and three methods:
 
 ### Note
 
->The `selector` property used in the library uses behind the secenes the [buildAsyncSelector] utility from [shadow-dom-selector], which is highly inspired in the query philosophy of [lovelace-card-mod].
+>The `selector` property used in the library uses behind the secenes the [AsyncSelector] class from [shadow-dom-selector], which is highly inspired in the query philosophy of [lovelace-card-mod].
 
 
 [Home Assistant]: https://www.home-assistant.io
@@ -306,6 +306,6 @@ All the available elements contain an `element` property and three methods:
 [ShadowDOM]: https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM
 [EventTarget]: https://developer.mozilla.org/en-US/docs/Web/API/EventTarget
 [CustomEvent]: https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent
-[buildAsyncSelector]: https://github.com/elchininet/shadow-dom-selector#buildasyncselector
+[AsyncSelector]: https://github.com/elchininet/shadow-dom-selector#asyncselector-class
 [shadow-dom-selector]: https://github.com/elchininet/shadow-dom-selector
 [lovelace-card-mod]: https://github.com/thomasloven/lovelace-card-mod
