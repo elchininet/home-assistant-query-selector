@@ -2725,10 +2725,10 @@ set-function-length@^1.1.1:
     gopd "^1.0.1"
     has-property-descriptors "^1.0.0"
 
-shadow-dom-selector@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/shadow-dom-selector/-/shadow-dom-selector-2.0.4.tgz#0c052077a7fa1bf74db4ddbbbc74476dd1ba6230"
-  integrity sha512-A+uBq+J4XwFa7Gb4SPf9aC86hrwwzpas4vy5cy0k9ubQEnNuTzgrilp6B5yfolNNxVsYy1OKU8/5SF9mci4bSQ==
+shadow-dom-selector@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/shadow-dom-selector/-/shadow-dom-selector-3.0.0.tgz#6a5ebac1bb69d600c5c9eafa0a9181f16a70cee5"
+  integrity sha512-9NmehVHs5xg1tUpZJ1aoiJQy3Up9cR2h/gHeXhaNGVSad328PzS/LoRQK3cPaLaYsJA0JfKfRdbUgrtwOITW6g==
 
 shebang-command@^2.0.0:
   version "2.0.0"

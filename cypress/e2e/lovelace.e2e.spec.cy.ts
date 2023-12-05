@@ -211,13 +211,13 @@ describe('HAQuerySelector for lovelace dashboards', () => {
                     .then(async (elements) => {
 
                         expect(
-                            await elements.HOME_ASSISTANT.selector.$['home-assistant-main'].$['ha-drawer'].element
+                            await elements.HOME_ASSISTANT.selector.$.query('home-assistant-main').$.query('ha-drawer').element
                         ).to.be.equal(
                             await elements.HA_DRAWER.element
                         );
 
                         expect(
-                            await elements.HOME_ASSISTANT_MAIN.selector.$['ha-drawer ha-panel-lovelace'].$['hui-root'].$['.header .action-items > ha-button-menu'].all
+                            await elements.HOME_ASSISTANT_MAIN.selector.$.query('ha-drawer ha-panel-lovelace').$.query('hui-root').$.query('.header .action-items > ha-button-menu').all
                         ).to.deep.equal(
                             doc
                                 .querySelector('home-assistant')
@@ -234,7 +234,7 @@ describe('HAQuerySelector for lovelace dashboards', () => {
                         );
 
                         expect(
-                            await elements.HA_PANEL_LOVELACE.selector.$['hui-root'].$.element
+                            await elements.HA_PANEL_LOVELACE.selector.$.query('hui-root').$.element
                         ).to.be.equal(
                             doc
                                 .querySelector('home-assistant')
@@ -275,17 +275,17 @@ describe('HAQuerySelector for lovelace dashboards', () => {
                     .its('lastCall.args.0.detail')
                     .then(async (elements) => {
                         expect(
-                            await elements.HOME_ASSISTANT.selector.$['home-assistant-main'].$['do-not-exists'].element
+                            await elements.HOME_ASSISTANT.selector.$.query('home-assistant-main').$.query('do-not-exists').element
                         ).to.null;
 
                         expect(
                             (
-                                await elements.HOME_ASSISTANT.selector.$['home-assistant-main'].$['do-not-exists'].all
+                                await elements.HOME_ASSISTANT.selector.$.query('home-assistant-main').$.query('do-not-exists').all
                             ).length
                         ).to.be.equal(0);
 
                         expect(
-                            await elements.HOME_ASSISTANT.selector.$['home-assistant-main'].$['do-not-exists'].$.element
+                            await elements.HOME_ASSISTANT.selector.$.query('home-assistant-main').$.query('do-not-exists').$.element
                         ).to.null;
                     });
 
