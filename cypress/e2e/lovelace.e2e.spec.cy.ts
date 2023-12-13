@@ -338,4 +338,37 @@ describe('HAQuerySelector for lovelace dashboards', () => {
 
     });
 
+    it('Remove events should remove the listeners', () => {
+        
+        cy
+            .window()
+            .then((win) => {
+                const instance = new win.HAQuerySelector();
+                const onLovelacePanelLoad = cy.stub().as('onLovelacePanelLoadLocal');
+                instance.addEventListener(
+                    HAQuerySelectorEvent.ON_LOVELACE_PANEL_LOAD,
+                    onLovelacePanelLoad
+                );
+
+                instance.listen();
+
+                cy
+                    .get('@onLovelacePanelLoadLocal')
+                    .should('be.calledOnce');
+
+                instance.removeEventListener(
+                    HAQuerySelectorEvent.ON_LOVELACE_PANEL_LOAD,
+                    onLovelacePanelLoad
+                );
+
+                instance.listen();
+
+                cy
+                    .get('@onLovelacePanelLoadLocal')
+                    .should('not.be.calledTwice');
+
+            });
+
+    });
+
 });

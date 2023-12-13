@@ -58,71 +58,84 @@ type OnLovelaceSettingsDialogOpenDetail = Record<
     HAElement
 >;
 
-class HAQuerySelector extends EventTarget {
+class DelegatedEventTarget implements EventTarget {
+    private delegate = document.createDocumentFragment();
+    addEventListener(...args: Parameters<EventTarget['addEventListener']>): void {
+        this.delegate.addEventListener(...args);
+    }
+    dispatchEvent(...args: Parameters<EventTarget['dispatchEvent']>): boolean {
+        return this.delegate.dispatchEvent(...args);
+    }
+    removeEventListener(...args: Parameters<EventTarget['removeEventListener']>): void {
+        return this.delegate.removeEventListener(...args);
+    }
+}
+
+class HAQuerySelector extends DelegatedEventTarget {
 
     constructor(config: HAQuerySelectorConfig = {}) {
         super();
-        this.#config = {
+        this._config = {
             ...DEFAULT_CONFIG,
             ...config
         };
     }
 
-    #config: HAQuerySelectorConfig;
+    private _config: HAQuerySelectorConfig;
 
-    #dialogTree: HomeAssistantElement;
-    #homeAssistantRootTree: HomeAssistantElement;
-    #homeAssistantResolverTree: HomeAssistantElement;
+    private _dialogTree: HomeAssistantElement;
+    private _homeAssistantRootTree: HomeAssistantElement;
+    private _homeAssistantResolverTree: HomeAssistantElement;
 
-    #haDialogElements: Record<keyof typeof HA_DIALOG_ELEMENT, HAElement>;
-    #haRootElements: Record<keyof typeof HA_ROOT_ELEMENT, HAElement>;
-    #haResolverElements: Record<keyof typeof HA_RESOLVER_ELEMENT, HAElement>;
+    private _haDialogElements: Record<keyof typeof HA_DIALOG_ELEMENT, HAElement>;
+    private _haRootElements: Record<keyof typeof HA_ROOT_ELEMENT, HAElement>;
+    private _haResolverElements: Record<keyof typeof HA_RESOLVER_ELEMENT, HAElement>;
 
-    #dialogsObserver: MutationObserver;
-    #dialogsContentObserver: MutationObserver;
-    #panelResolverObserver: MutationObserver;
-    #lovelaceObserver: MutationObserver;
+    private _dialogsObserver: MutationObserver;
+    private _dialogsContentObserver: MutationObserver;
+    private _panelResolverObserver: MutationObserver;
+    private _lovelaceObserver: MutationObserver;
 
-    #watchDialogsBinded: (mutations: MutationRecord[]) => void;
-    #watchDialogsContentBinded: (mutations: MutationRecord[]) => void;
-    #watchDashboardsBinded: (mutations: MutationRecord[]) => void;
-    #watchLovelaceBinded: (mutations: MutationRecord[]) => void;
+    private _watchDialogsBinded: (mutations: MutationRecord[]) => void;
+    private _watchDialogsContentBinded: (mutations: MutationRecord[]) => void;
+    private _watchDashboardsBinded: (mutations: MutationRecord[]) => void;
+    private _watchLovelaceBinded: (mutations: MutationRecord[]) => void;
 
-    #timestap: number;
+    private _timestap: number;
 
-    #dispatchEvent(type: HAQuerySelectorEvent, detail?: Record<string, HAElement>) {
+    private _dispatchEvent(type: HAQuerySelectorEvent, detail?: Record<string, HAElement>) {
         this.dispatchEvent(
             new CustomEvent(type, { detail })
         );
     }
 
-    #updateDialogElements(
+    private _updateDialogElements(
         dialogElement: (
             'HA_MORE_INFO_DIALOG_INFO' |
             'HA_DIALOG_MORE_INFO_HISTORY_AND_LOGBOOK' |
             'HA_DIALOG_MORE_INFO_SETTINGS'
         ) = HA_DIALOG_ELEMENT.HA_MORE_INFO_DIALOG_INFO
     ) {
-        this.#dialogTree = getAsyncElements(
-            this.#config,
+        this._dialogTree = getAsyncElements(
+            this._config,
             DIALOG_SELECTORS,
-            this.#haRootElements.HOME_ASSISTANT.element
+            this._haRootElements.HOME_ASSISTANT.element
         );
         const haDialogElements = flatHomeAssistantTree<
             Record<keyof typeof HA_DIALOG_ELEMENT, HAElement>
         >(
             HA_DIALOG_ELEMENT,
-            this.#dialogTree
+            this._dialogTree
         );
         haDialogElements.HA_DIALOG_CONTENT
             .element
             .then((dialogContent: Element) => {
-                this.#dialogsContentObserver.disconnect();
-                this.#dialogsContentObserver.observe(dialogContent, {
+                this._dialogsContentObserver.disconnect();
+                this._dialogsContentObserver.observe(dialogContent, {
                     childList: true
                 });
             });
-        this.#haDialogElements = getFinalDialogFlatTree(
+        this._haDialogElements = getFinalDialogFlatTree(
             haDialogElements,
             dialogElement
         );
@@ -131,87 +144,87 @@ class HAQuerySelector extends EventTarget {
             [HA_DIALOG_ELEMENT.HA_DIALOG_MORE_INFO_HISTORY_AND_LOGBOOK]: HAQuerySelectorEvent.ON_LOVELACE_HISTORY_AND_LOGBOOK_DIALOG_OPEN,
             [HA_DIALOG_ELEMENT.HA_DIALOG_MORE_INFO_SETTINGS]: HAQuerySelectorEvent.ON_LOVELACE_SETTINGS_DIALOG_OPEN,
         } as const;
-        this.#dispatchEvent(
+        this._dispatchEvent(
             MoreInfoDialogEventMapper[dialogElement],
-            this.#haDialogElements
+            this._haDialogElements
         );
     }
 
-    #updateRootElements() {
-        this.#homeAssistantRootTree = getAsyncElements(
-            this.#config,
+    private _updateRootElements() {
+        this._homeAssistantRootTree = getAsyncElements(
+            this._config,
             ROOT_SELECTORS
         );
-        this.#haRootElements = flatHomeAssistantTree<
+        this._haRootElements = flatHomeAssistantTree<
             Record<keyof typeof HA_ROOT_ELEMENT, HAElement>
         >(
             HA_ROOT_ELEMENT,
-            this.#homeAssistantRootTree
+            this._homeAssistantRootTree
         );
-        this.#haRootElements[HA_ROOT_ELEMENT.HOME_ASSISTANT]
+        this._haRootElements[HA_ROOT_ELEMENT.HOME_ASSISTANT]
             .selector.$.element
             .then((shadowRoot: ShadowRoot): void => {
-                this.#dialogsObserver.disconnect();
-                this.#dialogsObserver.observe(shadowRoot, {
+                this._dialogsObserver.disconnect();
+                this._dialogsObserver.observe(shadowRoot, {
                     childList: true
                 });
             });
     }
 
-    #updateResolverElements() {
+    private _updateResolverElements() {
         // Avoid triggering onLovelacePanelLoad twice on yaml mode
         const timestamp = Date.now();
-        if (timestamp - this.#timestap < TIMESTAMP_THESHOLD) {
+        if (timestamp - this._timestap < TIMESTAMP_THESHOLD) {
             return;
         }
-        this.#timestap = timestamp;
-        this.#homeAssistantResolverTree = getAsyncElements(
-            this.#config,
+        this._timestap = timestamp;
+        this._homeAssistantResolverTree = getAsyncElements(
+            this._config,
             RESOLVER_SELECTORS,
-            this.#haRootElements[HA_ROOT_ELEMENT.HA_DRAWER].element
+            this._haRootElements[HA_ROOT_ELEMENT.HA_DRAWER].element
         );
-        this.#haResolverElements = flatHomeAssistantTree<
+        this._haResolverElements = flatHomeAssistantTree<
             Record<keyof typeof HA_RESOLVER_ELEMENT, HAElement>
         >(
             HA_RESOLVER_ELEMENT,
-            this.#homeAssistantResolverTree
+            this._homeAssistantResolverTree
         );
-        this.#haResolverElements[HA_RESOLVER_ELEMENT.PARTIAL_PANEL_RESOLVER]
+        this._haResolverElements[HA_RESOLVER_ELEMENT.PARTIAL_PANEL_RESOLVER]
             .element
             .then((partialPanelResolver: Element): void => {
-                this.#panelResolverObserver.disconnect();
-                this.#panelResolverObserver.observe(partialPanelResolver, {
+                this._panelResolverObserver.disconnect();
+                this._panelResolverObserver.observe(partialPanelResolver, {
                     childList: true
                 });
         });
-        this.#haResolverElements[HA_RESOLVER_ELEMENT.HA_PANEL_LOVELACE]
+        this._haResolverElements[HA_RESOLVER_ELEMENT.HA_PANEL_LOVELACE]
             .selector.$.element
             .then((lovelaceShadowRoot: ShadowRoot) => {
-                this.#lovelaceObserver.disconnect();
-                this.#lovelaceObserver.observe(lovelaceShadowRoot, {
+                this._lovelaceObserver.disconnect();
+                this._lovelaceObserver.observe(lovelaceShadowRoot, {
                     childList: true
                 });
             });
-        this.#dispatchEvent(
+        this._dispatchEvent(
             HAQuerySelectorEvent.ON_LOVELACE_PANEL_LOAD,
             {
-                ...this.#haRootElements,
-                ...this.#haResolverElements
+                ...this._haRootElements,
+                ...this._haResolverElements
             }
         );
     }
 
-    #watchDialogs(mutations: MutationRecord[]) {
+    private _watchDialogs(mutations: MutationRecord[]) {
         mutations.forEach(({ addedNodes }): void => {
             addedNodes.forEach((node: Element): void => {
                 if (node.localName === QUERY_SELECTORS.HA_MORE_INFO_DIALOG) {
-                    this.#updateDialogElements();
+                    this._updateDialogElements();
                 }
             });
         });
     }
 
-    #watchDialogsContent(mutations: MutationRecord[]) {
+    private _watchDialogsContent(mutations: MutationRecord[]) {
         mutations.forEach(({ addedNodes }): void => {
             addedNodes.forEach((node: Element): void => {
                 const mappers = {
@@ -221,27 +234,27 @@ class HAQuerySelector extends EventTarget {
                 } as const;
                 if (node.localName && node.localName in mappers) {
                     const dialogElementQuery = node.localName as keyof typeof mappers;
-                    this.#updateDialogElements(mappers[dialogElementQuery]);
+                    this._updateDialogElements(mappers[dialogElementQuery]);
                 }
             });
           });
     }
 
-    #watchDashboards(mutations: MutationRecord[]) {
+    private _watchDashboards(mutations: MutationRecord[]) {
         mutations.forEach(({ addedNodes }): void => {
             addedNodes.forEach((node: Element): void => {
                 if (node.localName === QUERY_SELECTORS.HA_PANEL_LOVELACE) {
-                    this.#updateResolverElements();
+                    this._updateResolverElements();
                 }
             });
         });
     }
 
-    #watchLovelace(mutations: MutationRecord[]) {
+    private _watchLovelace(mutations: MutationRecord[]) {
         mutations.forEach(({ addedNodes }): void => {
             addedNodes.forEach((node: Element): void => {
                 if (node.localName === QUERY_SELECTORS.HUI_ROOT) {
-                    this.#updateResolverElements();
+                    this._updateResolverElements();
                 }
             });
         });
@@ -249,18 +262,18 @@ class HAQuerySelector extends EventTarget {
 
     public listen() {
 
-        this.#watchDialogsBinded = this.#watchDialogs.bind(this);
-        this.#watchDialogsContentBinded = this.#watchDialogsContent.bind(this);
-        this.#watchDashboardsBinded = this.#watchDashboards.bind(this);
-        this.#watchLovelaceBinded = this.#watchLovelace.bind(this);
+        this._watchDialogsBinded = this._watchDialogs.bind(this);
+        this._watchDialogsContentBinded = this._watchDialogsContent.bind(this);
+        this._watchDashboardsBinded = this._watchDashboards.bind(this);
+        this._watchLovelaceBinded = this._watchLovelace.bind(this);
 
-        this.#dialogsObserver = new MutationObserver(this.#watchDialogsBinded);
-        this.#dialogsContentObserver = new MutationObserver(this.#watchDialogsContentBinded);
-        this.#panelResolverObserver = new MutationObserver(this.#watchDashboardsBinded);
-        this.#lovelaceObserver = new MutationObserver(this.#watchLovelaceBinded);
+        this._dialogsObserver = new MutationObserver(this._watchDialogsBinded);
+        this._dialogsContentObserver = new MutationObserver(this._watchDialogsContentBinded);
+        this._panelResolverObserver = new MutationObserver(this._watchDashboardsBinded);
+        this._lovelaceObserver = new MutationObserver(this._watchLovelaceBinded);
 
-        this.#updateRootElements();
-        this.#updateResolverElements();
+        this._updateRootElements();
+        this._updateResolverElements();
     }
     
     public override addEventListener(
