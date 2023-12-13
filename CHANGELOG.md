@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.1.2] - 2023-12-13
+
+- Remove private class properties
+
 ## [2.1.1] - 2023-12-05
 
 - Export all the `CustomEvents` details object to be able to use them for type checking in the clients
