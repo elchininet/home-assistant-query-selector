@@ -58,7 +58,20 @@ type OnLovelaceSettingsDialogOpenDetail = Record<
     HAElement
 >;
 
-class HAQuerySelector extends EventTarget {
+class DelegatedEventTarget implements EventTarget {
+    private delegate = document.createDocumentFragment();
+    addEventListener(...args: Parameters<EventTarget['addEventListener']>): void {
+        this.delegate.addEventListener(...args);
+    }
+    dispatchEvent(...args: Parameters<EventTarget['dispatchEvent']>): boolean {
+        return this.delegate.dispatchEvent(...args);
+    }
+    removeEventListener(...args: Parameters<EventTarget['removeEventListener']>): void {
+        return this.delegate.removeEventListener(...args);
+    }
+}
+
+class HAQuerySelector extends DelegatedEventTarget {
 
     constructor(config: HAQuerySelectorConfig = {}) {
         super();
