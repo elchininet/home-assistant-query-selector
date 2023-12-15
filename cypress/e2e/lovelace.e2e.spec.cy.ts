@@ -217,6 +217,17 @@ describe('HAQuerySelector for lovelace dashboards', () => {
                         );
 
                         expect(
+                            await elements.HOME_ASSISTANT.selector.deepQuery('ha-drawer').element
+                        ).to.be.equal(
+                            doc
+                                .querySelector('home-assistant')
+                                .shadowRoot
+                                .querySelector('home-assistant-main')
+                                .shadowRoot
+                                .querySelector('ha-drawer')
+                        );
+
+                        expect(
                             await elements.HOME_ASSISTANT_MAIN.selector.$.query('ha-drawer ha-panel-lovelace').$.query('hui-root').$.query('.header .action-items > ha-button-menu').all
                         ).to.deep.equal(
                             doc
