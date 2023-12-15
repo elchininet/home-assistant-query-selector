@@ -62,6 +62,12 @@ instance.addEventListener('onLovelacePanelLoad', ({ detail }) => {
             // shadowRoot === hui-root‘s shadowRoot
         });
 
+    // Deep-querying the sidebar element
+    HOME_ASSISTANT.selector.deepQuery('ha-sidebar').element
+        .then((sidebar) => {
+            // sidebar === ha-sidebar element
+        });
+
 });
 
 // This event will be triggered every time a more-info dialog is open
