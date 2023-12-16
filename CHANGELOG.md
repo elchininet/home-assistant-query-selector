@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.1.4] - 2023-12-16
+
+- Update the `shadow-dom-selector` package to the latest version
+
 ## [2.1.3] - 2023-12-15
 
 - Update the `shadow-dom-selector` package to the latest version to make it possible to use the new `deepQuery` method
