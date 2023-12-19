@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.1.5] - 2023-12-19
+
+- Publish the package using npm provenance
+
 ## [2.1.4] - 2023-12-16
 
 - Update the `shadow-dom-selector` package to the latest version
