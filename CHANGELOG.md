@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.0.0] - 2024-01-02
+
+- Breaking change: Removed "lovelace" string from all the events because these events can be triggered on any dashboard if the `listen` method is called. The new even names are:
+    * ON_PANEL_LOAD (`onPanelLoad`)
+    * ON_MORE_INFO_DIALOG_OPEN (`onMoreInfoDialogOpen`)
+    * ON_HISTORY_AND_LOGBOOK_DIALOG_OPEN (`onHistoryAndLogBookDialogOpen`)
+    * ON_SETTINGS_DIALOG_OPEN (`onSettingsDialogOpen`)
+- Fix a bug: if one of the elements in a tree is null, return null instead of trying to perform a query on a null element which will throw an error
+
 ## [2.1.5] - 2023-12-19
 
 - Publish the package using npm provenance

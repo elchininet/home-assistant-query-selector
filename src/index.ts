@@ -2,7 +2,6 @@ import {
     HAQuerySelectorConfig,
     HomeAssistantElement,
     HAElement,
-    ElementProps,
     HAQuerySelectorEventListener
 } from '@types';
 import {
@@ -140,9 +139,9 @@ class HAQuerySelector extends DelegatedEventTarget {
             dialogElement
         );
         const MoreInfoDialogEventMapper = {
-            [HA_DIALOG_ELEMENT.HA_MORE_INFO_DIALOG_INFO]: HAQuerySelectorEvent.ON_LOVELACE_MORE_INFO_DIALOG_OPEN,
-            [HA_DIALOG_ELEMENT.HA_DIALOG_MORE_INFO_HISTORY_AND_LOGBOOK]: HAQuerySelectorEvent.ON_LOVELACE_HISTORY_AND_LOGBOOK_DIALOG_OPEN,
-            [HA_DIALOG_ELEMENT.HA_DIALOG_MORE_INFO_SETTINGS]: HAQuerySelectorEvent.ON_LOVELACE_SETTINGS_DIALOG_OPEN,
+            [HA_DIALOG_ELEMENT.HA_MORE_INFO_DIALOG_INFO]: HAQuerySelectorEvent.ON_MORE_INFO_DIALOG_OPEN,
+            [HA_DIALOG_ELEMENT.HA_DIALOG_MORE_INFO_HISTORY_AND_LOGBOOK]: HAQuerySelectorEvent.ON_HISTORY_AND_LOGBOOK_DIALOG_OPEN,
+            [HA_DIALOG_ELEMENT.HA_DIALOG_MORE_INFO_SETTINGS]: HAQuerySelectorEvent.ON_SETTINGS_DIALOG_OPEN,
         } as const;
         this._dispatchEvent(
             MoreInfoDialogEventMapper[dialogElement],
@@ -193,20 +192,24 @@ class HAQuerySelector extends DelegatedEventTarget {
             .element
             .then((partialPanelResolver: Element): void => {
                 this._panelResolverObserver.disconnect();
-                this._panelResolverObserver.observe(partialPanelResolver, {
-                    childList: true
-                });
+                if (partialPanelResolver) {
+                    this._panelResolverObserver.observe(partialPanelResolver, {
+                        childList: true
+                    });
+                }
         });
         this._haResolverElements[HA_RESOLVER_ELEMENT.HA_PANEL_LOVELACE]
             .selector.$.element
             .then((lovelaceShadowRoot: ShadowRoot) => {
                 this._lovelaceObserver.disconnect();
-                this._lovelaceObserver.observe(lovelaceShadowRoot, {
-                    childList: true
-                });
+                if (lovelaceShadowRoot) {
+                    this._lovelaceObserver.observe(lovelaceShadowRoot, {
+                        childList: true
+                    });
+                }
             });
         this._dispatchEvent(
-            HAQuerySelectorEvent.ON_LOVELACE_PANEL_LOAD,
+            HAQuerySelectorEvent.ON_PANEL_LOAD,
             {
                 ...this._haRootElements,
                 ...this._haResolverElements
@@ -277,28 +280,28 @@ class HAQuerySelector extends DelegatedEventTarget {
     }
     
     public override addEventListener(
-        type: `${HAQuerySelectorEvent.ON_LOVELACE_PANEL_LOAD}`,
+        type: `${HAQuerySelectorEvent.ON_PANEL_LOAD}`,
         callback: HAQuerySelectorEventListener<
             OnLovelacePanelLoadDetail
         >,
         options?: boolean | AddEventListenerOptions
     ): void;
     public override addEventListener(
-        type: `${HAQuerySelectorEvent.ON_LOVELACE_MORE_INFO_DIALOG_OPEN}`,
+        type: `${HAQuerySelectorEvent.ON_MORE_INFO_DIALOG_OPEN}`,
         callback: HAQuerySelectorEventListener<
             OnLovelaceMoreInfoDialogOpenDetail
         >,
         options?: boolean | AddEventListenerOptions
     ): void;
     public override addEventListener(
-        type: `${HAQuerySelectorEvent.ON_LOVELACE_HISTORY_AND_LOGBOOK_DIALOG_OPEN}`,
+        type: `${HAQuerySelectorEvent.ON_HISTORY_AND_LOGBOOK_DIALOG_OPEN}`,
         callback: HAQuerySelectorEventListener<
             OnLovelaceHistoryAndLogBookDialogOpenDetail
         >,
         options?: boolean | AddEventListenerOptions
     ): void;
     public override addEventListener(
-        type: `${HAQuerySelectorEvent.ON_LOVELACE_SETTINGS_DIALOG_OPEN}`,
+        type: `${HAQuerySelectorEvent.ON_SETTINGS_DIALOG_OPEN}`,
         callback: HAQuerySelectorEventListener<
             OnLovelaceSettingsDialogOpenDetail
         >,
@@ -317,7 +320,7 @@ class HAQuerySelector extends DelegatedEventTarget {
 export {
     HAQuerySelector,
     HAQuerySelectorEvent,
-    ElementProps,
+    HAElement,
     OnLovelacePanelLoadDetail,
     OnLovelaceMoreInfoDialogOpenDetail,
     OnLovelaceHistoryAndLogBookDialogOpenDetail,

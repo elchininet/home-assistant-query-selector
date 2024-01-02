@@ -16,10 +16,10 @@ describe('HAQuerySelector for lovelace dashboards', () => {
             .window()
             .then((win) => {
                 instance = new win.HAQuerySelector();
-                const onLovelacePanelLoad = cy.stub().as('onLovelacePanelLoad');
+                const onPanelLoad = cy.stub().as('onPanelLoad');
                 instance.addEventListener(
-                    HAQuerySelectorEvent.ON_LOVELACE_PANEL_LOAD,
-                    onLovelacePanelLoad
+                    HAQuerySelectorEvent.ON_PANEL_LOAD,
+                    onPanelLoad
                 );
                 instance.listen();
             });
@@ -27,10 +27,10 @@ describe('HAQuerySelector for lovelace dashboards', () => {
 
     it('All the elements should exist', () => {
         cy
-            .get('@onLovelacePanelLoad')
+            .get('@onPanelLoad')
             .should('be.calledOnce');
         cy
-            .get('@onLovelacePanelLoad')
+            .get('@onPanelLoad')
             .its('lastCall.args.0.detail')
             .then((elements) => {
                 expect(elements).to.have.keys([
@@ -52,7 +52,7 @@ describe('HAQuerySelector for lovelace dashboards', () => {
             .window()
             .then((win) => {
                 cy
-                    .get('@onLovelacePanelLoad')
+                    .get('@onPanelLoad')
                     .its('lastCall.args.0.detail')
                     .then((elements) => {
                         expect(elements.HOME_ASSISTANT.element).to.be.instanceOf(win.Promise);
@@ -77,7 +77,7 @@ describe('HAQuerySelector for lovelace dashboards', () => {
                 const doc = win.document;
 
                 cy
-                    .get('@onLovelacePanelLoad')
+                    .get('@onPanelLoad')
                     .its('lastCall.args.0.detail')
                     .then(async (elements) => {
 
@@ -206,7 +206,7 @@ describe('HAQuerySelector for lovelace dashboards', () => {
                 const doc = win.document;
 
                 cy
-                    .get('@onLovelacePanelLoad')
+                    .get('@onPanelLoad')
                     .its('lastCall.args.0.detail')
                     .then(async (elements) => {
 
@@ -274,15 +274,15 @@ describe('HAQuerySelector for lovelace dashboards', () => {
                     retries: 1,
                     delay: 2
                 });
-                const onLovelacePanelLoad = cy.stub().as('localOnLovelacePanelLoad');
+                const onPanelLoad = cy.stub().as('localOnPanelLoad');
                 instance.addEventListener(
-                    HAQuerySelectorEvent.ON_LOVELACE_PANEL_LOAD,
-                    onLovelacePanelLoad
+                    HAQuerySelectorEvent.ON_PANEL_LOAD,
+                    onPanelLoad
                 );
                 instance.listen();
                 
                 cy
-                    .get('@localOnLovelacePanelLoad')
+                    .get('@localOnPanelLoad')
                     .its('lastCall.args.0.detail')
                     .then(async (elements) => {
                         expect(
@@ -304,7 +304,7 @@ describe('HAQuerySelector for lovelace dashboards', () => {
 
     });
 
-    it('onLovelacePanelLoad should be triggered when returning to the dashboard', () => {
+    it('onPanelLoad should be triggered when returning to the dashboard', () => {
         
         cy.get('home-assistant')
             .shadow()
@@ -323,7 +323,7 @@ describe('HAQuerySelector for lovelace dashboards', () => {
         cy.wait(1000);
 
         cy
-            .get('@onLovelacePanelLoad')
+            .get('@onPanelLoad')
             .should('not.be.calledTwice');
 
         cy
@@ -334,17 +334,18 @@ describe('HAQuerySelector for lovelace dashboards', () => {
         cy.wait(1000);
 
         cy
-            .get('@onLovelacePanelLoad')
+            .get('@onPanelLoad')
             .should('be.calledTwice');
 
         cy.wait(1000);
 
         cy.wrap(null).then(() => {
             instance.listen();
+            return cy.wait(1000);
         });
 
         cy
-            .get('@onLovelacePanelLoad')
+            .get('@onPanelLoad')
             .should('be.calledThrice');
 
     });
@@ -355,27 +356,27 @@ describe('HAQuerySelector for lovelace dashboards', () => {
             .window()
             .then((win) => {
                 const instance = new win.HAQuerySelector();
-                const onLovelacePanelLoad = cy.stub().as('onLovelacePanelLoadLocal');
+                const onPanelLoad = cy.stub().as('onPanelLoadLocal');
                 instance.addEventListener(
-                    HAQuerySelectorEvent.ON_LOVELACE_PANEL_LOAD,
-                    onLovelacePanelLoad
+                    HAQuerySelectorEvent.ON_PANEL_LOAD,
+                    onPanelLoad
                 );
 
                 instance.listen();
 
                 cy
-                    .get('@onLovelacePanelLoadLocal')
+                    .get('@onPanelLoadLocal')
                     .should('be.calledOnce');
 
                 instance.removeEventListener(
-                    HAQuerySelectorEvent.ON_LOVELACE_PANEL_LOAD,
-                    onLovelacePanelLoad
+                    HAQuerySelectorEvent.ON_PANEL_LOAD,
+                    onPanelLoad
                 );
 
                 instance.listen();
 
                 cy
-                    .get('@onLovelacePanelLoadLocal')
+                    .get('@onPanelLoadLocal')
                     .should('not.be.calledTwice');
 
             });
