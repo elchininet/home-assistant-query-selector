@@ -22,4 +22,4 @@ lovelace:
 # Load frontend themes from the themes folder
 frontend:
   themes: !include_dir_merge_named themes
-  extra_module_url: /local/home-assistant-query-selector-tests.js
+  extra_module_url: /local/home-assistant-query-selector.js

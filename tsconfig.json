@@ -4,7 +4,7 @@
     "module": "esnext",
     "target": "ES5",
     "lib": ["DOM", "ES2017"],
-    "types": ["cypress", "node"],
+    "types": ["node"],
     "moduleResolution": "node",
     "esModuleInterop": true,
     "resolveJsonModule": true,
@@ -20,6 +20,6 @@
       "@lib": ["lib"]
     }
   },
-  "include": ["src/**/*.ts", "cypress/**/*.ts"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
 }

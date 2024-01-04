@@ -2,6 +2,7 @@ import ts from 'rollup-plugin-ts';
 import { terser } from 'rollup-plugin-terser';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import istanbul from 'rollup-plugin-istanbul';
+import tsconfig from './tsconfig.json';
 
 export default [
     {
@@ -32,21 +33,24 @@ export default [
         plugins: [
             nodeResolve(),
             ts({
+                tsconfig: {
+                    ...tsconfig.compilerOptions,
+                    declaration: false
+                },
                 browserslist: false
             }),
             istanbul({
                 exclude: [
-                    'test/index.ts',
                     'node_modules/**/*'
                 ]
             }),
         ],
-        input: 'test/index.ts',
+        input: 'src/index.ts',
         output: [
             {
-                file: 'test/index.js',
-                format: 'iife',
-                name: 'HAQuerySelector'
+                file: '.hass/config/www/home-assistant-query-selector.js',
+                format: 'umd',
+                name: 'HAQuerySelectorBundle'
             }
         ]
     }

@@ -16,7 +16,13 @@ This is from where the idea of `home-assistant-query-selector` comes from. Imagi
 
 There are exhaustive end-to-end tests in place in this library, when a new version of `Home Assistant` is released, running the end-to-end tests in this repository will ensure that the library still works with the new version, so no need to manually check this.
 
+#### End-to-end tests
+
 ![end-to-end tests](https://raw.githubusercontent.com/elchininet/home-assistant-query-selector/master/images/tests.png)
+
+#### Code coverage
+
+![code-coverage](https://raw.githubusercontent.com/elchininet/home-assistant-query-selector/master/images/coverage.png)
 
 ### Code example
 
