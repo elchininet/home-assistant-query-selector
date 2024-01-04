@@ -7,7 +7,7 @@ import {
 import {
     DEFAULT_CONFIG,
     HA_ROOT_ELEMENT,
-    HA_RESOLVER_ELEMENT,
+    HA_LOVELACE_ELEMENT,
     HA_DIALOG_ELEMENT,
     TIMESTAMP_THESHOLD,
     HAQuerySelectorEvent
@@ -15,7 +15,7 @@ import {
 import {
     QUERY_SELECTORS,
     ROOT_SELECTORS,
-    RESOLVER_SELECTORS,
+    LOVELACE_SELECTORS,
     DIALOG_SELECTORS
 } from '@selectors';
 import {
@@ -24,13 +24,23 @@ import {
     getFinalDialogFlatTree
 } from '@utilities';
 
-type OnLovelacePanelLoadDetail = Record<
-    keyof typeof HA_ROOT_ELEMENT |
-    keyof typeof HA_RESOLVER_ELEMENT,
+type OnListenDetail = Record<
+    keyof typeof HA_ROOT_ELEMENT,
     HAElement
 >;
 
-type OnLovelaceMoreInfoDialogOpenDetail = Record<
+type OnPanelLoadDetail = Record<
+    keyof typeof HA_ROOT_ELEMENT,
+    HAElement
+>;
+
+type OnLovelacePanelLoadDetail = Record<
+    keyof typeof HA_ROOT_ELEMENT |
+    keyof typeof HA_LOVELACE_ELEMENT,
+    HAElement
+>;
+
+type OnMoreInfoDialogOpenDetail = Record<
     Exclude<
         keyof typeof HA_DIALOG_ELEMENT,
         'HA_DIALOG_MORE_INFO_HISTORY_AND_LOGBOOK' |
@@ -39,7 +49,7 @@ type OnLovelaceMoreInfoDialogOpenDetail = Record<
     HAElement
 >;
 
-type OnLovelaceHistoryAndLogBookDialogOpenDetail = Record<
+type OnHistoryAndLogBookDialogOpenDetail = Record<
     Exclude<
         keyof typeof HA_DIALOG_ELEMENT,
         'HA_MORE_INFO_DIALOG_INFO' |
@@ -48,7 +58,7 @@ type OnLovelaceHistoryAndLogBookDialogOpenDetail = Record<
     HAElement
 >;
 
-type OnLovelaceSettingsDialogOpenDetail = Record<
+type OnSettingsDialogOpenDetail = Record<
     Exclude<
         keyof typeof HA_DIALOG_ELEMENT,
         'HA_MORE_INFO_DIALOG_INFO' |
@@ -88,7 +98,7 @@ class HAQuerySelector extends DelegatedEventTarget {
 
     private _haDialogElements: Record<keyof typeof HA_DIALOG_ELEMENT, HAElement>;
     private _haRootElements: Record<keyof typeof HA_ROOT_ELEMENT, HAElement>;
-    private _haResolverElements: Record<keyof typeof HA_RESOLVER_ELEMENT, HAElement>;
+    private _haResolverElements: Record<keyof typeof HA_LOVELACE_ELEMENT, HAElement>;
 
     private _dialogsObserver: MutationObserver;
     private _dialogsContentObserver: MutationObserver;
@@ -168,27 +178,7 @@ class HAQuerySelector extends DelegatedEventTarget {
                     childList: true
                 });
             });
-    }
-
-    private _updateResolverElements() {
-        // Avoid triggering onLovelacePanelLoad twice on yaml mode
-        const timestamp = Date.now();
-        if (timestamp - this._timestap < TIMESTAMP_THESHOLD) {
-            return;
-        }
-        this._timestap = timestamp;
-        this._homeAssistantResolverTree = getAsyncElements(
-            this._config,
-            RESOLVER_SELECTORS,
-            this._haRootElements[HA_ROOT_ELEMENT.HA_DRAWER].element
-        );
-        this._haResolverElements = flatHomeAssistantTree<
-            Record<keyof typeof HA_RESOLVER_ELEMENT, HAElement>
-        >(
-            HA_RESOLVER_ELEMENT,
-            this._homeAssistantResolverTree
-        );
-        this._haResolverElements[HA_RESOLVER_ELEMENT.PARTIAL_PANEL_RESOLVER]
+        this._haRootElements[HA_ROOT_ELEMENT.PARTIAL_PANEL_RESOLVER]
             .element
             .then((partialPanelResolver: Element): void => {
                 this._panelResolverObserver.disconnect();
@@ -198,7 +188,35 @@ class HAQuerySelector extends DelegatedEventTarget {
                     });
                 }
         });
-        this._haResolverElements[HA_RESOLVER_ELEMENT.HA_PANEL_LOVELACE]
+        this._dispatchEvent(
+            HAQuerySelectorEvent.ON_LISTEN,
+            this._haRootElements
+        );
+        this._dispatchEvent(
+            HAQuerySelectorEvent.ON_PANEL_LOAD,
+            this._haRootElements
+        );
+    }
+
+    private _updateLovelaceElements() {
+        // Avoid triggering onLovelacePanelLoad twice on yaml mode
+        const timestamp = Date.now();
+        if (timestamp - this._timestap < TIMESTAMP_THESHOLD) {
+            return;
+        }
+        this._timestap = timestamp;
+        this._homeAssistantResolverTree = getAsyncElements(
+            this._config,
+            LOVELACE_SELECTORS,
+            this._haRootElements[HA_ROOT_ELEMENT.HA_DRAWER].element
+        );
+        this._haResolverElements = flatHomeAssistantTree<
+            Record<keyof typeof HA_LOVELACE_ELEMENT, HAElement>
+        >(
+            HA_LOVELACE_ELEMENT,
+            this._homeAssistantResolverTree
+        );
+        this._haResolverElements[HA_LOVELACE_ELEMENT.HA_PANEL_LOVELACE]
             .selector.$.element
             .then((lovelaceShadowRoot: ShadowRoot) => {
                 this._lovelaceObserver.disconnect();
@@ -206,15 +224,15 @@ class HAQuerySelector extends DelegatedEventTarget {
                     this._lovelaceObserver.observe(lovelaceShadowRoot, {
                         childList: true
                     });
+                    this._dispatchEvent(
+                        HAQuerySelectorEvent.ON_LOVELACE_PANEL_LOAD,
+                        {
+                            ...this._haRootElements,
+                            ...this._haResolverElements
+                        }
+                    );
                 }
             });
-        this._dispatchEvent(
-            HAQuerySelectorEvent.ON_PANEL_LOAD,
-            {
-                ...this._haRootElements,
-                ...this._haResolverElements
-            }
-        );
     }
 
     private _watchDialogs(mutations: MutationRecord[]) {
@@ -246,8 +264,12 @@ class HAQuerySelector extends DelegatedEventTarget {
     private _watchDashboards(mutations: MutationRecord[]) {
         mutations.forEach(({ addedNodes }): void => {
             addedNodes.forEach((node: Element): void => {
+                this._dispatchEvent(
+                    HAQuerySelectorEvent.ON_PANEL_LOAD,
+                    this._haRootElements
+                );
                 if (node.localName === QUERY_SELECTORS.HA_PANEL_LOVELACE) {
-                    this._updateResolverElements();
+                    this._updateLovelaceElements();
                 }
             });
         });
@@ -257,7 +279,7 @@ class HAQuerySelector extends DelegatedEventTarget {
         mutations.forEach(({ addedNodes }): void => {
             addedNodes.forEach((node: Element): void => {
                 if (node.localName === QUERY_SELECTORS.HUI_ROOT) {
-                    this._updateResolverElements();
+                    this._updateLovelaceElements();
                 }
             });
         });
@@ -276,11 +298,25 @@ class HAQuerySelector extends DelegatedEventTarget {
         this._lovelaceObserver = new MutationObserver(this._watchLovelaceBinded);
 
         this._updateRootElements();
-        this._updateResolverElements();
+        this._updateLovelaceElements();
     }
     
     public override addEventListener(
+        type: `${HAQuerySelectorEvent.ON_LISTEN}`,
+        callback:  HAQuerySelectorEventListener<
+            OnListenDetail
+        >,
+        options?: boolean | AddEventListenerOptions
+    ): void;
+    public override addEventListener(
         type: `${HAQuerySelectorEvent.ON_PANEL_LOAD}`,
+        callback:  HAQuerySelectorEventListener<
+            OnPanelLoadDetail
+        >,
+        options?: boolean | AddEventListenerOptions
+    ): void;
+    public override addEventListener(
+        type: `${HAQuerySelectorEvent.ON_LOVELACE_PANEL_LOAD}`,
         callback: HAQuerySelectorEventListener<
             OnLovelacePanelLoadDetail
         >,
@@ -289,21 +325,21 @@ class HAQuerySelector extends DelegatedEventTarget {
     public override addEventListener(
         type: `${HAQuerySelectorEvent.ON_MORE_INFO_DIALOG_OPEN}`,
         callback: HAQuerySelectorEventListener<
-            OnLovelaceMoreInfoDialogOpenDetail
+            OnMoreInfoDialogOpenDetail
         >,
         options?: boolean | AddEventListenerOptions
     ): void;
     public override addEventListener(
         type: `${HAQuerySelectorEvent.ON_HISTORY_AND_LOGBOOK_DIALOG_OPEN}`,
         callback: HAQuerySelectorEventListener<
-            OnLovelaceHistoryAndLogBookDialogOpenDetail
+            OnHistoryAndLogBookDialogOpenDetail
         >,
         options?: boolean | AddEventListenerOptions
     ): void;
     public override addEventListener(
         type: `${HAQuerySelectorEvent.ON_SETTINGS_DIALOG_OPEN}`,
         callback: HAQuerySelectorEventListener<
-            OnLovelaceSettingsDialogOpenDetail
+            OnSettingsDialogOpenDetail
         >,
         options?: boolean | AddEventListenerOptions
     ): void;
@@ -322,7 +358,7 @@ export {
     HAQuerySelectorEvent,
     HAElement,
     OnLovelacePanelLoadDetail,
-    OnLovelaceMoreInfoDialogOpenDetail,
-    OnLovelaceHistoryAndLogBookDialogOpenDetail,
-    OnLovelaceSettingsDialogOpenDetail
+    OnMoreInfoDialogOpenDetail,
+    OnHistoryAndLogBookDialogOpenDetail,
+    OnSettingsDialogOpenDetail
 };

@@ -2,7 +2,7 @@ import { HomeAssistantNodeDescriptor } from '@types';
 import {
     $,
     HA_ROOT_ELEMENT,
-    HA_RESOLVER_ELEMENT,
+    HA_LOVELACE_ELEMENT,
     HA_DIALOG_ELEMENT
 } from '@constants';
 
@@ -47,6 +47,9 @@ export const ROOT_SELECTORS: HomeAssistantNodeDescriptor = {
                                                         selector: $
                                                     }
                                                 }
+                                            },
+                                            [HA_ROOT_ELEMENT.PARTIAL_PANEL_RESOLVER]: {
+                                                selector: QUERY_SELECTORS.PARTIAL_PANEL_RESOLVER
                                             }
                                         }
                                     }
@@ -60,29 +63,24 @@ export const ROOT_SELECTORS: HomeAssistantNodeDescriptor = {
     }
 };
 
-export const RESOLVER_SELECTORS: HomeAssistantNodeDescriptor = {
-    [HA_RESOLVER_ELEMENT.PARTIAL_PANEL_RESOLVER]: {
-        selector: QUERY_SELECTORS.PARTIAL_PANEL_RESOLVER,
+export const LOVELACE_SELECTORS: HomeAssistantNodeDescriptor = {
+    [HA_LOVELACE_ELEMENT.HA_PANEL_LOVELACE]: {
+        selector: QUERY_SELECTORS.HA_PANEL_LOVELACE,
         children: {
-            [HA_RESOLVER_ELEMENT.HA_PANEL_LOVELACE]: {
-                selector: QUERY_SELECTORS.HA_PANEL_LOVELACE,
+            shadowRoot: {
+                selector: $,
                 children: {
-                    shadowRoot: {
-                        selector: $,
+                    [HA_LOVELACE_ELEMENT.HUI_ROOT]: {
+                        selector: QUERY_SELECTORS.HUI_ROOT,
                         children: {
-                            [HA_RESOLVER_ELEMENT.HUI_ROOT]: {
-                                selector: QUERY_SELECTORS.HUI_ROOT,
+                            shadowRoot: {
+                                selector: $,
                                 children: {
-                                    shadowRoot: {
-                                        selector: $,
-                                        children: {
-                                            [HA_RESOLVER_ELEMENT.HEADER]: {
-                                                selector: QUERY_SELECTORS.HEADER,
-                                            },
-                                            [HA_RESOLVER_ELEMENT.HUI_VIEW]: {
-                                                selector: QUERY_SELECTORS.HUI_VIEW
-                                            }
-                                        }
+                                    [HA_LOVELACE_ELEMENT.HEADER]: {
+                                        selector: QUERY_SELECTORS.HEADER,
+                                    },
+                                    [HA_LOVELACE_ELEMENT.HUI_VIEW]: {
+                                        selector: QUERY_SELECTORS.HUI_VIEW
                                     }
                                 }
                             }
