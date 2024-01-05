@@ -36,7 +36,7 @@
     "url": "git+https://github.com/elchininet/home-assistant-query-selector"
   },
   "scripts": {
-    "clean": "rm -rf dist .nyc_output coverage",
+    "clean": "rm -rf dist .nyc_output coverage || true",
     "build": "yarn clean && rollup --config rollup.config.js --bundleConfigAsCjs",
     "lint": "eslint \"src/**/*.ts\"",
     "coverage:report": "nyc report --reporter=lcov --reporter=text-summary",
