@@ -36,7 +36,8 @@
     "url": "git+https://github.com/elchininet/home-assistant-query-selector"
   },
   "scripts": {
-    "clean": "rm -rf dist .nyc_output coverage || true",
+    "clean": "rm -rf dist || true",
+    "test:clean": "rm -rf .nyc_output coverage || true",
     "build": "yarn clean && rollup --config rollup.config.js --bundleConfigAsCjs",
     "lint": "eslint \"src/**/*.ts\"",
     "coverage:report": "nyc report --reporter=lcov --reporter=text-summary",
@@ -46,8 +47,8 @@
     "test:ci": "yarn demo:ha && yarn start:playwright && yarn stop:ha",
     "start:ha": "docker run --rm -d -p8123:8123 -v ${PWD}/.hass/config:/config homeassistant/home-assistant:2023.12.4",
     "stop:ha": "docker stop $(docker ps -a -q  --filter ancestor=homeassistant/home-assistant:2023.12.4) || true",
-    "demo:ha": "yarn build && yarn start:ha",
-    "start:playwright": "docker run --rm --network host --add-host host.docker.internal:host-gateway -v $(pwd):/$(pwd)/ -w $(pwd) -i mcr.microsoft.com/playwright:v1.40.0-jammy sh -c \"yarn install --frozen-lockfile && yarn test:run && exit\"",
+    "demo:ha": "yarn test:clean && yarn build && yarn start:ha",
+    "start:playwright": "docker run --rm --network host --add-host host.docker.internal:host-gateway -v $(pwd):/$(pwd)/ -w $(pwd) -i mcr.microsoft.com/playwright:v1.40.0-jammy sh -c \"yarn test:run && exit\"",
     "prepare": "yarn build",
     "prepublishOnly": "yarn lint && yarn test:ts && yarn test:ci",
     "version": "git add .",
