@@ -33,7 +33,7 @@ jobs:
       - name: Publish
         run: |
           yarn install --frozen-lockfile
-          sudo npm publish --provenance
+          npm publish --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Build Changelog
