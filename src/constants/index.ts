@@ -11,11 +11,11 @@ export enum HA_ROOT_ELEMENT {
     HOME_ASSISTANT = 'HOME_ASSISTANT',
     HOME_ASSISTANT_MAIN = 'HOME_ASSISTANT_MAIN',
     HA_DRAWER = 'HA_DRAWER',
-    HA_SIDEBAR = 'HA_SIDEBAR'
+    HA_SIDEBAR = 'HA_SIDEBAR',
+    PARTIAL_PANEL_RESOLVER = 'PARTIAL_PANEL_RESOLVER',
 }
 
-export enum HA_RESOLVER_ELEMENT {
-    PARTIAL_PANEL_RESOLVER = 'PARTIAL_PANEL_RESOLVER',
+export enum HA_LOVELACE_ELEMENT {
     HA_PANEL_LOVELACE = 'HA_PANEL_LOVELACE',
     HUI_ROOT = 'HUI_ROOT',
     HEADER = 'HEADER',
@@ -33,7 +33,9 @@ export enum HA_DIALOG_ELEMENT {
 }
 
 export enum HAQuerySelectorEvent {
+    ON_LISTEN = 'onListen',
     ON_PANEL_LOAD = 'onPanelLoad',
+    ON_LOVELACE_PANEL_LOAD = 'onLovelacePanelLoad',
     ON_MORE_INFO_DIALOG_OPEN = 'onMoreInfoDialogOpen',
     ON_HISTORY_AND_LOGBOOK_DIALOG_OPEN = 'onHistoryAndLogBookDialogOpen',
     ON_SETTINGS_DIALOG_OPEN = 'onSettingsDialogOpen'

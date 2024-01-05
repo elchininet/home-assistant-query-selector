@@ -8,7 +8,9 @@ declare global {
             HAQuerySelectorEvent: HAQuerySelectorEvent;
         };
         sinon: typeof sinon;
+        __onListen: SinonSpy;
         __onPanelLoad: SinonSpy;
+        __onLovelacePanelLoad: SinonSpy;
         __onMoreInfoDialogOpen: SinonSpy;
         __onHistoryAndLogBookDialogOpen: SinonSpy;
         __onSettingsDialogOpen: SinonSpy;

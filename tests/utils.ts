@@ -21,7 +21,9 @@ export const stubGlobalTestElements = async (
     });
 
     await context.addInitScript(() => {
+        window.__onListen = window.sinon.fake();
         window.__onPanelLoad = window.sinon.fake();
+        window.__onLovelacePanelLoad = window.sinon.fake();
         window.__onMoreInfoDialogOpen = window.sinon.fake();
         window.__onHistoryAndLogBookDialogOpen = window.sinon.fake();
         window.__onSettingsDialogOpen = window.sinon.fake();
@@ -47,10 +49,18 @@ export const stubGlobalTestElements = async (
                 delay: delay || DEFAULT_CONFIG.delay
             })
             : new HAQuerySelector();
-
+        
+        window.__instance.addEventListener(
+            HAQuerySelectorEvent.ON_LISTEN,
+            window.__onListen
+        );
         window.__instance.addEventListener(
             HAQuerySelectorEvent.ON_PANEL_LOAD,
             window.__onPanelLoad
+        );
+        window.__instance.addEventListener(
+            HAQuerySelectorEvent.ON_LOVELACE_PANEL_LOAD,
+            window.__onLovelacePanelLoad
         );
         window.__instance.addEventListener(
             HAQuerySelectorEvent.ON_MORE_INFO_DIALOG_OPEN,

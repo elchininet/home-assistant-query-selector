@@ -1,5 +1,9 @@
 # Changelog
 
+## [4.0.0] - 2024-01-04
+
+- Breaking change: refactored the event names and created a new event (an event that will be triggered if any panel is loaded not only a lovelace panel)
+
 ## [3.0.0] - 2024-01-02
 
 - Breaking change: Removed "lovelace" string from all the events because these events can be triggered on any dashboard if the `listen` method is called. The new even names are:

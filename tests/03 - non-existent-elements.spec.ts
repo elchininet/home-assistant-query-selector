@@ -18,11 +18,21 @@ test.describe('HAQuerySelector for lovelace dashboards', () => {
 
         const doNotExist = await page.evaluate(async () => {
 
-            const elements = window.__onPanelLoad.firstCall.firstArg.detail;
+            const homeAssistantMainSelector = 'home-assistant-main';
+            const doNotExist = '.do-not-exists';
+            const elementsOnListen = window.__onListen.firstCall.firstArg.detail;
+            const elementsOnPanelLoad = window.__onPanelLoad.firstCall.firstArg.detail;
+            const elementsOnLovelacePanelLoad = window.__onLovelacePanelLoad.firstCall.firstArg.detail;
             const nonExistentElements = [
-                await elements.HOME_ASSISTANT.selector.$.query('home-assistant-main').$.query('do-not-exists').element === null,
-                (await elements.HOME_ASSISTANT.selector.$.query('home-assistant-main').$.query('do-not-exists').all).length === 0,
-                await elements.HOME_ASSISTANT.selector.$.query('home-assistant-main').$.query('do-not-exists').$.element === null
+                await elementsOnListen.HOME_ASSISTANT.selector.$.query(homeAssistantMainSelector).$.query(doNotExist).element === null,
+                (await elementsOnListen.HOME_ASSISTANT.selector.$.query(homeAssistantMainSelector).$.query(doNotExist).all).length === 0,
+                await elementsOnListen.HOME_ASSISTANT.selector.$.query(homeAssistantMainSelector).$.query(doNotExist).$.element === null,
+                await elementsOnPanelLoad.HOME_ASSISTANT_MAIN.selector.$.query(doNotExist).element === null,
+                (await elementsOnPanelLoad.HOME_ASSISTANT_MAIN.selector.$.query(doNotExist).all).length === 0,
+                await elementsOnPanelLoad.HOME_ASSISTANT_MAIN.selector.$.query(doNotExist).$.element === null,
+                await elementsOnLovelacePanelLoad.HA_PANEL_LOVELACE.selector.$.query(doNotExist).element === null,
+                (await elementsOnLovelacePanelLoad.HA_PANEL_LOVELACE.selector.$.query(doNotExist).all).length === 0,
+                await elementsOnLovelacePanelLoad.HA_PANEL_LOVELACE.selector.$.query(doNotExist).$.element === null
             ];
             return nonExistentElements.every(result => result);
         });
