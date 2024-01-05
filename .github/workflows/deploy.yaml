@@ -32,7 +32,7 @@ jobs:
           key: docker-v1-${{ runner.os }}-${{ hashFiles('package.json') }}
       - name: Publish
         run: |
-          yarn install --frozen-lockfile
+          sudo yarn install --frozen-lockfile
           npm publish --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
