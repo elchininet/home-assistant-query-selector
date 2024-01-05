@@ -10,21 +10,37 @@ test.describe('HAQuerySelector for lovelace dashboards', () => {
 
     test('All the elements should exist', async ({ page }) => {
 
-        const called = await page.evaluate(() => window.__onPanelLoad.calledOnce);
-        expect(called).toBe(true);
+        const calledListen = await page.evaluate(() => window.__onListen.calledOnce);
+        const calledPanelLoad = await page.evaluate(() => window.__onPanelLoad.calledOnce);
+        const calledLovelacePanelLoad = await page.evaluate(() => window.__onLovelacePanelLoad.calledOnce);
+        expect(calledListen).toBe(true);
+        expect(calledPanelLoad).toBe(true);
+        expect(calledLovelacePanelLoad).toBe(true);
 
-        const elements = await page.evaluate(() => window.__onPanelLoad.firstCall.firstArg.detail);
+        const listenElements = await page.evaluate(() => window.__onListen.firstCall.firstArg.detail);
+        const panelLoadElements = await page.evaluate(() => window.__onPanelLoad.firstCall.firstArg.detail);
+        const lovelacePanelLoadElements = await page.evaluate(() => window.__onLovelacePanelLoad.firstCall.firstArg.detail);
         
-        expect(elements).toMatchObject({
+        const mainElements = {
             HOME_ASSISTANT: {},
             HOME_ASSISTANT_MAIN: {},
             HA_SIDEBAR: {},
             HA_DRAWER: {},
             PARTIAL_PANEL_RESOLVER: {},
+        };
+
+        const lovelaceElements = {
             HA_PANEL_LOVELACE: {},
             HUI_ROOT: {},
             HEADER: {},
             HUI_VIEW: {}
+        };
+
+        expect(listenElements).toMatchObject(mainElements);
+        expect(panelLoadElements).toMatchObject(mainElements);
+        expect(lovelacePanelLoadElements).toMatchObject({
+            ...mainElements,
+            ...lovelaceElements
         });
 
     });
@@ -32,20 +48,29 @@ test.describe('HAQuerySelector for lovelace dashboards', () => {
     test('All the elements should be Promises', async ({ page }) => {
 
         const arePromises = await page.evaluate(() => {
-            const elements = [
+            const mainElements = [
                 'HOME_ASSISTANT',
                 'HOME_ASSISTANT_MAIN',
                 'HA_SIDEBAR',
                 'HA_DRAWER',
                 'PARTIAL_PANEL_RESOLVER',
+            ];
+            const lovelaceElements = [
                 'HA_PANEL_LOVELACE',
                 'HUI_ROOT',
                 'HEADER',
                 'HUI_VIEW'
             ];
-            return elements.every((element) => {
+            const onListen = mainElements.every((element) => {
+                return window.__onListen.firstCall.firstArg.detail[element].element instanceof Promise;
+            });
+            const onPanelLoad = mainElements.every((element) => {
                 return window.__onPanelLoad.firstCall.firstArg.detail[element].element instanceof Promise;
             });
+            const onLovelacePanelLoad = [...mainElements, ...lovelaceElements].every((element) => {
+                return window.__onLovelacePanelLoad.firstCall.firstArg.detail[element].element instanceof Promise;
+            });
+            return onListen && onPanelLoad && onLovelacePanelLoad;
         });
         
         expect(arePromises).toBe(true);
@@ -66,12 +91,15 @@ test.describe('HAQuerySelector for lovelace dashboards', () => {
             const HEADER = HUI_ROOT?.shadowRoot?.querySelector('.header');
             const HUI_VIEW = HUI_ROOT?.shadowRoot?.querySelector('hui-view');
 
-            const elements = {
+            const mainElements = {
                 'HOME_ASSISTANT': HOME_ASSISTANT,
                 'HOME_ASSISTANT_MAIN': HOME_ASSISTANT_MAIN,
                 'HA_SIDEBAR': HA_SIDEBAR,
                 'HA_DRAWER': HA_DRAWER,
                 'PARTIAL_PANEL_RESOLVER': PARTIAL_PANEL_RESOLVER,
+            };
+            
+            const lovelaceElements = {
                 'HA_PANEL_LOVELACE': HA_PANEL_LOVELACE,
                 'HUI_ROOT': HUI_ROOT,
                 'HEADER': HEADER,
@@ -80,11 +108,21 @@ test.describe('HAQuerySelector for lovelace dashboards', () => {
 
             const results: boolean[] = [];
 
-            for (const entry of Object.entries(elements)) {
+            for (const entry of Object.entries(mainElements)) {
                 const [key, element] = entry;
-                const domElement = await window.__onPanelLoad.firstCall.firstArg.detail[key].element;
+                const domElementListen = await window.__onListen.firstCall.firstArg.detail[key].element;
+                const domElementPanelLoad = await window.__onPanelLoad.firstCall.firstArg.detail[key].element;
                 results.push(
-                    !!domElement && domElement === element
+                    !!domElementListen && domElementListen === element,
+                    !!domElementPanelLoad && domElementPanelLoad === element
+                );
+            }
+
+            for (const entry of Object.entries({...mainElements, ...lovelaceElements})) {
+                const [key, element] = entry;
+                const domElementLovelacePanelLoad = await window.__onLovelacePanelLoad.firstCall.firstArg.detail[key].element;
+                results.push(
+                    !!domElementLovelacePanelLoad && domElementLovelacePanelLoad === element
                 );
             }
 
@@ -96,11 +134,14 @@ test.describe('HAQuerySelector for lovelace dashboards', () => {
 
     });
 
-    test('selector should return the proper elements', async ({ page }) => {
+    test('The selector should return the proper elements', async ({ page }) => {
 
         const areTheRightElements = await page.evaluate(async () => {
 
-            const elements = window.__onPanelLoad.firstCall.firstArg.detail;
+            const elementsListen = window.__onListen.firstCall.firstArg.detail;
+            const elementsPanelLoad = window.__onPanelLoad.firstCall.firstArg.detail;
+            const elementsLovelacePanelLoad = window.__onLovelacePanelLoad.firstCall.firstArg.detail;
+
             const HOME_ASSISTANT = document.querySelector('home-assistant');
             const HOME_ASSISTANT_MAIN = HOME_ASSISTANT?.shadowRoot?.querySelector('home-assistant-main');
             const HA_DRAWER = HOME_ASSISTANT_MAIN?.shadowRoot?.querySelector('ha-drawer');
@@ -114,19 +155,19 @@ test.describe('HAQuerySelector for lovelace dashboards', () => {
 
             const compare = [
                 [
-                    await elements.HOME_ASSISTANT.selector.$.query('home-assistant-main').$.query('ha-drawer').element,
-                    await elements.HA_DRAWER.element
+                    await elementsListen.HOME_ASSISTANT.selector.$.query('home-assistant-main').$.query('ha-drawer').element,
+                    await elementsListen.HA_DRAWER.element
                 ],
                 [
-                    await elements.HOME_ASSISTANT.selector.deepQuery('ha-drawer').element,
+                    await elementsPanelLoad.HOME_ASSISTANT.selector.deepQuery('ha-drawer').element,
                     HA_DRAWER
                 ],
                 [
-                    await elements.HOME_ASSISTANT_MAIN.selector.$.query('ha-drawer ha-panel-lovelace').$.query('hui-root').$.query('.header .action-items > ha-button-menu').all,
+                    await elementsPanelLoad.HOME_ASSISTANT_MAIN.selector.$.query('ha-drawer ha-panel-lovelace').$.query('hui-root').$.query('.header .action-items > ha-button-menu').all,
                     HEADER?.querySelectorAll('.action-items > ha-button-menu')
                 ],
                 [
-                    await elements.HA_PANEL_LOVELACE.selector.$.query('hui-root').$.element,
+                    await elementsLovelacePanelLoad.HA_PANEL_LOVELACE.selector.$.query('hui-root').$.element,
                     HUI_ROOT?.shadowRoot
                 ]
             ];
@@ -158,54 +199,78 @@ test.describe('HAQuerySelector for lovelace dashboards', () => {
 
     });
 
-    test('onPanelLoad should be triggered when returning to the dashboard', async ({ page }) => {
+    test('Events should be triggered accordingly', async ({ page }) => {
 
         const links = 'paper-listbox > a[role="option"]';
 
-        await page.waitForFunction(() => window.__onPanelLoad.calledOnce);
+        expect(await page.evaluate(() => window.__onListen.calledOnce)).toBe(true);
+        expect(await page.evaluate(() => window.__onPanelLoad.calledOnce)).toBe(true);
+        expect(await page.evaluate(() => window.__onLovelacePanelLoad.calledOnce)).toBe(true);
 
         await page.locator(links, { hasText: 'History' }).click();
-
         await expect(page.locator(SELECTORS.HEADER_HISTORY)).toBeVisible();
-        
-        const calledTwice = await page.evaluate(() => window.__onPanelLoad.calledTwice);
 
-        expect(calledTwice).toBe(false);
+        expect(await page.evaluate(() => window.__onListen.calledOnce)).toBe(true);
+        expect(await page.evaluate(() => window.__onPanelLoad.calledTwice)).toBe(true);
+        expect(await page.evaluate(() => window.__onLovelacePanelLoad.calledOnce)).toBe(true);
 
         await page.waitForTimeout(500);
 
         await page.locator(links, { hasText: 'Overview' }).click();
-
         await expect(page.locator(SELECTORS.ENTITY_CARD)).toBeVisible();
 
-        await page.waitForFunction(() => window.__onPanelLoad.calledTwice);
+        expect(await page.evaluate(() => window.__onListen.calledOnce)).toBe(true);
+        expect(await page.evaluate(() => window.__onPanelLoad.calledThrice)).toBe(true);
+        expect(await page.evaluate(() => window.__onLovelacePanelLoad.calledTwice)).toBe(true);
 
         await page.waitForTimeout(500);
 
-        const calledThrice = await page.evaluate(async () => {
-            window.__instance.listen();
-            return window.__onPanelLoad.calledThrice;
-        });
+        await page.evaluate(() => window.__instance.listen());
 
-        expect(calledThrice).toBe(true);
+        expect(await page.evaluate(() => window.__onListen.calledTwice)).toBe(true);
+        expect(await page.evaluate(() => window.__onPanelLoad.getCalls().length)).toBe(4);
+        expect(await page.evaluate(() => window.__onLovelacePanelLoad.calledThrice)).toBe(true);
 
     });
 
     test('Remove events should remove the listeners', async ({ page }) => {
 
-        const calledTwice = await page.evaluate(() => {
+        const links = 'paper-listbox > a[role="option"]';
 
+        expect(await page.evaluate(() => window.__onListen.calledOnce)).toBe(true);
+        expect(await page.evaluate(() => window.__onPanelLoad.calledOnce)).toBe(true);
+        expect(await page.evaluate(() => window.__onLovelacePanelLoad.calledOnce)).toBe(true);
+
+        await page.evaluate(() => {
             const { HAQuerySelectorEvent } = window.HAQuerySelectorBundle;
-
+            window.__instance.removeEventListener(HAQuerySelectorEvent.ON_LISTEN, window.__onListen);
             window.__instance.removeEventListener(HAQuerySelectorEvent.ON_PANEL_LOAD, window.__onPanelLoad);
-
-            window.__instance.listen();
-
-            return window.__onPanelLoad.calledTwice;
-
+            window.__instance.removeEventListener(HAQuerySelectorEvent.ON_LOVELACE_PANEL_LOAD, window.__onLovelacePanelLoad);
         });
 
-        expect(calledTwice).toBe(false);
+        await page.locator(links, { hasText: 'History' }).click();
+        await expect(page.locator(SELECTORS.HEADER_HISTORY)).toBeVisible();
+
+        expect(await page.evaluate(() => window.__onListen.calledOnce)).toBe(true);
+        expect(await page.evaluate(() => window.__onPanelLoad.calledOnce)).toBe(true);
+        expect(await page.evaluate(() => window.__onLovelacePanelLoad.calledOnce)).toBe(true);
+
+        await page.waitForTimeout(500);
+
+        await page.locator(links, { hasText: 'Overview' }).click();
+        await expect(page.locator(SELECTORS.ENTITY_CARD)).toBeVisible();
+
+        expect(await page.evaluate(() => window.__onListen.calledOnce)).toBe(true);
+        expect(await page.evaluate(() => window.__onPanelLoad.calledOnce)).toBe(true);
+        expect(await page.evaluate(() => window.__onLovelacePanelLoad.calledOnce)).toBe(true);
+
+        await page.waitForTimeout(500);
+
+        await page.evaluate(() => window.__instance.listen());
+
+        expect(await page.evaluate(() => window.__onListen.calledOnce)).toBe(true);
+        expect(await page.evaluate(() => window.__onPanelLoad.calledOnce)).toBe(true);
+        expect(await page.evaluate(() => window.__onLovelacePanelLoad.calledOnce)).toBe(true);
 
     });
 

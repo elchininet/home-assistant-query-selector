@@ -15,26 +15,10 @@ test.describe('HAQuerySelector for non-lovelace dashboards', () => {
         );
 	});
 
-    test('Lovelace elements should be null', async ({ page }) => {
-
-        const called = await page.evaluate(() => window.__onPanelLoad.calledOnce);
-        expect(called).toBe(true);
-
-        const lovelaceElementsAreNull = await page.evaluate(async () => {
-
-            const elements = window.__onPanelLoad.firstCall.firstArg.detail;
-            const nullElements = [
-                await elements.HA_PANEL_LOVELACE.element,
-                await elements.HUI_ROOT.element,
-                await elements.HEADER.element
-            ];
-
-            return nullElements.every(element => element === null);
-
-        });
-
-        expect(lovelaceElementsAreNull).toBe(true);
-
+    test('onLovelacePanelLoad should not be callled', async ({ page }) => {
+        expect(await page.evaluate(() => window.__onListen.calledOnce)).toBe(true);
+        expect(await page.evaluate(() => window.__onPanelLoad.calledOnce)).toBe(true);
+        expect(await page.evaluate(() => window.__onLovelacePanelLoad.notCalled)).toBe(true);
     });
 
 });
