@@ -357,6 +357,8 @@ export {
     HAQuerySelector,
     HAQuerySelectorEvent,
     HAElement,
+    OnListenDetail,
+    OnPanelLoadDetail,
     OnLovelacePanelLoadDetail,
     OnMoreInfoDialogOpenDetail,
     OnHistoryAndLogBookDialogOpenDetail,
