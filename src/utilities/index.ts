@@ -46,12 +46,15 @@ export const getAsyncElements = (
         }
 
         const element: Promise<Element> = fromElement
-            ? fromElement.then((element: Element) => {
-                return asyncQuerySelector(
-                    element,
-                    getQuery(nodeDescriptor.selector, insideShadowRoot),
-                    config
-                );
+            ? fromElement.then((element: Element | null) => {
+                if (element) {
+                    return asyncQuerySelector(
+                        element,
+                        getQuery(nodeDescriptor.selector, insideShadowRoot),
+                        config
+                    );
+                }
+                return null;
             })
             : asyncQuerySelector(nodeDescriptor.selector, config);
 
