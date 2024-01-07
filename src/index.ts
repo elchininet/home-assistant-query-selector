@@ -217,11 +217,11 @@ class HAQuerySelector extends DelegatedEventTarget {
             this._homeAssistantResolverTree
         );
         this._haResolverElements[HA_LOVELACE_ELEMENT.HA_PANEL_LOVELACE]
-            .selector.$.element
-            .then((lovelaceShadowRoot: ShadowRoot) => {
+            .element
+            .then((lovelacePanel: Element) => {
                 this._lovelaceObserver.disconnect();
-                if (lovelaceShadowRoot) {
-                    this._lovelaceObserver.observe(lovelaceShadowRoot, {
+                if (lovelacePanel) {
+                    this._lovelaceObserver.observe(lovelacePanel.shadowRoot, {
                         childList: true
                     });
                     this._dispatchEvent(
