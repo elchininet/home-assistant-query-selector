@@ -184,6 +184,7 @@ class HAQuerySelector extends DelegatedEventTarget {
                 this._panelResolverObserver.disconnect();
                 if (partialPanelResolver) {
                     this._panelResolverObserver.observe(partialPanelResolver, {
+                        subtree: true,
                         childList: true
                     });
                 }
@@ -264,10 +265,12 @@ class HAQuerySelector extends DelegatedEventTarget {
     private _watchDashboards(mutations: MutationRecord[]) {
         mutations.forEach(({ addedNodes }): void => {
             addedNodes.forEach((node: Element): void => {
-                this._dispatchEvent(
-                    HAQuerySelectorEvent.ON_PANEL_LOAD,
-                    this._haRootElements
-                );
+                if (node.parentElement.localName === QUERY_SELECTORS.PARTIAL_PANEL_RESOLVER) {
+                    this._dispatchEvent(
+                        HAQuerySelectorEvent.ON_PANEL_LOAD,
+                        this._haRootElements
+                    );
+                }
                 if (node.localName === QUERY_SELECTORS.HA_PANEL_LOVELACE) {
                     this._updateLovelaceElements();
                 }
