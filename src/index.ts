@@ -88,6 +88,7 @@ class HAQuerySelector extends DelegatedEventTarget {
             ...DEFAULT_CONFIG,
             ...config
         };
+        this._timestaps = {};
     }
 
     private _config: HAQuerySelectorConfig;
@@ -110,9 +111,15 @@ class HAQuerySelector extends DelegatedEventTarget {
     private _watchDashboardsBinded: (mutations: MutationRecord[]) => void;
     private _watchLovelaceBinded: (mutations: MutationRecord[]) => void;
 
-    private _timestap: number;
+    private _timestaps: Partial<Record<HAQuerySelectorEvent, number>>;
 
     private _dispatchEvent(type: HAQuerySelectorEvent, detail?: Record<string, HAElement>) {
+        // Avoid triggering an event twice in a short timestamp
+        const timestamp = Date.now();
+        if (timestamp - this._timestaps[type] < TIMESTAMP_THESHOLD) {
+            return;
+        }
+        this._timestaps[type] = timestamp;
         this.dispatchEvent(
             new CustomEvent(type, { detail })
         );
@@ -200,12 +207,6 @@ class HAQuerySelector extends DelegatedEventTarget {
     }
 
     private _updateLovelaceElements() {
-        // Avoid triggering onLovelacePanelLoad twice on yaml mode
-        const timestamp = Date.now();
-        if (timestamp - this._timestap < TIMESTAMP_THESHOLD) {
-            return;
-        }
-        this._timestap = timestamp;
         this._homeAssistantResolverTree = getAsyncElements(
             this._config,
             LOVELACE_SELECTORS,
@@ -259,18 +260,16 @@ class HAQuerySelector extends DelegatedEventTarget {
                     this._updateDialogElements(mappers[dialogElementQuery]);
                 }
             });
-          });
+        });
     }
 
-    private _watchDashboards(mutations: MutationRecord[]) {
+    private _watchDashboards(mutations: MutationRecord[]): void {
         mutations.forEach(({ addedNodes }): void => {
             addedNodes.forEach((node: Element): void => {
-                if (node.parentElement.localName === QUERY_SELECTORS.PARTIAL_PANEL_RESOLVER) {
-                    this._dispatchEvent(
-                        HAQuerySelectorEvent.ON_PANEL_LOAD,
-                        this._haRootElements
-                    );
-                }
+                this._dispatchEvent(
+                    HAQuerySelectorEvent.ON_PANEL_LOAD,
+                    this._haRootElements
+                );
                 if (node.localName === QUERY_SELECTORS.HA_PANEL_LOVELACE) {
                     this._updateLovelaceElements();
                 }
