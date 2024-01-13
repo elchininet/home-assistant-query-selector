@@ -1,12 +1,9 @@
-name: Test
+name: Home Assistant Beta Nightly Test
 
 on:
-  push:
-    branches:
-      - master
-    tags-ignore:
-      - '**'
-  pull_request:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
 
 jobs:      
   test:
@@ -28,18 +25,8 @@ jobs:
       - name: Cache Docker images
         uses: ScribeMD/docker-cache@0.3.6
         with:
-          key: docker-v1-${{ runner.os }}-${{ hashFiles('.hass/config/.HA_VERSION', '.playwright_docker_version') }}
+          key: docker-ha-beta-v1-${{ runner.os }}-${{ hashFiles('.playwright_docker_version') }}
       - name: Install
         run: yarn install --frozen-lockfile
-      - name: Linting Code
-        run: yarn lint
-      - name: TypeScript Check
-        run: yarn test:ts
       - name: E2E Tests
-        run: yarn test:ci
-      - name: Create coverage
-        run: yarn coverage:report
-      - name: Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+        run: TAG=beta yarn test:ci
