@@ -2,7 +2,9 @@
 
 Easily query [Home Assistant] DOM elements in an asynchronous way.
 
-[![Deployment Status](https://github.com/elchininet/home-assistant-query-selector/actions/workflows/deploy.yaml/badge.svg)](https://github.com/elchininet/home-assistant-query-selector/actions/workflows/deploy.yaml) &nbsp; [![Coverage Status](https://coveralls.io/repos/github/elchininet/home-assistant-query-selector/badge.svg?branch=master)](https://coveralls.io/github/elchininet/home-assistant-query-selector?branch=master) &nbsp; [![npm version](https://badge.fury.io/js/home-assistant-query-selector.svg)](https://badge.fury.io/js/home-assistant-query-selector)
+[![Deployment Status](https://github.com/elchininet/home-assistant-query-selector/actions/workflows/deploy.yaml/badge.svg)](https://github.com/elchininet/home-assistant-query-selector/actions/workflows/deploy.yaml)
+[![Coverage Status](https://coveralls.io/repos/github/elchininet/home-assistant-query-selector/badge.svg?branch=master)](https://coveralls.io/github/elchininet/home-assistant-query-selector?branch=master)
+[![npm version](https://badge.fury.io/js/home-assistant-query-selector.svg)](https://badge.fury.io/js/home-assistant-query-selector)
 
 ## Introduction
 
