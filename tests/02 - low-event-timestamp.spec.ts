@@ -17,6 +17,8 @@ test.describe('HAQuerySelector events with low timestamp', () => {
 
         const links = 'paper-listbox > a[role="option"]';
 
+        await page.waitForTimeout(1500);
+
         expect(await page.evaluate(() => window.__onPanelLoad.calledOnce)).toBe(true);
         expect(await page.evaluate(() => window.__onLovelacePanelLoad.calledOnce)).toBe(true);
 
