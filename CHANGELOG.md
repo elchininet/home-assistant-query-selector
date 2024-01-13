@@ -1,8 +1,12 @@
 # Changelog
 
-## [4.1.0] - 2024-01-13
+## [4.2.0] - 2024-01-13
 
 - Make the event threshold a property that can be sent by the clients instead a constant. With this change the event threshold has been changed from `50` to `450`.
+
+## [4.1.0] - 2024-01-09
+
+- Do not allow any event to be dispatched more than once in a short timestamp
 
 ## [4.0.0] - 2024-01-04
 
