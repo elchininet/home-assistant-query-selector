@@ -207,7 +207,7 @@ test.describe('HAQuerySelector for dashboards', () => {
         expect(await page.evaluate(() => window.__onPanelLoad.calledOnce)).toBe(true);
         expect(await page.evaluate(() => window.__onLovelacePanelLoad.calledOnce)).toBe(true);
 
-        await page.waitForTimeout(500);
+        await page.waitForTimeout(600);
 
         await page.locator(links, { hasText: 'History' }).click();
         await expect(page.locator(SELECTORS.HEADER_HISTORY)).toBeVisible();
@@ -216,7 +216,7 @@ test.describe('HAQuerySelector for dashboards', () => {
         expect(await page.evaluate(() => window.__onPanelLoad.calledTwice)).toBe(true);
         expect(await page.evaluate(() => window.__onLovelacePanelLoad.calledOnce)).toBe(true);
 
-        await page.waitForTimeout(500);
+        await page.waitForTimeout(600);
 
         await page.locator(links, { hasText: 'Overview' }).click();
         await expect(page.locator(SELECTORS.ENTITY_CARD)).toBeVisible();
@@ -225,7 +225,7 @@ test.describe('HAQuerySelector for dashboards', () => {
         expect(await page.evaluate(() => window.__onPanelLoad.calledThrice)).toBe(true);
         expect(await page.evaluate(() => window.__onLovelacePanelLoad.calledTwice)).toBe(true);
 
-        await page.waitForTimeout(500);
+        await page.waitForTimeout(600);
 
         await page.evaluate(() => window.__instance.listen());
 
@@ -257,7 +257,7 @@ test.describe('HAQuerySelector for dashboards', () => {
         expect(await page.evaluate(() => window.__onPanelLoad.calledOnce)).toBe(true);
         expect(await page.evaluate(() => window.__onLovelacePanelLoad.calledOnce)).toBe(true);
 
-        await page.waitForTimeout(500);
+        await page.waitForTimeout(600);
 
         await page.locator(links, { hasText: 'Overview' }).click();
         await expect(page.locator(SELECTORS.ENTITY_CARD)).toBeVisible();
@@ -266,7 +266,7 @@ test.describe('HAQuerySelector for dashboards', () => {
         expect(await page.evaluate(() => window.__onPanelLoad.calledOnce)).toBe(true);
         expect(await page.evaluate(() => window.__onLovelacePanelLoad.calledOnce)).toBe(true);
 
-        await page.waitForTimeout(500);
+        await page.waitForTimeout(600);
 
         await page.evaluate(() => window.__instance.listen());
 
