@@ -1,6 +1,8 @@
 import { AsyncSelector, AsyncParams } from 'shadow-dom-selector';
 
-export type HAQuerySelectorConfig = AsyncParams;
+export type HAQuerySelectorConfig = AsyncParams & {
+    eventThreshold?: number;
+};
 
 export type NodeDescriptorProps = {
     selector: string,

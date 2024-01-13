@@ -22,21 +22,9 @@ test.describe('HAQuerySelector for more-info dialogs', () => {
 
     test('All the more-info dialog elements should exist', async ({ page }) => {
 
-        let onMoreInfoDialogOpenCalled = await page.evaluate(() => {
-            return window.__onMoreInfoDialogOpen.calledOnce;
-        });
-
-        let onHistoryAndLogBookDialogOpenCalled = await page.evaluate(() => {
-            return window.__onHistoryAndLogBookDialogOpen.calledOnce;
-        });
-
-        let onSettingsDialogOpenCalled = await page.evaluate(() => {
-            return window.__onSettingsDialogOpen.calledOnce;
-        });
-
-        expect(onMoreInfoDialogOpenCalled).toBe(false);
-        expect(onHistoryAndLogBookDialogOpenCalled).toBe(false);
-        expect(onSettingsDialogOpenCalled).toBe(false);
+        expect(await page.evaluate(() => window.__onMoreInfoDialogOpen.calledOnce)).toBe(false);
+        expect(await page.evaluate(() => window.__onHistoryAndLogBookDialogOpen.calledOnce)).toBe(false);
+        expect(await page.evaluate(() => window.__onSettingsDialogOpen.calledOnce)).toBe(false);
 
         // Open a more-info dialog
         await page.locator(SELECTORS.ENTITY_CARD).click();
@@ -44,21 +32,9 @@ test.describe('HAQuerySelector for more-info dialogs', () => {
         await expect(page.locator(SELECTORS.CLOSE_DIALOG)).toBeVisible();
 
         // Only onMoreInfoDialogOpen should be triggered
-        onMoreInfoDialogOpenCalled = await page.evaluate(() => {
-            return window.__onMoreInfoDialogOpen.calledOnce;
-        });
-
-        onHistoryAndLogBookDialogOpenCalled = await page.evaluate(() => {
-            return window.__onHistoryAndLogBookDialogOpen.calledOnce;
-        });
-
-        onSettingsDialogOpenCalled = await page.evaluate(() => {
-            return window.__onSettingsDialogOpen.calledOnce;
-        });
-
-        expect(onMoreInfoDialogOpenCalled).toBe(true);
-        expect(onHistoryAndLogBookDialogOpenCalled).toBe(false);
-        expect(onSettingsDialogOpenCalled).toBe(false);
+        expect(await page.evaluate(() => window.__onMoreInfoDialogOpen.calledOnce)).toBe(true);
+        expect(await page.evaluate(() => window.__onHistoryAndLogBookDialogOpen.calledOnce)).toBe(false);
+        expect(await page.evaluate(() => window.__onSettingsDialogOpen.calledOnce)).toBe(false);
 
         // Check the shape of the onMoreInfoDialogOpen
         const onMoreInfoDialogOpenElements = await page.evaluate(() => window.__onMoreInfoDialogOpen.firstCall.firstArg.detail);
@@ -70,26 +46,16 @@ test.describe('HAQuerySelector for more-info dialogs', () => {
             HA_MORE_INFO_DIALOG_INFO: {}
         });
 
+        await page.waitForTimeout(500);
+
         // Open the history and logbook
         await page.locator(SELECTORS.DIALOG_HISTORY_BUTTON).click();
         await expect(page.locator(SELECTORS.DIALOG_HISTORY_PANEL)).toBeVisible();
 
         // Only the onHistoryAndLogBookDialogOpen should be triggered
-        onMoreInfoDialogOpenCalled = await page.evaluate(() => {
-            return window.__onMoreInfoDialogOpen.calledOnce;
-        });
-
-        onHistoryAndLogBookDialogOpenCalled = await page.evaluate(() => {
-            return window.__onHistoryAndLogBookDialogOpen.calledOnce;
-        });
-
-        onSettingsDialogOpenCalled = await page.evaluate(() => {
-            return window.__onSettingsDialogOpen.calledOnce;
-        });
-
-        expect(onMoreInfoDialogOpenCalled).toBe(true);
-        expect(onHistoryAndLogBookDialogOpenCalled).toBe(true);
-        expect(onSettingsDialogOpenCalled).toBe(false);
+        expect(await page.evaluate(() => window.__onMoreInfoDialogOpen.calledOnce)).toBe(true);
+        expect(await page.evaluate(() => window.__onHistoryAndLogBookDialogOpen.calledOnce)).toBe(true);
+        expect(await page.evaluate(() => window.__onSettingsDialogOpen.calledOnce)).toBe(false);
 
         // Check the shape of the onHistoryAndLogBookDialogOpen
         const onHistoryAndLogBookDialogOpenElements = await page.evaluate(() => window.__onHistoryAndLogBookDialogOpen.firstCall.firstArg.detail);
@@ -101,47 +67,27 @@ test.describe('HAQuerySelector for more-info dialogs', () => {
             HA_DIALOG_MORE_INFO_HISTORY_AND_LOGBOOK: {}
         });
 
+        await page.waitForTimeout(500);
+
         // Return to the more-info dialog
         await page.locator(SELECTORS.DIALOG_GO_BACK_BUTTON).click();
         await expect(page.locator(SELECTORS.CLOSE_DIALOG)).toBeVisible();
 
         // onMoreInfoDialogOpen should be triggered twice
-        onMoreInfoDialogOpenCalled = await page.evaluate(() => {
-            return window.__onMoreInfoDialogOpen.calledTwice;
-        });
+        expect(await page.evaluate(() => window.__onMoreInfoDialogOpen.calledTwice)).toBe(true);
+        expect(await page.evaluate(() => window.__onHistoryAndLogBookDialogOpen.calledOnce)).toBe(true);
+        expect(await page.evaluate(() => window.__onSettingsDialogOpen.calledOnce)).toBe(false);
 
-        onHistoryAndLogBookDialogOpenCalled = await page.evaluate(() => {
-            return window.__onHistoryAndLogBookDialogOpen.calledOnce;
-        });
-
-        onSettingsDialogOpenCalled = await page.evaluate(() => {
-            return window.__onSettingsDialogOpen.calledOnce;
-        });
-
-        expect(onMoreInfoDialogOpenCalled).toBe(true);
-        expect(onHistoryAndLogBookDialogOpenCalled).toBe(true);
-        expect(onSettingsDialogOpenCalled).toBe(false);
+        await page.waitForTimeout(500);
 
         // Open the config
         await page.locator(SELECTORS.DIALOG_CONFIG_BUTTON).click();
         await expect(page.locator(SELECTORS.DIALOG_SETTINGS_PANEL)).toBeVisible();
 
         // Only onSettingsDialogOpen should be triggered
-        onMoreInfoDialogOpenCalled = await page.evaluate(() => {
-            return window.__onMoreInfoDialogOpen.calledTwice;
-        });
-
-        onHistoryAndLogBookDialogOpenCalled = await page.evaluate(() => {
-            return window.__onHistoryAndLogBookDialogOpen.calledOnce;
-        });
-
-        onSettingsDialogOpenCalled = await page.evaluate(() => {
-            return window.__onSettingsDialogOpen.calledOnce;
-        });
-
-        expect(onMoreInfoDialogOpenCalled).toBe(true);
-        expect(onHistoryAndLogBookDialogOpenCalled).toBe(true);
-        expect(onSettingsDialogOpenCalled).toBe(true);
+        expect(await page.evaluate(() => window.__onMoreInfoDialogOpen.calledTwice)).toBe(true);
+        expect(await page.evaluate(() => window.__onHistoryAndLogBookDialogOpen.calledOnce)).toBe(true);
+        expect(await page.evaluate(() => window.__onSettingsDialogOpen.calledOnce)).toBe(true);
 
         // Check the shape of the onSettingsDialogOpen
         const onSettingsDialogOpenElements = await page.evaluate(() => window.__onSettingsDialogOpen.firstCall.firstArg.detail);
@@ -153,26 +99,16 @@ test.describe('HAQuerySelector for more-info dialogs', () => {
             HA_DIALOG_MORE_INFO_SETTINGS: {}
         });
 
+        await page.waitForTimeout(500);
+
         // Return to the more-info dialog
         await page.locator(SELECTORS.DIALOG_GO_BACK_BUTTON).click();
         await expect(page.locator(SELECTORS.CLOSE_DIALOG)).toBeVisible();
 
         // onMoreInfoDialogOpen should be triggered thrice
-        onMoreInfoDialogOpenCalled = await page.evaluate(() => {
-            return window.__onMoreInfoDialogOpen.calledThrice;
-        });
-
-        onHistoryAndLogBookDialogOpenCalled = await page.evaluate(() => {
-            return window.__onHistoryAndLogBookDialogOpen.calledOnce;
-        });
-
-        onSettingsDialogOpenCalled = await page.evaluate(() => {
-            return window.__onSettingsDialogOpen.calledOnce;
-        });
-
-        expect(onMoreInfoDialogOpenCalled).toBe(true);
-        expect(onHistoryAndLogBookDialogOpenCalled).toBe(true);
-        expect(onSettingsDialogOpenCalled).toBe(true);
+        expect(await page.evaluate(() => window.__onMoreInfoDialogOpen.calledThrice)).toBe(true);
+        expect(await page.evaluate(() => window.__onHistoryAndLogBookDialogOpen.calledOnce)).toBe(true);
+        expect(await page.evaluate(() => window.__onSettingsDialogOpen.calledOnce)).toBe(true);
 
     });
 
