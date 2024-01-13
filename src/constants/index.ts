@@ -1,10 +1,9 @@
 export const $ = '$';
 
-export const TIMESTAMP_THESHOLD = 50;
-
 export const DEFAULT_CONFIG = {
     retries: 100,
-    delay: 50
+    delay: 50,
+    eventThreshold: 450
 };
 
 export enum HA_ROOT_ELEMENT {

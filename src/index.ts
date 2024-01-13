@@ -9,7 +9,6 @@ import {
     HA_ROOT_ELEMENT,
     HA_LOVELACE_ELEMENT,
     HA_DIALOG_ELEMENT,
-    TIMESTAMP_THESHOLD,
     HAQuerySelectorEvent
 } from '@constants';
 import {
@@ -116,7 +115,7 @@ class HAQuerySelector extends DelegatedEventTarget {
     private _dispatchEvent(type: HAQuerySelectorEvent, detail?: Record<string, HAElement>) {
         // Avoid triggering an event twice in a short timestamp
         const timestamp = Date.now();
-        if (timestamp - this._timestaps[type] < TIMESTAMP_THESHOLD) {
+        if (timestamp - this._timestaps[type] < this._config.eventThreshold) {
             return;
         }
         this._timestaps[type] = timestamp;

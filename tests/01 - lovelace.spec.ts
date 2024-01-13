@@ -207,6 +207,8 @@ test.describe('HAQuerySelector for lovelace dashboards', () => {
         expect(await page.evaluate(() => window.__onPanelLoad.calledOnce)).toBe(true);
         expect(await page.evaluate(() => window.__onLovelacePanelLoad.calledOnce)).toBe(true);
 
+        await page.waitForTimeout(500);
+
         await page.locator(links, { hasText: 'History' }).click();
         await expect(page.locator(SELECTORS.HEADER_HISTORY)).toBeVisible();
 

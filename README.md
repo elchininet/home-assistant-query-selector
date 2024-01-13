@@ -154,13 +154,15 @@ new HAQuerySelector([config])
 {
     retries?: number;
     delay?: number;
+    eventThreshold?: number;
 }
 ```
 
-| Parameter    | Optional      | Description                                         |
-| ------------ | ------------- | --------------------------------------------------- |
-| retries      | yes           | How many retries before giving up (defaults to 100) |
-| delay        | yes           | Delay between each retry (defaults to 50)           |
+| Parameter      | Optional      | Description                                         |
+| -------------- | ------------- | --------------------------------------------------- |
+| retries        | yes           | How many retries trying to find an element in the DOM tree before giving up (defaults to 100) |
+| delay          | yes           | Delay between each retry trying to find an element in the DOM tree (defaults to 50)           |
+| eventThreshold | yes           | Timestamp threshold to fire an event. If two consecutive events of the same type have a timestamp difference lower than this value, the second event will be ignored (defaults to 450) |
 
 ### Public methods
 
