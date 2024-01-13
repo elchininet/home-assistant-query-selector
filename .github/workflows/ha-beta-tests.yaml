@@ -1,4 +1,4 @@
-name: Home Assistant Beta Nightly Test
+name: Home Assistant Beta Nightly Tests
 
 on:
   schedule:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:      
-  test:
+  beta-tests:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout
