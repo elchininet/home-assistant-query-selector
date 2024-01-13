@@ -90,7 +90,7 @@ class HAQuerySelector extends DelegatedEventTarget {
         this._timestaps = {};
     }
 
-    private _config: HAQuerySelectorConfig;
+    private _config: Required<HAQuerySelectorConfig>;
 
     private _dialogTree: HomeAssistantElement;
     private _homeAssistantRootTree: HomeAssistantElement;

@@ -2,12 +2,12 @@ import { Page, BrowserContext } from '@playwright/test';
 import { expect } from 'playwright-test-coverage';
 import path from 'path';
 import { BASE_URL, SELECTORS } from './constants';
-import { DEFAULT_CONFIG } from '../src/constants';
 
 interface Options {
     pathname?: string;
-    retries?: number
-    delay?: number
+    retries?: number;
+    delay?: number;
+    eventThreshold?: number;
 }
 
 export const stubGlobalTestElements = async (
@@ -40,13 +40,14 @@ export const stubGlobalTestElements = async (
 
     await page.evaluate((options: Options) => {
 
-        const { retries, delay } = options;
+        const { retries, delay, eventThreshold } = options;
         const { HAQuerySelector, HAQuerySelectorEvent } = window.HAQuerySelectorBundle;
 
-        window.__instance = retries || delay
+        window.__instance = retries || delay || eventThreshold
             ? new HAQuerySelector({
-                retries: retries || DEFAULT_CONFIG.retries,
-                delay: delay || DEFAULT_CONFIG.delay
+                retries: retries || 100,
+                delay: delay || 50,
+                eventThreshold: eventThreshold || 450
             })
             : new HAQuerySelector();
         
