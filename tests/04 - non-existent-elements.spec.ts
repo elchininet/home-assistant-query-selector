@@ -4,7 +4,7 @@ import { stubGlobalTestElements } from './utils';
 test.describe('HAQuerySelector for lovelace dashboards', () => {
 
     test.beforeEach(async ({ page, context }) => {
-        return stubGlobalTestElements(
+        await stubGlobalTestElements(
             page,
             context,
             {
