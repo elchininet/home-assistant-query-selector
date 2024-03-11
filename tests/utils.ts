@@ -20,15 +20,6 @@ export const stubGlobalTestElements = async (
         path: path.join(__dirname, '..', './node_modules/sinon/pkg/sinon.js'),
     });
 
-    await context.addInitScript(() => {
-        window.__onListen = window.sinon.fake();
-        window.__onPanelLoad = window.sinon.fake();
-        window.__onLovelacePanelLoad = window.sinon.fake();
-        window.__onMoreInfoDialogOpen = window.sinon.fake();
-        window.__onHistoryAndLogBookDialogOpen = window.sinon.fake();
-        window.__onSettingsDialogOpen = window.sinon.fake();
-    });
-
     await page.goto(`${BASE_URL}${options?.pathname ? '/' + options.pathname : ''}`);
 
     const lovelaceHeader = page.locator(SELECTORS.HEADER);
@@ -42,6 +33,13 @@ export const stubGlobalTestElements = async (
 
         const { retries, delay, eventThreshold } = options;
         const { HAQuerySelector, HAQuerySelectorEvent } = window.HAQuerySelectorBundle;
+
+        window.__onListen = window.sinon.fake();
+        window.__onPanelLoad = window.sinon.fake();
+        window.__onLovelacePanelLoad = window.sinon.fake();
+        window.__onMoreInfoDialogOpen = window.sinon.fake();
+        window.__onHistoryAndLogBookDialogOpen = window.sinon.fake();
+        window.__onSettingsDialogOpen = window.sinon.fake();
 
         window.__instance = retries || delay || eventThreshold
             ? new HAQuerySelector({
