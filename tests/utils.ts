@@ -73,8 +73,8 @@ export const stubGlobalTestElements = async (
             HAQuerySelectorEvent.ON_SETTINGS_DIALOG_OPEN,
             window.__onSettingsDialogOpen
         );
-
         window.__instance.listen();
 
     }, options || {});
+    await page.waitForFunction(() => !!window.__onListen?.firstCall?.firstArg);
 };
