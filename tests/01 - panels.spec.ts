@@ -4,8 +4,8 @@ import { stubGlobalTestElements } from './utils';
 
 test.describe('HAQuerySelector for dashboards', () => {
 
-    test.beforeEach(async ({ page, context }) => {
-        await stubGlobalTestElements(page, context);
+    test.beforeEach(async ({ page }) => {
+        await stubGlobalTestElements(page);
 	});
 
     test('All the elements should exist', async ({ page }) => {

@@ -4,8 +4,8 @@ import { stubGlobalTestElements } from './utils';
 
 test.describe('HAQuerySelector for more-info dialogs', () => {
 
-    test.beforeEach(async ({ page, context }) => {
-        await stubGlobalTestElements(page, context);
+    test.beforeEach(async ({ page }) => {
+        await stubGlobalTestElements(page);
 	});
 
     test.afterEach(async ({ page }) => {

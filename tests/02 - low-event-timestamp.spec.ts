@@ -4,10 +4,9 @@ import { stubGlobalTestElements } from './utils';
 
 test.describe('HAQuerySelector events with low timestamp', () => {
 
-    test.beforeEach(async ({ page, context }) => {
+    test.beforeEach(async ({ page }) => {
         await stubGlobalTestElements(
             page,
-            context,
             {
                 eventThreshold: 800
             }
