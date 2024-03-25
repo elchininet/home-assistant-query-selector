@@ -1,5 +1,5 @@
 import ts from 'rollup-plugin-ts';
-import { terser } from 'rollup-plugin-terser';
+import terser from '@rollup/plugin-terser';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import istanbul from 'rollup-plugin-istanbul';
 import tsconfig from './tsconfig.json';
