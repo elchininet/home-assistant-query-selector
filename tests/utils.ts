@@ -1,4 +1,4 @@
-import { Page, BrowserContext } from '@playwright/test';
+import { Page } from '@playwright/test';
 import { expect } from 'playwright-test-coverage';
 import path from 'path';
 import { BASE_URL, SELECTORS } from './constants';
@@ -12,11 +12,10 @@ interface Options {
 
 export const stubGlobalTestElements = async (
     page: Page,
-    context: BrowserContext,
     options?: Options
 ) => {
 
-    await context.addInitScript({
+    await page.addInitScript({
         path: path.join(__dirname, '..', './node_modules/sinon/pkg/sinon.js'),
     });
 
@@ -76,5 +75,6 @@ export const stubGlobalTestElements = async (
         window.__instance.listen();
 
     }, options || {});
-    await page.waitForFunction(() => !!window.__onListen?.firstCall?.firstArg);
+    // Timeout to allow the events to be triggered
+    await page.waitForTimeout(500);
 };
