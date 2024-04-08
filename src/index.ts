@@ -194,7 +194,7 @@ class HAQuerySelector extends DelegatedEventTarget {
                         childList: true
                     });
                 }
-        });
+            });
         this._dispatchEvent(
             HAQuerySelectorEvent.ON_LISTEN,
             this._haRootElements

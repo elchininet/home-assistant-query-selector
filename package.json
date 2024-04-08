@@ -66,9 +66,8 @@
     "@types/eslint": "^8.56.6",
     "@types/node": "^20.12.2",
     "@types/sinon": "^17.0.3",
-    "@typescript-eslint/eslint-plugin": "^7.4.0",
-    "@typescript-eslint/parser": "^7.4.0",
     "eslint": "^8.57.0",
+    "globals": "^15.0.0",
     "nyc": "^15.1.0",
     "playwright-test-coverage": "^1.2.12",
     "rollup": "^4.13.2",
@@ -77,6 +76,7 @@
     "rollup-plugin-ts": "^3.4.5",
     "sinon": "^17.0.1",
     "tslib": "^2.6.2",
-    "typescript": "^5.4.3"
+    "typescript": "^5.4.3",
+    "typescript-eslint": "^7.6.0"
   }
 }
