@@ -50,8 +50,7 @@
     "reset:ha": "git add .hass/config/.HA_VERSION && git checkout .hass/config",
     "demo:ha": "pnpm test:clean && pnpm build && pnpm start:ha",
     "start:playwright": "docker run --rm --network host --add-host host.docker.internal:host-gateway -v $(pwd):/$(pwd)/ -w $(pwd) -i mcr.microsoft.com/playwright:$(cat .playwright_docker_version) sh -c \"yarn test:run && exit\"",
-    "husky:setup": "husky",
-    "prepare": "pnpm build && pnpm husky:setup",
+    "prepare": "pnpm build",
     "prepublishOnly": "pnpm lint && pnpm test:ts && pnpm test:ci",
     "version": "git add .",
     "postversion": "git push && git push --tags"
@@ -68,7 +67,6 @@
     "@types/sinon": "^17.0.3",
     "eslint": "^9.2.0",
     "globals": "^15.2.0",
-    "husky": "^9.0.11",
     "nyc": "^15.1.0",
     "playwright-test-coverage": "^1.2.12",
     "rollup": "^4.17.2",
