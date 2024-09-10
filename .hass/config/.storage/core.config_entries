@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "minor_version": 1,
+  "minor_version": 3,
   "key": "core.config_entries",
   "data": {
     "entries": [
@@ -15,7 +15,10 @@
         "pref_disable_polling": false,
         "source": "onboarding",
         "unique_id": "shopping_list",
-        "disabled_by": null
+        "disabled_by": null,
+        "minor_version": 1,
+        "created_at": "1970-01-01T00:00:00+00:00",
+        "modified_at": "1970-01-01T00:00:00+00:00"
       },
       {
         "entry_id": "f1e89483524523e3c6c3384623e8a73a",
@@ -31,7 +34,10 @@
         "pref_disable_polling": false,
         "source": "onboarding",
         "unique_id": null,
-        "disabled_by": null
+        "disabled_by": null,
+        "minor_version": 1,
+        "created_at": "1970-01-01T00:00:00+00:00",
+        "modified_at": "1970-01-01T00:00:00+00:00"
       },
       {
         "entry_id": "e685452750f4c575b29818ceccacfe01",
@@ -44,7 +50,10 @@
         "pref_disable_polling": false,
         "source": "onboarding",
         "unique_id": null,
-        "disabled_by": null
+        "disabled_by": null,
+        "minor_version": 1,
+        "created_at": "1970-01-01T00:00:00+00:00",
+        "modified_at": "1970-01-01T00:00:00+00:00"
       },
       {
         "entry_id": "01610f70c0e22e9f7885ad5cf0ebe8cb",
@@ -57,7 +66,10 @@
         "pref_disable_polling": false,
         "source": "import",
         "unique_id": null,
-        "disabled_by": null
+        "disabled_by": null,
+        "minor_version": 1,
+        "created_at": "1970-01-01T00:00:00+00:00",
+        "modified_at": "1970-01-01T00:00:00+00:00"
       }
     ]
   }
