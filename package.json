@@ -33,7 +33,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/elchininet/home-assistant-query-selector"
+    "url": "git+https://github.com/elchininet/home-assistant-query-selector.git"
   },
   "scripts": {
     "clean": "rm -rf dist || true",
