@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       shadow-dom-selector:
-        specifier: ^4.1.2
-        version: 4.1.2
+        specifier: ^5.0.1
+        version: 5.0.1
     devDependencies:
       '@playwright/test':
         specifier: 1.48.2
@@ -928,6 +928,9 @@ packages:
     resolution: {integrity: sha512-pjzuKtY64GYfWizNAJ0fr9VqttZkNiK2iS430LtIHzjBEr6bX8Am2zm4sW4Ro5wjWW5cAlRL1qAMTcXbjNAO2Q==}
     engines: {node: '>=8.0.0'}
 
+  get-promisable-result@1.0.1:
+    resolution: {integrity: sha512-hUUKs/s8qoeH4gk3NPcKjCWaCjOv0S+kyT3oTuJXneEWYzwmyfEJHESU2ES7pMZNVHTjMt7X8hpmThFfggTVtg==}
+
   glob-parent@5.1.2:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
     engines: {node: '>= 6'}
@@ -1414,8 +1417,8 @@ packages:
   set-blocking@2.0.0:
     resolution: {integrity: sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw==}
 
-  shadow-dom-selector@4.1.2:
-    resolution: {integrity: sha512-e0c+frNE71KtDgRmtl9NxLqbnzmzLU7gYMH0bEpZaMMLg4pX7fPfgTROh4XtS51R6GdTiUM9OEp8dd//AyQd0A==}
+  shadow-dom-selector@5.0.1:
+    resolution: {integrity: sha512-f7KFwXGR2DdeQmsFXrjYV3nrYuVAuFUqW0hpwJh/gynMnF/Q8gt+y1n/kPOYj25wo/xFL+EvaUuuZ8EwJ5NYhg==}
 
   shebang-command@2.0.0:
     resolution: {integrity: sha512-kHxr2zZpYtdmrN1qDjrrX/Z1rR1kG8Dx+gkpK1G4eXmvXswmcE1hTWBWYUzlraYw1/yZp6YuDY77YtvbN0dmDA==}
@@ -2537,6 +2540,8 @@ snapshots:
 
   get-package-type@0.1.0: {}
 
+  get-promisable-result@1.0.1: {}
+
   glob-parent@5.1.2:
     dependencies:
       is-glob: 4.0.3
@@ -3009,7 +3014,9 @@ snapshots:
 
   set-blocking@2.0.0: {}
 
-  shadow-dom-selector@4.1.2: {}
+  shadow-dom-selector@5.0.1:
+    dependencies:
+      get-promisable-result: 1.0.1
 
   shebang-command@2.0.0:
     dependencies:
