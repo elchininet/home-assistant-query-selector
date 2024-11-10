@@ -1,5 +1,9 @@
 # Changelog
 
+## [4.3.0] - 2024-11-10
+
+- Update `shadow-dom-selector` to its latest version
+
 ## [4.2.0] - 2024-01-13
 
 - Make the event threshold a property that can be sent by the clients instead a constant. With this change the event threshold has been changed from `50` to `450`.
