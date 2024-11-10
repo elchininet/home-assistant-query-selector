@@ -1,6 +1,6 @@
 {
   "name": "home-assistant-query-selector",
-  "version": "4.2.0",
+  "version": "4.3.0",
   "description": "Easily query home-assistant DOM elements in an async way",
   "keywords": [
     "query-selector",
