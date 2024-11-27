@@ -11,7 +11,7 @@ test.describe('HAQuerySelector events with low timestamp', () => {
                 eventThreshold: 800
             }
         );
-	});
+    });
 
     test('Do not fire events below eventThreshold', async ({ page }) => {
 

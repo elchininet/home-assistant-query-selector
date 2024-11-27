@@ -6,7 +6,7 @@ test.describe('HAQuerySelector for more-info dialogs', () => {
 
     test.beforeEach(async ({ page }) => {
         await stubGlobalTestElements(page);
-	});
+    });
 
     test.afterEach(async ({ page }) => {
 
