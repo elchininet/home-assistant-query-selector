@@ -16,6 +16,6 @@ declare global {
         __onSettingsDialogOpen: SinonSpy;
         __instance: HAQuerySelector;
     }
-  }
+}
   
-  export {};
+export {};

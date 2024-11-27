@@ -11,7 +11,7 @@ test.describe('HAQuerySelector for lovelace dashboards', () => {
                 delay: 5
             }
         );
-	});
+    });
 
     test('Non-existent elements should return null or empty node list', async ({ page }) => {
 

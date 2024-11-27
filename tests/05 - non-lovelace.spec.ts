@@ -12,7 +12,7 @@ test.describe('HAQuerySelector for non-lovelace dashboards', () => {
                 delay: 5
             }
         );
-	});
+    });
 
     test('onLovelacePanelLoad should not be callled', async ({ page }) => {
 

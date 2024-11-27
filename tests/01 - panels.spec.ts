@@ -6,7 +6,7 @@ test.describe('HAQuerySelector for dashboards', () => {
 
     test.beforeEach(async ({ page }) => {
         await stubGlobalTestElements(page);
-	});
+    });
 
     test('All the elements should exist', async ({ page }) => {
 
