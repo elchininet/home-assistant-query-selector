@@ -38,7 +38,7 @@ import { HAQuerySelector } from 'home-assistant-query-selector';
 
 const instance = new HAQuerySelector();
 
-// This even will be triggered when the listen method is called
+// This event will be triggered when the listen method is called
 // You can also use the enum value HAQuerySelectorEvent.ON_LISTEN
 instance.addEventListener('onListen', ({ detail }) => {
 
