@@ -15,9 +15,17 @@ test.describe('HAQuerySelector for more-info dialogs', () => {
             return window.getComputedStyle(body).getPropertyValue('overflow') === 'hidden';
         });
         if (isOverflow) {
-            await page.locator(SELECTORS.CLOSE_DIALOG).click();
+            // Restore this after Home Assistant 2025.3.x is released
+            //await page.locator(SELECTORS.CLOSE_DIALOG).click();
+            await page.locator(SELECTORS.CLOSE_DIALOG)
+                .or(page.locator(SELECTORS.CLOSE_DIALOG_OLD))
+                .click();
         }
-        await expect(page.locator(SELECTORS.CLOSE_DIALOG)).not.toBeVisible();
+        // Restore this after Home Assistant 2025.3.x is released
+        //await expect(page.locator(SELECTORS.CLOSE_DIALOG)).not.toBeVisible();
+        await expect(
+            page.locator(SELECTORS.CLOSE_DIALOG).or(page.locator(SELECTORS.CLOSE_DIALOG_OLD))
+        ).not.toBeVisible();
     });
 
     test('All the more-info dialog elements should exist', async ({ page }) => {
@@ -29,7 +37,11 @@ test.describe('HAQuerySelector for more-info dialogs', () => {
         // Open a more-info dialog
         await page.locator(SELECTORS.ENTITY_CARD).click();
 
-        await expect(page.locator(SELECTORS.CLOSE_DIALOG)).toBeVisible();
+        // Restore this after Home Assistant 2025.3.x is released
+        //await expect(page.locator(SELECTORS.CLOSE_DIALOG)).toBeVisible();
+        await expect(
+            page.locator(SELECTORS.CLOSE_DIALOG).or(page.locator(SELECTORS.CLOSE_DIALOG_OLD))
+        ).toBeVisible();
 
         // Only onMoreInfoDialogOpen should be triggered
         expect(await page.evaluate(() => window.__onMoreInfoDialogOpen.calledOnce)).toBe(true);
@@ -71,7 +83,13 @@ test.describe('HAQuerySelector for more-info dialogs', () => {
 
         // Return to the more-info dialog
         await page.locator(SELECTORS.DIALOG_GO_BACK_BUTTON).click();
-        await expect(page.locator(SELECTORS.CLOSE_DIALOG)).toBeVisible();
+
+        // Restore this after Home Assistant 2025.3.x is released
+        //await expect(page.locator(SELECTORS.CLOSE_DIALOG)).toBeVisible();
+
+        await expect(
+            page.locator(SELECTORS.CLOSE_DIALOG).or(page.locator(SELECTORS.CLOSE_DIALOG_OLD))
+        ).toBeVisible();
 
         // onMoreInfoDialogOpen should be triggered twice
         expect(await page.evaluate(() => window.__onMoreInfoDialogOpen.calledTwice)).toBe(true);
@@ -103,7 +121,13 @@ test.describe('HAQuerySelector for more-info dialogs', () => {
 
         // Return to the more-info dialog
         await page.locator(SELECTORS.DIALOG_GO_BACK_BUTTON).click();
-        await expect(page.locator(SELECTORS.CLOSE_DIALOG)).toBeVisible();
+        
+        // Restore this after Home Assistant 2025.3.x is released
+        //await expect(page.locator(SELECTORS.CLOSE_DIALOG)).toBeVisible();
+
+        await expect(
+            page.locator(SELECTORS.CLOSE_DIALOG).or(page.locator(SELECTORS.CLOSE_DIALOG_OLD))
+        ).toBeVisible();
 
         // onMoreInfoDialogOpen should be triggered thrice
         expect(await page.evaluate(() => window.__onMoreInfoDialogOpen.calledThrice)).toBe(true);
@@ -116,7 +140,13 @@ test.describe('HAQuerySelector for more-info dialogs', () => {
 
         // Open a more-info dialog
         await page.locator(SELECTORS.ENTITY_CARD).click();
-        await expect(page.locator(SELECTORS.CLOSE_DIALOG)).toBeVisible();
+
+        // Restore this after Home Assistant 2025.3.x is released
+        //await expect(page.locator(SELECTORS.CLOSE_DIALOG)).toBeVisible();
+
+        await expect(
+            page.locator(SELECTORS.CLOSE_DIALOG).or(page.locator(SELECTORS.CLOSE_DIALOG_OLD))
+        ).toBeVisible();
 
         // Open the history and logbook
         await page.locator(SELECTORS.DIALOG_HISTORY_BUTTON).click();
@@ -124,7 +154,13 @@ test.describe('HAQuerySelector for more-info dialogs', () => {
 
         // Return to the more-info dialog
         await page.locator(SELECTORS.DIALOG_GO_BACK_BUTTON).click();
-        await expect(page.locator(SELECTORS.CLOSE_DIALOG)).toBeVisible();
+
+        // Restore this after Home Assistant 2025.3.x is released
+        //await expect(page.locator(SELECTORS.CLOSE_DIALOG)).toBeVisible();
+
+        await expect(
+            page.locator(SELECTORS.CLOSE_DIALOG).or(page.locator(SELECTORS.CLOSE_DIALOG_OLD))
+        ).toBeVisible();
 
         // Open the config
         await page.locator(SELECTORS.DIALOG_CONFIG_BUTTON).click();
@@ -132,7 +168,13 @@ test.describe('HAQuerySelector for more-info dialogs', () => {
 
         // Return to the more-info dialog
         await page.locator(SELECTORS.DIALOG_GO_BACK_BUTTON).click();
-        await expect(page.locator(SELECTORS.CLOSE_DIALOG)).toBeVisible();
+
+        // Restore this after Home Assistant 2025.3.x is released
+        //await expect(page.locator(SELECTORS.CLOSE_DIALOG)).toBeVisible();
+
+        await expect(
+            page.locator(SELECTORS.CLOSE_DIALOG).or(page.locator(SELECTORS.CLOSE_DIALOG_OLD))
+        ).toBeVisible();
 
         const onMoreInfoDialogOpenArePromises = await page.evaluate(() => {
             const elements = [
@@ -182,7 +224,13 @@ test.describe('HAQuerySelector for more-info dialogs', () => {
 
         // Open a more-info dialog
         await page.locator(SELECTORS.ENTITY_CARD).click();
-        await expect(page.locator(SELECTORS.CLOSE_DIALOG)).toBeVisible();
+        
+        // Restore this after Home Assistant 2025.3.x is released
+        //await expect(page.locator(SELECTORS.CLOSE_DIALOG)).toBeVisible();
+
+        await expect(
+            page.locator(SELECTORS.CLOSE_DIALOG).or(page.locator(SELECTORS.CLOSE_DIALOG_OLD))
+        ).toBeVisible();
 
         const areOnMoreInfoDialogOpenTheRightElements = await page.evaluate(async () => {
 
@@ -252,7 +300,13 @@ test.describe('HAQuerySelector for more-info dialogs', () => {
 
         // Return to the more-info dialog
         await page.locator(SELECTORS.DIALOG_GO_BACK_BUTTON).click();
-        await expect(page.locator(SELECTORS.CLOSE_DIALOG)).toBeVisible();
+        
+        // Restore this after Home Assistant 2025.3.x is released
+        //await expect(page.locator(SELECTORS.CLOSE_DIALOG)).toBeVisible();
+
+        await expect(
+            page.locator(SELECTORS.CLOSE_DIALOG).or(page.locator(SELECTORS.CLOSE_DIALOG_OLD))
+        ).toBeVisible();
 
         // Open the config
         await page.locator(SELECTORS.DIALOG_CONFIG_BUTTON).click();
@@ -291,7 +345,13 @@ test.describe('HAQuerySelector for more-info dialogs', () => {
 
         // Return to the more-info dialog
         await page.locator(SELECTORS.DIALOG_GO_BACK_BUTTON).click();
-        await expect(page.locator(SELECTORS.CLOSE_DIALOG)).toBeVisible();
+
+        // Restore this after Home Assistant 2025.3.x is released
+        //await expect(page.locator(SELECTORS.CLOSE_DIALOG)).toBeVisible();
+
+        await expect(
+            page.locator(SELECTORS.CLOSE_DIALOG).or(page.locator(SELECTORS.CLOSE_DIALOG_OLD))
+        ).toBeVisible();
 
     });
 
