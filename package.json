@@ -77,10 +77,5 @@
   },
   "dependencies": {
     "shadow-dom-selector": "^5.0.1"
-  },
-  "pnpm": {
-    "overrides": {
-      "@babel/helpers@<7.26.10": ">=7.26.10"
-    }
   }
 }
