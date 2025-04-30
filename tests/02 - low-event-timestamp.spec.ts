@@ -15,7 +15,8 @@ test.describe('HAQuerySelector events with low timestamp', () => {
 
     test('Do not fire events below eventThreshold', async ({ page }) => {
 
-        const links = 'paper-listbox > a[role="option"]';
+        // In Home Assistant 2025.05.x is ha-md-list > ha-md-list-item
+        const links = ':is(paper-listbox, ha-md-list) > :is(a[role="option"], ha-md-list-item)';
 
         expect(await page.evaluate(() => window.__onPanelLoad.calledOnce)).toBe(true);
         expect(await page.evaluate(() => window.__onLovelacePanelLoad.calledOnce)).toBe(true);
