@@ -201,7 +201,8 @@ test.describe('HAQuerySelector for dashboards', () => {
 
     test('Events should be triggered accordingly', async ({ page }) => {
 
-        const links = 'paper-listbox > a[role="option"]';
+        // In Home Assistant 2025.05.x is ha-md-list > ha-md-list-item
+        const links = ':is(paper-listbox, ha-md-list) > :is(a[role="option"], ha-md-list-item)';
 
         expect(await page.evaluate(() => window.__onListen.calledOnce)).toBe(true);
         expect(await page.evaluate(() => window.__onPanelLoad.calledOnce)).toBe(true);
@@ -237,7 +238,8 @@ test.describe('HAQuerySelector for dashboards', () => {
 
     test('Remove events should remove the listeners', async ({ page }) => {
 
-        const links = 'paper-listbox > a[role="option"]';
+        // In Home Assistant 2025.05.x is ha-md-list > ha-md-list-item
+        const links = ':is(paper-listbox, ha-md-list) > :is(a[role="option"], ha-md-list-item)';
 
         expect(await page.evaluate(() => window.__onListen.calledOnce)).toBe(true);
         expect(await page.evaluate(() => window.__onPanelLoad.calledOnce)).toBe(true);
