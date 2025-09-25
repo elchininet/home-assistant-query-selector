@@ -8,6 +8,7 @@ interface Options {
     retries?: number;
     delay?: number;
     eventThreshold?: number;
+    nonLovelace?: boolean;
 }
 
 export const stubGlobalTestElements = async (
@@ -77,4 +78,9 @@ export const stubGlobalTestElements = async (
     }, options || {});
     // Timeout to allow the events to be triggered
     await page.waitForTimeout(500);
+    await page.waitForFunction(() => window.__onListen.calledOnce === true);
+    await page.waitForFunction(() => window.__onPanelLoad.calledOnce === true);
+    if (options?.nonLovelace !== true) {
+        await page.waitForFunction(() => window.__onLovelacePanelLoad.calledOnce === true);
+    }
 };

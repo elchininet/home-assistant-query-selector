@@ -9,7 +9,8 @@ test.describe('HAQuerySelector for non-lovelace dashboards', () => {
             {
                 pathname: 'history',
                 retries: 5,
-                delay: 5
+                delay: 5,
+                nonLovelace: true
             }
         );
     });
