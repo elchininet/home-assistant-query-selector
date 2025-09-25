@@ -1,10 +1,11 @@
 {
   "version": 1,
-  "minor_version": 8,
+  "minor_version": 12,
   "key": "core.device_registry",
   "data": {
     "devices": [
-      {"area_id":null,"config_entries":["01610f70c0e22e9f7885ad5cf0ebe8cb"],"configuration_url":null,"connections":[],"created_at":"1970-01-01T00:00:00+00:00","disabled_by":null,"entry_type":"service","hw_version":null,"id":"205bb287a8e59e2302e69e0c5acb4a10","identifiers":[["sun","01610f70c0e22e9f7885ad5cf0ebe8cb"]],"labels":[],"manufacturer":null,"model":null,"model_id":null,"modified_at":"2024-09-10T18:02:02.331490+00:00","name_by_user":null,"name":"Sun","primary_config_entry":"01610f70c0e22e9f7885ad5cf0ebe8cb","serial_number":null,"sw_version":null,"via_device_id":null}
+      {"area_id":null,"config_entries":["01610f70c0e22e9f7885ad5cf0ebe8cb"],"config_entries_subentries":{"01610f70c0e22e9f7885ad5cf0ebe8cb":[null]},"configuration_url":null,"connections":[],"created_at":"1970-01-01T00:00:00+00:00","disabled_by":null,"entry_type":"service","hw_version":null,"id":"205bb287a8e59e2302e69e0c5acb4a10","identifiers":[["sun","01610f70c0e22e9f7885ad5cf0ebe8cb"]],"labels":[],"manufacturer":null,"model":null,"model_id":null,"modified_at":"2024-09-10T18:02:02.331490+00:00","name_by_user":null,"name":"Sun","primary_config_entry":"01610f70c0e22e9f7885ad5cf0ebe8cb","serial_number":null,"sw_version":null,"via_device_id":null},
+      {"area_id":null,"config_entries":["01K60XRQY3SF7NCQMV6Z2B0TF4"],"config_entries_subentries":{"01K60XRQY3SF7NCQMV6Z2B0TF4":[null]},"configuration_url":"homeassistant://config/backup","connections":[],"created_at":"2025-09-25T17:12:07.395193+00:00","disabled_by":null,"entry_type":"service","hw_version":null,"id":"e4a71f14d6638dec3d0887aae7f12897","identifiers":[["backup","backup_manager"]],"labels":[],"manufacturer":"Home Assistant","model":"Home Assistant Backup","model_id":null,"modified_at":"2025-09-25T17:12:07.395226+00:00","name_by_user":null,"name":"Backup","primary_config_entry":"01K60XRQY3SF7NCQMV6Z2B0TF4","serial_number":null,"sw_version":"2025.9.4","via_device_id":null}
     ],
     "deleted_devices": []
   }
