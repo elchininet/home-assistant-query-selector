@@ -1,76 +1,15 @@
 {
   "version": 1,
-  "minor_version": 3,
+  "minor_version": 5,
   "key": "core.config_entries",
   "data": {
     "entries": [
-      {
-        "entry_id": "8206f586b0c7136611f850c994a3bf45",
-        "version": 1,
-        "domain": "shopping_list",
-        "title": "Shopping list",
-        "data": {},
-        "options": {},
-        "pref_disable_new_entities": false,
-        "pref_disable_polling": false,
-        "source": "onboarding",
-        "unique_id": "shopping_list",
-        "disabled_by": null,
-        "minor_version": 1,
-        "created_at": "1970-01-01T00:00:00+00:00",
-        "modified_at": "1970-01-01T00:00:00+00:00"
-      },
-      {
-        "entry_id": "f1e89483524523e3c6c3384623e8a73a",
-        "version": 1,
-        "domain": "google_translate",
-        "title": "Google Translate text-to-speech",
-        "data": {
-          "language": "en",
-          "tld": "com"
-        },
-        "options": {},
-        "pref_disable_new_entities": false,
-        "pref_disable_polling": false,
-        "source": "onboarding",
-        "unique_id": null,
-        "disabled_by": null,
-        "minor_version": 1,
-        "created_at": "1970-01-01T00:00:00+00:00",
-        "modified_at": "1970-01-01T00:00:00+00:00"
-      },
-      {
-        "entry_id": "e685452750f4c575b29818ceccacfe01",
-        "version": 1,
-        "domain": "radio_browser",
-        "title": "Radio Browser",
-        "data": {},
-        "options": {},
-        "pref_disable_new_entities": false,
-        "pref_disable_polling": false,
-        "source": "onboarding",
-        "unique_id": null,
-        "disabled_by": null,
-        "minor_version": 1,
-        "created_at": "1970-01-01T00:00:00+00:00",
-        "modified_at": "1970-01-01T00:00:00+00:00"
-      },
-      {
-        "entry_id": "01610f70c0e22e9f7885ad5cf0ebe8cb",
-        "version": 1,
-        "domain": "sun",
-        "title": "Sun",
-        "data": {},
-        "options": {},
-        "pref_disable_new_entities": false,
-        "pref_disable_polling": false,
-        "source": "import",
-        "unique_id": null,
-        "disabled_by": null,
-        "minor_version": 1,
-        "created_at": "1970-01-01T00:00:00+00:00",
-        "modified_at": "1970-01-01T00:00:00+00:00"
-      }
+      {"created_at":"1970-01-01T00:00:00+00:00","data":{},"disabled_by":null,"discovery_keys":{},"domain":"shopping_list","entry_id":"8206f586b0c7136611f850c994a3bf45","minor_version":1,"modified_at":"1970-01-01T00:00:00+00:00","options":{},"pref_disable_new_entities":false,"pref_disable_polling":false,"source":"onboarding","subentries":[],"title":"Shopping list","unique_id":"shopping_list","version":1},
+      {"created_at":"1970-01-01T00:00:00+00:00","data":{"language":"en","tld":"com"},"disabled_by":null,"discovery_keys":{},"domain":"google_translate","entry_id":"f1e89483524523e3c6c3384623e8a73a","minor_version":1,"modified_at":"1970-01-01T00:00:00+00:00","options":{},"pref_disable_new_entities":false,"pref_disable_polling":false,"source":"onboarding","subentries":[],"title":"Google Translate text-to-speech","unique_id":null,"version":1},
+      {"created_at":"1970-01-01T00:00:00+00:00","data":{},"disabled_by":null,"discovery_keys":{},"domain":"radio_browser","entry_id":"e685452750f4c575b29818ceccacfe01","minor_version":1,"modified_at":"1970-01-01T00:00:00+00:00","options":{},"pref_disable_new_entities":false,"pref_disable_polling":false,"source":"onboarding","subentries":[],"title":"Radio Browser","unique_id":null,"version":1},
+      {"created_at":"1970-01-01T00:00:00+00:00","data":{},"disabled_by":null,"discovery_keys":{},"domain":"sun","entry_id":"01610f70c0e22e9f7885ad5cf0ebe8cb","minor_version":1,"modified_at":"1970-01-01T00:00:00+00:00","options":{},"pref_disable_new_entities":false,"pref_disable_polling":false,"source":"import","subentries":[],"title":"Sun","unique_id":null,"version":1},
+      {"created_at":"2025-09-25T17:12:07.359509+00:00","data":{},"disabled_by":null,"discovery_keys":{},"domain":"go2rtc","entry_id":"01K60XRQXZ558Q18M7PETHWZ41","minor_version":1,"modified_at":"2025-09-25T17:12:07.359511+00:00","options":{},"pref_disable_new_entities":false,"pref_disable_polling":false,"source":"system","subentries":[],"title":"go2rtc","unique_id":null,"version":1},
+      {"created_at":"2025-09-25T17:12:07.363037+00:00","data":{},"disabled_by":null,"discovery_keys":{},"domain":"backup","entry_id":"01K60XRQY3SF7NCQMV6Z2B0TF4","minor_version":1,"modified_at":"2025-09-25T17:12:07.363039+00:00","options":{},"pref_disable_new_entities":false,"pref_disable_polling":false,"source":"system","subentries":[],"title":"Backup","unique_id":null,"version":1}
     ]
   }
 }
