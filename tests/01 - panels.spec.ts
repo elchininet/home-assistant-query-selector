@@ -201,16 +201,13 @@ test.describe('HAQuerySelector for dashboards', () => {
 
     test('Events should be triggered accordingly', async ({ page }) => {
 
-        // In Home Assistant 2025.05.x is ha-md-list > ha-md-list-item
-        const links = ':is(paper-listbox, ha-md-list) > :is(a[role="option"], ha-md-list-item)';
-
         expect(await page.evaluate(() => window.__onListen.calledOnce)).toBe(true);
         expect(await page.evaluate(() => window.__onPanelLoad.calledOnce)).toBe(true);
         expect(await page.evaluate(() => window.__onLovelacePanelLoad.calledOnce)).toBe(true);
 
         await page.waitForTimeout(600);
 
-        await page.locator(links, { hasText: 'History' }).click();
+        await page.locator(SELECTORS.LINKS, { hasText: 'History' }).click();
         await expect(page.locator(SELECTORS.HEADER_HISTORY)).toBeVisible();
 
         expect(await page.evaluate(() => window.__onListen.calledOnce)).toBe(true);
@@ -219,7 +216,7 @@ test.describe('HAQuerySelector for dashboards', () => {
 
         await page.waitForTimeout(600);
 
-        await page.locator(links, { hasText: 'Overview' }).click();
+        await page.locator(SELECTORS.LINKS, { hasText: 'Overview' }).click();
         await expect(page.locator(SELECTORS.ENTITY_CARD)).toBeVisible();
 
         expect(await page.evaluate(() => window.__onListen.calledOnce)).toBe(true);
@@ -238,9 +235,6 @@ test.describe('HAQuerySelector for dashboards', () => {
 
     test('Remove events should remove the listeners', async ({ page }) => {
 
-        // In Home Assistant 2025.05.x is ha-md-list > ha-md-list-item
-        const links = ':is(paper-listbox, ha-md-list) > :is(a[role="option"], ha-md-list-item)';
-
         expect(await page.evaluate(() => window.__onListen.calledOnce)).toBe(true);
         expect(await page.evaluate(() => window.__onPanelLoad.calledOnce)).toBe(true);
         expect(await page.evaluate(() => window.__onLovelacePanelLoad.calledOnce)).toBe(true);
@@ -252,7 +246,7 @@ test.describe('HAQuerySelector for dashboards', () => {
             window.__instance.removeEventListener(HAQuerySelectorEvent.ON_LOVELACE_PANEL_LOAD, window.__onLovelacePanelLoad);
         });
 
-        await page.locator(links, { hasText: 'History' }).click();
+        await page.locator(SELECTORS.LINKS, { hasText: 'History' }).click();
         await expect(page.locator(SELECTORS.HEADER_HISTORY)).toBeVisible();
 
         expect(await page.evaluate(() => window.__onListen.calledOnce)).toBe(true);
@@ -261,7 +255,7 @@ test.describe('HAQuerySelector for dashboards', () => {
 
         await page.waitForTimeout(600);
 
-        await page.locator(links, { hasText: 'Overview' }).click();
+        await page.locator(SELECTORS.LINKS, { hasText: 'Overview' }).click();
         await expect(page.locator(SELECTORS.ENTITY_CARD)).toBeVisible();
 
         expect(await page.evaluate(() => window.__onListen.calledOnce)).toBe(true);
