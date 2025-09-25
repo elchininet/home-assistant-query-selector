@@ -4,9 +4,7 @@ export const SELECTORS = {
     HA_SIDEBAR: 'ha-sidebar',
     HEADER: '.header',
     HEADER_HISTORY: 'ha-top-app-bar-fixed',
-    // Home Assistant 2025.2.x (remove when 2025.3.x is released)
-    CLOSE_DIALOG_OLD: 'mwc-icon-button[title="Dismiss dialog"]',
-    // Home Assistant > 2025.2.x
+    LINKS: 'ha-md-list > ha-md-list-item',
     CLOSE_DIALOG: 'mwc-icon-button[title="Close"]',
     ENTITY_CARD: 'hui-entities-card',
     DIALOG_HISTORY_BUTTON: 'mwc-icon-button[title="History"]',
