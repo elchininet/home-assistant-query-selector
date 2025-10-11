@@ -22,10 +22,10 @@ export const stubGlobalTestElements = async (
 
     await page.goto(`${BASE_URL}${options?.pathname ? '/' + options.pathname : ''}`);
 
-    const lovelaceHeader = page.locator(SELECTORS.HEADER);
+    const huiViewContainer = page.locator(SELECTORS.HU_VIEW_CONTAIER);
     const historyHeader = page.locator(SELECTORS.HEADER_HISTORY);
 
-    await expect(lovelaceHeader.or(historyHeader)).toBeVisible();
+    await expect(huiViewContainer.or(historyHeader)).toBeVisible();
 
     await page.waitForFunction(() => !!window.HAQuerySelectorBundle);
 
@@ -78,9 +78,9 @@ export const stubGlobalTestElements = async (
     }, options || {});
     // Timeout to allow the events to be triggered
     await page.waitForTimeout(500);
-    await page.waitForFunction(() => window.__onListen.calledOnce === true);
-    await page.waitForFunction(() => window.__onPanelLoad.calledOnce === true);
+    await page.waitForFunction(() => window.__onListen.calledOnce);
+    await page.waitForFunction(() => window.__onPanelLoad.calledOnce);
     if (options?.nonLovelace !== true) {
-        await page.waitForFunction(() => window.__onLovelacePanelLoad.calledOnce === true);
+        await page.waitForFunction(() => window.__onLovelacePanelLoad.calledOnce);
     }
 };
