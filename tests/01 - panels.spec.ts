@@ -163,8 +163,8 @@ test.describe('HAQuerySelector for dashboards', () => {
                     HA_DRAWER
                 ],
                 [
-                    await elementsPanelLoad.HOME_ASSISTANT_MAIN.selector.$.query('ha-drawer ha-panel-lovelace').$.query('hui-root').$.query('.header .action-items > ha-button-menu').all,
-                    HEADER?.querySelectorAll('.action-items > ha-button-menu')
+                    await elementsPanelLoad.HOME_ASSISTANT_MAIN.selector.$.query('ha-drawer ha-panel-lovelace').$.query('hui-root').$.query('.header .action-items > ha-dropdown').all,
+                    HEADER?.querySelectorAll('.action-items > ha-dropdown')
                 ],
                 [
                     await elementsLovelacePanelLoad.HA_PANEL_LOVELACE.selector.$.query('hui-root').$.element,

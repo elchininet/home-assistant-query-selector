@@ -13,7 +13,7 @@
     },
     "core": {
       "showAdvanced": true,
-      "default_panel": "lovelace"
+      "default_panel": "lovelace-generated"
     }
   }
 }

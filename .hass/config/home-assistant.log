@@ -1,3 +1,0 @@
-2026-01-29 21:01:02.092 WARNING (Recorder) [homeassistant.components.recorder.util] The system could not validate that the sqlite3 database at //config/home-assistant_v2.db was shutdown cleanly
-2026-01-29 21:01:02.102 WARNING (Recorder) [homeassistant.components.recorder.util] Ended unfinished session (id=8 from 2026-01-29 20:04:38.373235)
-2026-01-29 21:01:04.546 WARNING (MainThread) [homeassistant.components.http.ban] Login attempt or request with invalid authentication from 192.168.65.1 (192.168.65.1). Requested URL: '/api/websocket'. (Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36)
