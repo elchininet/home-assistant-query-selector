@@ -7,7 +7,7 @@
       {
         "id": "map",
         "icon": "mdi:map",
-        "title": "Mapa",
+        "title": "Map",
         "url_path": "map",
         "show_in_sidebar": true,
         "mode": "storage",
