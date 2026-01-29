@@ -216,8 +216,8 @@ test.describe('HAQuerySelector for dashboards', () => {
 
         await page.waitForTimeout(600);
 
-        await page.locator(SELECTORS.LINKS, { hasText: 'Overview' }).click();
-        await expect(page.locator(SELECTORS.ENTITY_CARD)).toBeVisible();
+        await page.locator(SELECTORS.LINKS, { hasText: 'Map' }).click();
+        await expect(page.locator(SELECTORS.HA_MAP)).toBeVisible();
 
         expect(await page.evaluate(() => window.__onListen.calledOnce)).toBe(true);
         expect(await page.evaluate(() => window.__onPanelLoad.calledThrice)).toBe(true);
@@ -225,11 +225,20 @@ test.describe('HAQuerySelector for dashboards', () => {
 
         await page.waitForTimeout(600);
 
+        await page.locator(SELECTORS.LINKS, { hasText: 'Overview' }).click();
+        await expect(page.locator(SELECTORS.ENTITY_CARD)).toBeVisible();
+
+        expect(await page.evaluate(() => window.__onListen.calledOnce)).toBe(true);
+        expect(await page.evaluate(() => window.__onPanelLoad.getCalls().length)).toBe(4);
+        expect(await page.evaluate(() => window.__onLovelacePanelLoad.calledThrice)).toBe(true);
+
+        await page.waitForTimeout(600);
+
         await page.evaluate(() => window.__instance.listen());
 
         expect(await page.evaluate(() => window.__onListen.calledTwice)).toBe(true);
-        expect(await page.evaluate(() => window.__onPanelLoad.getCalls().length)).toBe(4);
-        expect(await page.evaluate(() => window.__onLovelacePanelLoad.calledThrice)).toBe(true);
+        expect(await page.evaluate(() => window.__onPanelLoad.getCalls().length)).toBe(5);
+        expect(await page.evaluate(() => window.__onLovelacePanelLoad.getCalls().length)).toBe(4);
 
     });
 

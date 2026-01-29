@@ -1,0 +1,10 @@
+title: Overview
+views:
+  - theme: Backend-selected
+    title: Overview
+    path: overview
+    badges: []
+    cards:
+      - type: entities
+        entities:
+          - entity: sun.sun
