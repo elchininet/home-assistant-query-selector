@@ -17,7 +17,13 @@ script: !include scripts.yaml
 scene: !include scenes.yaml
 
 lovelace:
-  mode: yaml
+  dashboards:
+    lovelace-generated:
+      mode: yaml
+      filename: overview-dashboard.yaml
+      title: Overview
+      icon: mdi:view-dashboard
+      show_in_sidebar: true
 
 # Load frontend themes from the themes folder
 frontend:
