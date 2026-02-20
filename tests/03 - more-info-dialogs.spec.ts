@@ -190,13 +190,13 @@ test.describe('HAQuerySelector for more-info dialogs', () => {
 
         await expect(page.locator(SELECTORS.CLOSE_DIALOG)).toBeVisible();
 
-        const areOnMoreInfoDialogOpenTheRightElements = await page.evaluate(async () => {
+        const areOnMoreInfoDialogOpenTheRightElements = await page.evaluate(async (SELECTORS) => {
 
-            const HOME_ASSISTANT = document.querySelector('home-assistant');
-            const HA_MORE_INFO_DIALOG = HOME_ASSISTANT?.shadowRoot?.querySelector('ha-more-info-dialog');
-            const HA_DIALOG = HA_MORE_INFO_DIALOG?.shadowRoot?.querySelector('ha-dialog');
-            const HA_DIALOG_CONTENT = HA_DIALOG?.querySelector('.content');
-            const HA_MORE_INFO_DIALOG_INFO = HA_DIALOG_CONTENT?.querySelector('ha-more-info-info');
+            const HOME_ASSISTANT = document.querySelector(SELECTORS.HOME_ASSISTANT);
+            const HA_MORE_INFO_DIALOG = HOME_ASSISTANT?.shadowRoot?.querySelector(SELECTORS.HA_MORE_INFO_DIALOG);
+            const HA_DIALOG = HA_MORE_INFO_DIALOG?.shadowRoot?.querySelector(SELECTORS.HA_DIALOG);
+            const HA_DIALOG_CONTENT = HA_DIALOG?.querySelector(SELECTORS.HA_DIALOG_CONTENT);
+            const HA_MORE_INFO_DIALOG_INFO = HA_DIALOG_CONTENT?.querySelector(SELECTORS.HA_MORE_INFO_INFO);
 
             const elements = {
                 'HA_MORE_INFO_DIALOG': HA_MORE_INFO_DIALOG,
@@ -217,7 +217,7 @@ test.describe('HAQuerySelector for more-info dialogs', () => {
 
             return results.every(result => result);
 
-        });
+        }, SELECTORS);
 
         expect(areOnMoreInfoDialogOpenTheRightElements).toBe(true);
 
@@ -225,13 +225,13 @@ test.describe('HAQuerySelector for more-info dialogs', () => {
         await page.locator(SELECTORS.DIALOG_HISTORY_BUTTON).click();
         await expect(page.locator(SELECTORS.DIALOG_HISTORY_PANEL)).toBeVisible();
 
-        const areOnHistoryAndLogBookDialogOpenTheRightElements = await page.evaluate(async () => {
+        const areOnHistoryAndLogBookDialogOpenTheRightElements = await page.evaluate(async (SELECTORS) => {
 
-            const HOME_ASSISTANT = document.querySelector('home-assistant');
-            const HA_MORE_INFO_DIALOG = HOME_ASSISTANT?.shadowRoot?.querySelector('ha-more-info-dialog');
-            const HA_DIALOG = HA_MORE_INFO_DIALOG?.shadowRoot?.querySelector('ha-dialog');
-            const HA_DIALOG_CONTENT = HA_DIALOG?.querySelector('.content');
-            const HA_DIALOG_MORE_INFO_HISTORY_AND_LOGBOOK = HA_DIALOG_CONTENT?.querySelector('ha-more-info-history-and-logbook');
+            const HOME_ASSISTANT = document.querySelector(SELECTORS.HOME_ASSISTANT);
+            const HA_MORE_INFO_DIALOG = HOME_ASSISTANT?.shadowRoot?.querySelector(SELECTORS.HA_MORE_INFO_DIALOG);
+            const HA_DIALOG = HA_MORE_INFO_DIALOG?.shadowRoot?.querySelector(SELECTORS.HA_DIALOG);
+            const HA_DIALOG_CONTENT = HA_DIALOG?.querySelector(SELECTORS.HA_DIALOG_CONTENT);
+            const HA_DIALOG_MORE_INFO_HISTORY_AND_LOGBOOK = HA_DIALOG_CONTENT?.querySelector(SELECTORS.DIALOG_HISTORY_PANEL);
 
             const elements = {
                 'HA_MORE_INFO_DIALOG': HA_MORE_INFO_DIALOG,
@@ -252,7 +252,7 @@ test.describe('HAQuerySelector for more-info dialogs', () => {
 
             return results.every(result => result);
 
-        });
+        }, SELECTORS);
 
         expect(areOnHistoryAndLogBookDialogOpenTheRightElements).toBe(true);
 
@@ -265,13 +265,13 @@ test.describe('HAQuerySelector for more-info dialogs', () => {
         await page.locator(SELECTORS.DIALOG_CONFIG_BUTTON).click();
         await expect(page.locator(SELECTORS.DIALOG_SETTINGS_PANEL)).toBeVisible();
 
-        const areOnSettingsDialogOpenTheRightElements = await page.evaluate(async () => {
+        const areOnSettingsDialogOpenTheRightElements = await page.evaluate(async (SELECTORS) => {
 
-            const HOME_ASSISTANT = document.querySelector('home-assistant');
-            const HA_MORE_INFO_DIALOG = HOME_ASSISTANT?.shadowRoot?.querySelector('ha-more-info-dialog');
-            const HA_DIALOG = HA_MORE_INFO_DIALOG?.shadowRoot?.querySelector('ha-dialog');
-            const HA_DIALOG_CONTENT = HA_DIALOG?.querySelector('.content');
-            const HA_DIALOG_MORE_INFO_SETTINGS = HA_DIALOG_CONTENT?.querySelector('ha-more-info-settings');
+            const HOME_ASSISTANT = document.querySelector(SELECTORS.HOME_ASSISTANT);
+            const HA_MORE_INFO_DIALOG = HOME_ASSISTANT?.shadowRoot?.querySelector(SELECTORS.HA_MORE_INFO_DIALOG);
+            const HA_DIALOG = HA_MORE_INFO_DIALOG?.shadowRoot?.querySelector(SELECTORS.HA_DIALOG);
+            const HA_DIALOG_CONTENT = HA_DIALOG?.querySelector(SELECTORS.HA_DIALOG_CONTENT);
+            const HA_DIALOG_MORE_INFO_SETTINGS = HA_DIALOG_CONTENT?.querySelector(SELECTORS.HA_MORE_INFO_SETTINGS);
 
             const elements = {
                 'HA_MORE_INFO_DIALOG': HA_MORE_INFO_DIALOG,
@@ -292,7 +292,7 @@ test.describe('HAQuerySelector for more-info dialogs', () => {
 
             return results.every(result => result);
 
-        });
+        }, SELECTORS);
 
         expect(areOnSettingsDialogOpenTheRightElements).toBe(true);
 
