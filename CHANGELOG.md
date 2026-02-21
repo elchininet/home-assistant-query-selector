@@ -1,5 +1,9 @@
 # Changelog
 
+## [5.0.0] - xxx
+
+- Make the library compatible with Home Assistant `2026.3.x`
+
 ## [4.3.0] - 2024-11-10
 
 - Update `shadow-dom-selector` to its latest version

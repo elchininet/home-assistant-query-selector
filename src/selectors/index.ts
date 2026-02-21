@@ -17,7 +17,7 @@ export enum QUERY_SELECTORS {
     HEADER = '.header',
     HUI_VIEW = 'hui-view',
     HA_MORE_INFO_DIALOG = 'ha-more-info-dialog',
-    HA_DIALOG = 'ha-dialog',
+    HA_DIALOG = 'ha-adaptive-dialog, ha-dialog',
     HA_DIALOG_CONTENT = '.content',
     HA_MORE_INFO_DIALOG_INFO = 'ha-more-info-info',
     HA_DIALOG_MORE_INFO_HISTORY_AND_LOGBOOK = 'ha-more-info-history-and-logbook',
