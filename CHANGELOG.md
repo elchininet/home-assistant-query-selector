@@ -1,8 +1,8 @@
 # Changelog
 
-## [5.0.0] - xxx
+## [5.0.0] - 2026-03-04
 
-- Make the library compatible with Home Assistant `2026.3.x`
+- Make the library compatible with Home Assistant `2026.3.0`
 
 ## [4.3.0] - 2024-11-10
 
