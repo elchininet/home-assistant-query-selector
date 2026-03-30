@@ -2,22 +2,23 @@
   "compilerOptions": {
     "outDir": "./dist/",
     "module": "esnext",
-    "target": "ES5",
-    "lib": ["DOM", "ES2017"],
+    "target": "es6",
+    "lib": ["dom", "es2017"],
     "types": ["node"],
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "declaration": true,
+    "declaration": false,
     "noImplicitAny": true,
     "removeComments": true,
-    "baseUrl": "./src",
+    "skipLibCheck": true,
+    "rootDir": "./src",
     "paths": {
-      "@types": ["@types"],
-      "@constants": ["constants"],
-      "@selectors": ["selectors"],
-      "@utilities": ["utilities"],
-      "@lib": ["lib"]
+      "@types": ["./src/@types"],
+      "@constants": ["./src/constants"],
+      "@selectors": ["./src/selectors"],
+      "@utilities": ["./src/utilities"],
+      "@lib": ["./src/lib"]
     }
   },
   "include": ["src/**/*.ts"],
