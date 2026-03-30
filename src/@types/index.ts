@@ -25,6 +25,15 @@ export type HomeAssistantElement = {
 
 export type HAElement = Omit<ElementProps, 'children'>;
 
-export interface HAQuerySelectorEventListener<T> extends EventListener {
+interface HAQuerySelectorEventListenerObject<T> {
+    handleEvent(object: CustomEvent<T>): void;
+}
+
+interface HAQuerySelectorEventListener<T> {
     (evt: CustomEvent<T>): void;
 }
+
+export type HAQuerySelectorEventListenerOrEventListenerObject<T> =
+    | HAQuerySelectorEventListener<T>
+    | HAQuerySelectorEventListenerObject<T>
+    | null;
