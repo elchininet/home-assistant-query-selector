@@ -92,30 +92,30 @@ class HAQuerySelector extends DelegatedEventTarget {
 
     private _config: Required<HAQuerySelectorConfig>;
 
-    private _dialogTree: HomeAssistantElement;
-    private _homeAssistantRootTree: HomeAssistantElement;
-    private _homeAssistantResolverTree: HomeAssistantElement;
+    private _dialogTree!: HomeAssistantElement;
+    private _homeAssistantRootTree!: HomeAssistantElement;
+    private _homeAssistantResolverTree!: HomeAssistantElement;
 
-    private _haDialogElements: Record<keyof typeof HA_DIALOG_ELEMENT, HAElement>;
-    private _haRootElements: Record<keyof typeof HA_ROOT_ELEMENT, HAElement>;
-    private _haResolverElements: Record<keyof typeof HA_LOVELACE_ELEMENT, HAElement>;
+    private _haDialogElements!: Record<keyof typeof HA_DIALOG_ELEMENT, HAElement>;
+    private _haRootElements!: Record<keyof typeof HA_ROOT_ELEMENT, HAElement>;
+    private _haResolverElements!: Record<keyof typeof HA_LOVELACE_ELEMENT, HAElement>;
 
-    private _dialogsObserver: MutationObserver;
-    private _dialogsContentObserver: MutationObserver;
-    private _panelResolverObserver: MutationObserver;
-    private _lovelaceObserver: MutationObserver;
+    private _dialogsObserver!: MutationObserver;
+    private _dialogsContentObserver!: MutationObserver;
+    private _panelResolverObserver!: MutationObserver;
+    private _lovelaceObserver!: MutationObserver;
 
-    private _watchDialogsBinded: (mutations: MutationRecord[]) => void;
-    private _watchDialogsContentBinded: (mutations: MutationRecord[]) => void;
-    private _watchDashboardsBinded: (mutations: MutationRecord[]) => void;
-    private _watchLovelaceBinded: (mutations: MutationRecord[]) => void;
+    private _watchDialogsBinded!: (mutations: MutationRecord[]) => void;
+    private _watchDialogsContentBinded!: (mutations: MutationRecord[]) => void;
+    private _watchDashboardsBinded!: (mutations: MutationRecord[]) => void;
+    private _watchLovelaceBinded!: (mutations: MutationRecord[]) => void;
 
-    private _timestaps: Partial<Record<HAQuerySelectorEvent, number>>;
+    private _timestaps!: Partial<Record<HAQuerySelectorEvent, number>>;
 
     private _dispatchEvent(type: HAQuerySelectorEvent, detail?: Record<string, HAElement>) {
         // Avoid triggering an event twice in a short timestamp
         const timestamp = Date.now();
-        if (timestamp - this._timestaps[type] < this._config.eventThreshold) {
+        if (this._timestaps[type] && timestamp - this._timestaps[type] < this._config.eventThreshold) {
             return;
         }
         this._timestaps[type] = timestamp;
@@ -134,7 +134,7 @@ class HAQuerySelector extends DelegatedEventTarget {
         this._dialogTree = getAsyncElements(
             this._config,
             DIALOG_SELECTORS,
-            this._haRootElements.HOME_ASSISTANT.element
+            this._haRootElements.HOME_ASSISTANT.element as Promise<Element>
         );
         const haDialogElements = flatHomeAssistantTree<
             Record<keyof typeof HA_DIALOG_ELEMENT, HAElement>
@@ -142,8 +142,7 @@ class HAQuerySelector extends DelegatedEventTarget {
             HA_DIALOG_ELEMENT,
             this._dialogTree
         );
-        haDialogElements.HA_DIALOG_CONTENT
-            .element
+        (haDialogElements.HA_DIALOG_CONTENT.element as Promise<Element>)
             .then((dialogContent: Element) => {
                 this._dialogsContentObserver.disconnect();
                 this._dialogsContentObserver.observe(dialogContent, {
@@ -176,16 +175,14 @@ class HAQuerySelector extends DelegatedEventTarget {
             HA_ROOT_ELEMENT,
             this._homeAssistantRootTree
         );
-        this._haRootElements[HA_ROOT_ELEMENT.HOME_ASSISTANT]
-            .selector.$.element
+        (this._haRootElements[HA_ROOT_ELEMENT.HOME_ASSISTANT].selector.$.element as Promise<ShadowRoot>)
             .then((shadowRoot: ShadowRoot): void => {
                 this._dialogsObserver.disconnect();
                 this._dialogsObserver.observe(shadowRoot, {
                     childList: true
                 });
             });
-        this._haRootElements[HA_ROOT_ELEMENT.PARTIAL_PANEL_RESOLVER]
-            .element
+        (this._haRootElements[HA_ROOT_ELEMENT.PARTIAL_PANEL_RESOLVER].element as Promise<Element>)
             .then((partialPanelResolver: Element): void => {
                 this._panelResolverObserver.disconnect();
                 if (partialPanelResolver) {
@@ -209,7 +206,7 @@ class HAQuerySelector extends DelegatedEventTarget {
         this._homeAssistantResolverTree = getAsyncElements(
             this._config,
             LOVELACE_SELECTORS,
-            this._haRootElements[HA_ROOT_ELEMENT.HA_DRAWER].element
+            this._haRootElements[HA_ROOT_ELEMENT.HA_DRAWER].element as Promise<Element>
         );
         this._haResolverElements = flatHomeAssistantTree<
             Record<keyof typeof HA_LOVELACE_ELEMENT, HAElement>
@@ -217,12 +214,11 @@ class HAQuerySelector extends DelegatedEventTarget {
             HA_LOVELACE_ELEMENT,
             this._homeAssistantResolverTree
         );
-        this._haResolverElements[HA_LOVELACE_ELEMENT.HA_PANEL_LOVELACE]
-            .element
+        (this._haResolverElements[HA_LOVELACE_ELEMENT.HA_PANEL_LOVELACE].element as Promise<Element>)
             .then((lovelacePanel: Element) => {
                 this._lovelaceObserver.disconnect();
                 if (lovelacePanel) {
-                    this._lovelaceObserver.observe(lovelacePanel.shadowRoot, {
+                    this._lovelaceObserver.observe(lovelacePanel.shadowRoot!, {
                         childList: true
                     });
                     this._dispatchEvent(
@@ -238,8 +234,8 @@ class HAQuerySelector extends DelegatedEventTarget {
 
     private _watchDialogs(mutations: MutationRecord[]) {
         mutations.forEach(({ addedNodes }): void => {
-            addedNodes.forEach((node: Element): void => {
-                if (node.localName === QUERY_SELECTORS.HA_MORE_INFO_DIALOG) {
+            addedNodes.forEach((node: Node): void => {
+                if (node instanceof Element && node.localName === QUERY_SELECTORS.HA_MORE_INFO_DIALOG) {
                     this._updateDialogElements();
                 }
             });
@@ -248,13 +244,17 @@ class HAQuerySelector extends DelegatedEventTarget {
 
     private _watchDialogsContent(mutations: MutationRecord[]) {
         mutations.forEach(({ addedNodes }): void => {
-            addedNodes.forEach((node: Element): void => {
+            addedNodes.forEach((node: Node): void => {
                 const mappers = {
                     [QUERY_SELECTORS.HA_MORE_INFO_DIALOG_INFO]: HA_DIALOG_ELEMENT.HA_MORE_INFO_DIALOG_INFO,
                     [QUERY_SELECTORS.HA_DIALOG_MORE_INFO_HISTORY_AND_LOGBOOK]: HA_DIALOG_ELEMENT.HA_DIALOG_MORE_INFO_HISTORY_AND_LOGBOOK,
                     [QUERY_SELECTORS.HA_DIALOG_MORE_INFO_SETTINGS]: HA_DIALOG_ELEMENT.HA_DIALOG_MORE_INFO_SETTINGS,
                 } as const;
-                if (node.localName && node.localName in mappers) {
+                if (
+                    node instanceof Element &&
+                    node.localName &&
+                    node.localName in mappers
+                ) {
                     const dialogElementQuery = node.localName as keyof typeof mappers;
                     this._updateDialogElements(mappers[dialogElementQuery]);
                 }
@@ -264,12 +264,12 @@ class HAQuerySelector extends DelegatedEventTarget {
 
     private _watchDashboards(mutations: MutationRecord[]): void {
         mutations.forEach(({ addedNodes }): void => {
-            addedNodes.forEach((node: Element): void => {
+            addedNodes.forEach((node: Node): void => {
                 this._dispatchEvent(
                     HAQuerySelectorEvent.ON_PANEL_LOAD,
                     this._haRootElements
                 );
-                if (node.localName === QUERY_SELECTORS.HA_PANEL_LOVELACE) {
+                if (node instanceof Element && node.localName === QUERY_SELECTORS.HA_PANEL_LOVELACE) {
                     this._updateLovelaceElements();
                 }
             });
@@ -278,8 +278,8 @@ class HAQuerySelector extends DelegatedEventTarget {
 
     private _watchLovelace(mutations: MutationRecord[]) {
         mutations.forEach(({ addedNodes }): void => {
-            addedNodes.forEach((node: Element): void => {
-                if (node.localName === QUERY_SELECTORS.HUI_ROOT) {
+            addedNodes.forEach((node: Node): void => {
+                if (node instanceof Element && node.localName === QUERY_SELECTORS.HUI_ROOT) {
                     this._updateLovelaceElements();
                 }
             });
@@ -345,7 +345,7 @@ class HAQuerySelector extends DelegatedEventTarget {
         options?: boolean | AddEventListenerOptions
     ): void;
     public override addEventListener(
-        type: string,
+        type: `${HAQuerySelectorEvent}`,
         callback: EventListenerOrEventListenerObject,
         options?: boolean | AddEventListenerOptions
     ): void {

@@ -16,7 +16,7 @@ const getQuery = (selector: string, shadowRoot: boolean) => shadowRoot
 export const getAsyncElements = (
     config: HAQuerySelectorConfig,
     node: HomeAssistantNodeDescriptor,
-    fromElement: Promise<Element> = null,
+    fromElement?: Promise<Element | null>,
     insideShadowRoot = false,
 ): HomeAssistantElement => {
 
@@ -45,7 +45,7 @@ export const getAsyncElements = (
 
         }
 
-        const element: Promise<Element> = fromElement
+        const element: Promise<Element | null> = fromElement
             ? fromElement.then((element: Element | null) => {
                 if (element) {
                     return asyncQuerySelector(
@@ -62,11 +62,11 @@ export const getAsyncElements = (
             element,
             children: getAsyncElements(
                 config,
-                nodeDescriptor.children,
+                nodeDescriptor.children!,
                 element
             ),
-            selector: new AsyncSelector(
-                element,
+            selector: new AsyncSelector<Element>(
+                element as Promise<Element>,
                 config
             )
         };
@@ -80,15 +80,15 @@ export const getAsyncElements = (
 export const searchNode = (
     key: string,
     node: HomeAssistantElement
-): ElementProps => {
+): ElementProps | undefined => {
     const entries = Object.entries(node) as [string, ElementProps][];
     for (const entry of entries) {
         if (entry[0] === key) {
             return entry[1];
         } else {
-            const noeDeep = searchNode(key, entry[1].children);
-            if (noeDeep) {
-                return noeDeep;
+            const nodeDeep = searchNode(key, entry[1].children!);
+            if (nodeDeep) {
+                return nodeDeep;
             }
         }
     }
@@ -102,10 +102,12 @@ export const flatHomeAssistantTree = <T extends object>(
     return rootElementKeys.reduce(
         (acc: Record<string, HAElement>, key: string): Record<string, HAElement> => {
             const node = searchNode(key, tree);
-            const { children, ...rest } = node;
-            acc[key] = {
-                ...rest
-            };
+            if (node) {
+                const { children, ...rest } = node;
+                acc[key] = {
+                    ...rest
+                };
+            }
             return acc;
         },
         {} as Record<string, HAElement>

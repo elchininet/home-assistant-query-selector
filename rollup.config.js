@@ -1,15 +1,15 @@
-import ts from 'rollup-plugin-ts';
-import terser from '@rollup/plugin-terser';
+import packageJson from './package.json';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
+import ts from '@rollup/plugin-typescript';
+import terser from '@rollup/plugin-terser';
+import { dts } from 'rollup-plugin-dts';
+import tsConfigPaths from 'rollup-plugin-tsconfig-paths';
 import istanbul from 'rollup-plugin-istanbul';
-import tsconfig from './tsconfig.json';
 
 export default [
     {
         plugins: [
-            ts({
-                browserslist: false
-            }),
+            ts(),
             terser({
                 output: {
                     comments: false
@@ -19,11 +19,11 @@ export default [
         input: 'src/index.ts',
         output: [
             {
-                file: 'dist/index.js',
+                file: packageJson.exports['.'].require.default,
                 format: 'cjs'
             },
             {
-                file: 'dist/esm/index.js',
+                file: packageJson.exports['.'].import.default,
                 format: 'esm'
             }
         ],
@@ -31,13 +31,29 @@ export default [
     },
     {
         plugins: [
+            tsConfigPaths(),
+            dts()
+        ],
+        input: 'src/index.ts',
+        output: [
+            {
+                file: packageJson.exports['.'].require.types,
+                format: 'cjs'
+            },
+            {
+                file: packageJson.exports['.'].import.types,
+                format: 'esm'
+            }
+        ]
+    },
+    {
+        plugins: [
             nodeResolve(),
             ts({
-                tsconfig: {
-                    ...tsconfig.compilerOptions,
-                    declaration: false
-                },
-                browserslist: false
+                compilerOptions: {
+                    outDir: undefined,
+                    removeComments: false
+                }
             }),
             istanbul({
                 exclude: [
