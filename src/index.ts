@@ -2,7 +2,7 @@ import {
     HAQuerySelectorConfig,
     HomeAssistantElement,
     HAElement,
-    HAQuerySelectorEventListenerOrEventListenerObject
+    HAQuerySelectorEventListenerEventMap
 } from '@types';
 import {
     DEFAULT_CONFIG,
@@ -22,49 +22,6 @@ import {
     flatHomeAssistantTree,
     getFinalDialogFlatTree
 } from '@utilities';
-
-type OnListenDetail = Record<
-    keyof typeof HA_ROOT_ELEMENT,
-    HAElement
->;
-
-type OnPanelLoadDetail = Record<
-    keyof typeof HA_ROOT_ELEMENT,
-    HAElement
->;
-
-type OnLovelacePanelLoadDetail = Record<
-    keyof typeof HA_ROOT_ELEMENT |
-    keyof typeof HA_LOVELACE_ELEMENT,
-    HAElement
->;
-
-type OnMoreInfoDialogOpenDetail = Record<
-    Exclude<
-        keyof typeof HA_DIALOG_ELEMENT,
-        'HA_DIALOG_MORE_INFO_HISTORY_AND_LOGBOOK' |
-        'HA_DIALOG_MORE_INFO_SETTINGS'
-    >,
-    HAElement
->;
-
-type OnHistoryAndLogBookDialogOpenDetail = Record<
-    Exclude<
-        keyof typeof HA_DIALOG_ELEMENT,
-        'HA_MORE_INFO_DIALOG_INFO' |
-        'HA_DIALOG_MORE_INFO_SETTINGS'
-    >,
-    HAElement
->;
-
-type OnSettingsDialogOpenDetail = Record<
-    Exclude<
-        keyof typeof HA_DIALOG_ELEMENT,
-        'HA_MORE_INFO_DIALOG_INFO' |
-        'HA_DIALOG_MORE_INFO_HISTORY_AND_LOGBOOK'
-    >,
-    HAElement
->;
 
 class DelegatedEventTarget implements EventTarget {
     private delegate = document.createDocumentFragment();
@@ -302,46 +259,9 @@ class HAQuerySelector extends DelegatedEventTarget {
         this._updateLovelaceElements();
     }
     
-    public override addEventListener(
-        type: `${HAQuerySelectorEvent.ON_LISTEN}`,
-        callback:  HAQuerySelectorEventListenerOrEventListenerObject<
-            OnListenDetail
-        >,
-        options?: boolean | AddEventListenerOptions
-    ): void;
-    public override addEventListener(
-        type: `${HAQuerySelectorEvent.ON_PANEL_LOAD}`,
-        callback:  HAQuerySelectorEventListenerOrEventListenerObject<
-            OnPanelLoadDetail
-        >,
-        options?: boolean | AddEventListenerOptions
-    ): void;
-    public override addEventListener(
-        type: `${HAQuerySelectorEvent.ON_LOVELACE_PANEL_LOAD}`,
-        callback: HAQuerySelectorEventListenerOrEventListenerObject<
-            OnLovelacePanelLoadDetail
-        >,
-        options?: boolean | AddEventListenerOptions
-    ): void;
-    public override addEventListener(
-        type: `${HAQuerySelectorEvent.ON_MORE_INFO_DIALOG_OPEN}`,
-        callback: HAQuerySelectorEventListenerOrEventListenerObject<
-            OnMoreInfoDialogOpenDetail
-        >,
-        options?: boolean | AddEventListenerOptions
-    ): void;
-    public override addEventListener(
-        type: `${HAQuerySelectorEvent.ON_HISTORY_AND_LOGBOOK_DIALOG_OPEN}`,
-        callback: HAQuerySelectorEventListenerOrEventListenerObject<
-            OnHistoryAndLogBookDialogOpenDetail
-        >,
-        options?: boolean | AddEventListenerOptions
-    ): void;
-    public override addEventListener(
-        type: `${HAQuerySelectorEvent.ON_SETTINGS_DIALOG_OPEN}`,
-        callback: HAQuerySelectorEventListenerOrEventListenerObject<
-            OnSettingsDialogOpenDetail
-        >,
+    public override addEventListener<E extends keyof HAQuerySelectorEventListenerEventMap>(
+        type: E,
+        callback: HAQuerySelectorEventListenerEventMap[E],
         options?: boolean | AddEventListenerOptions
     ): void;
     public override addEventListener(
@@ -357,11 +277,14 @@ class HAQuerySelector extends DelegatedEventTarget {
 export {
     HAQuerySelector,
     HAQuerySelectorEvent,
-    HAElement,
+    HAElement
+};
+
+export type {
     OnListenDetail,
     OnPanelLoadDetail,
     OnLovelacePanelLoadDetail,
     OnMoreInfoDialogOpenDetail,
     OnHistoryAndLogBookDialogOpenDetail,
     OnSettingsDialogOpenDetail
-};
+} from '@types';
