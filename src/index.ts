@@ -2,7 +2,7 @@ import {
     HAQuerySelectorConfig,
     HomeAssistantElement,
     HAElement,
-    HAQuerySelectorEventListener
+    HAQuerySelectorEventListenerOrEventListenerObject
 } from '@types';
 import {
     DEFAULT_CONFIG,
@@ -304,49 +304,49 @@ class HAQuerySelector extends DelegatedEventTarget {
     
     public override addEventListener(
         type: `${HAQuerySelectorEvent.ON_LISTEN}`,
-        callback:  HAQuerySelectorEventListener<
+        callback:  HAQuerySelectorEventListenerOrEventListenerObject<
             OnListenDetail
         >,
         options?: boolean | AddEventListenerOptions
     ): void;
     public override addEventListener(
         type: `${HAQuerySelectorEvent.ON_PANEL_LOAD}`,
-        callback:  HAQuerySelectorEventListener<
+        callback:  HAQuerySelectorEventListenerOrEventListenerObject<
             OnPanelLoadDetail
         >,
         options?: boolean | AddEventListenerOptions
     ): void;
     public override addEventListener(
         type: `${HAQuerySelectorEvent.ON_LOVELACE_PANEL_LOAD}`,
-        callback: HAQuerySelectorEventListener<
+        callback: HAQuerySelectorEventListenerOrEventListenerObject<
             OnLovelacePanelLoadDetail
         >,
         options?: boolean | AddEventListenerOptions
     ): void;
     public override addEventListener(
         type: `${HAQuerySelectorEvent.ON_MORE_INFO_DIALOG_OPEN}`,
-        callback: HAQuerySelectorEventListener<
+        callback: HAQuerySelectorEventListenerOrEventListenerObject<
             OnMoreInfoDialogOpenDetail
         >,
         options?: boolean | AddEventListenerOptions
     ): void;
     public override addEventListener(
         type: `${HAQuerySelectorEvent.ON_HISTORY_AND_LOGBOOK_DIALOG_OPEN}`,
-        callback: HAQuerySelectorEventListener<
+        callback: HAQuerySelectorEventListenerOrEventListenerObject<
             OnHistoryAndLogBookDialogOpenDetail
         >,
         options?: boolean | AddEventListenerOptions
     ): void;
     public override addEventListener(
         type: `${HAQuerySelectorEvent.ON_SETTINGS_DIALOG_OPEN}`,
-        callback: HAQuerySelectorEventListener<
+        callback: HAQuerySelectorEventListenerOrEventListenerObject<
             OnSettingsDialogOpenDetail
         >,
         options?: boolean | AddEventListenerOptions
     ): void;
     public override addEventListener(
-        type: `${HAQuerySelectorEvent}`,
-        callback: EventListenerOrEventListenerObject,
+        type: string,
+        callback: EventListenerOrEventListenerObject | null,
         options?: boolean | AddEventListenerOptions
     ): void {
         super.addEventListener(type, callback, options);

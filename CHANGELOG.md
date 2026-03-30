@@ -1,5 +1,9 @@
 # Changelog
 
+## [6.0.1] - 2026-03-31
+
+- Fix `addEventListener` types
+
 ## [6.0.0] - 2026-03-30
 
 - Migrated to `TypeScript 6`, so the target of the library is now `es6` instead of the previous `es5`
