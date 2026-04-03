@@ -9,8 +9,6 @@ updates:
       timezone: "Europe/Amsterdam"
     commit-message:
       prefix: "[Dependencies]"
-    ignore:
-      - dependency-name: "rollup-plugin-serve"
     groups:
       dependencies-dev:
         dependency-type: "development"
