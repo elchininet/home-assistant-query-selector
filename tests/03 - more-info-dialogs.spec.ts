@@ -303,4 +303,85 @@ test.describe('HAQuerySelector for more-info dialogs', () => {
 
     });
 
+    test('Opening a more-info dialog after closing it for the first time should trigger the proper event with the proper elements', async ({ page }) => {
+
+        // Open a more-info dialog
+        await page.locator(SELECTORS.ENTITY_CARD).click();
+
+        await expect(page.locator(SELECTORS.CLOSE_DIALOG)).toBeVisible();
+
+        const moreInfoDialogDialogOpenFirstTime = await page.evaluate(async (SELECTORS) => {
+
+            const HOME_ASSISTANT = document.querySelector(SELECTORS.HOME_ASSISTANT);
+            const HA_MORE_INFO_DIALOG = HOME_ASSISTANT?.shadowRoot?.querySelector(SELECTORS.HA_MORE_INFO_DIALOG);
+            const HA_DIALOG = HA_MORE_INFO_DIALOG?.shadowRoot?.querySelector(SELECTORS.HA_DIALOG);
+            const HA_DIALOG_CONTENT = HA_DIALOG?.querySelector(SELECTORS.HA_DIALOG_CONTENT);
+            const HA_MORE_INFO_DIALOG_INFO = HA_DIALOG_CONTENT?.querySelector(SELECTORS.HA_MORE_INFO_INFO);
+
+            const elements = {
+                'HA_MORE_INFO_DIALOG': HA_MORE_INFO_DIALOG,
+                'HA_DIALOG': HA_DIALOG,
+                'HA_DIALOG_CONTENT': HA_DIALOG_CONTENT,
+                'HA_MORE_INFO_DIALOG_INFO': HA_MORE_INFO_DIALOG_INFO
+            };
+
+            const results: boolean[] = [];
+
+            for (const entry of Object.entries(elements)) {
+                const [key, element] = entry;
+                const domElement = await window.__onMoreInfoDialogOpen.firstCall.firstArg.detail[key].element;
+                results.push(
+                    !!domElement && domElement === element
+                );
+            }
+
+            return results.every(result => result);
+
+        }, SELECTORS);
+
+        expect(moreInfoDialogDialogOpenFirstTime).toBe(true);
+
+        // Close the more-info dialog
+        await page.locator(SELECTORS.CLOSE_DIALOG).click();
+
+        await expect(page.locator(SELECTORS.CLOSE_DIALOG)).not.toBeVisible();
+
+        // Open the more-info dialog for second time
+        await page.locator(SELECTORS.ENTITY_CARD).click();
+
+        await expect(page.locator(SELECTORS.CLOSE_DIALOG)).toBeVisible();
+
+        const moreInfoDialogDialogOpenSecondTime = await page.evaluate(async (SELECTORS) => {
+
+            const HOME_ASSISTANT = document.querySelector(SELECTORS.HOME_ASSISTANT);
+            const HA_MORE_INFO_DIALOG = HOME_ASSISTANT?.shadowRoot?.querySelector(SELECTORS.HA_MORE_INFO_DIALOG);
+            const HA_DIALOG = HA_MORE_INFO_DIALOG?.shadowRoot?.querySelector(SELECTORS.HA_DIALOG);
+            const HA_DIALOG_CONTENT = HA_DIALOG?.querySelector(SELECTORS.HA_DIALOG_CONTENT);
+            const HA_MORE_INFO_DIALOG_INFO = HA_DIALOG_CONTENT?.querySelector(SELECTORS.HA_MORE_INFO_INFO);
+
+            const elements = {
+                'HA_MORE_INFO_DIALOG': HA_MORE_INFO_DIALOG,
+                'HA_DIALOG': HA_DIALOG,
+                'HA_DIALOG_CONTENT': HA_DIALOG_CONTENT,
+                'HA_MORE_INFO_DIALOG_INFO': HA_MORE_INFO_DIALOG_INFO
+            };
+
+            const results: boolean[] = [];
+
+            for (const entry of Object.entries(elements)) {
+                const [key, element] = entry;
+                const domElement = await window.__onMoreInfoDialogOpen.secondCall.firstArg.detail[key].element;
+                results.push(
+                    !!domElement && domElement === element
+                );
+            }
+
+            return results.every(result => result);
+
+        }, SELECTORS);
+
+        expect(moreInfoDialogDialogOpenSecondTime).toBe(true);
+
+    });
+
 });

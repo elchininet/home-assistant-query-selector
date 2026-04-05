@@ -1,5 +1,9 @@
 # Changelog
 
+## [6.1.0] - 2026-04-05
+
+- Fix `onMoreInfoDialogOpen` event not being triggered in `Home Assistant` `2026.4.1`
+
 ## [6.0.1] - 2026-03-31
 
 - Fix `addEventListener` types
