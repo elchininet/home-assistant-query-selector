@@ -58,11 +58,13 @@ class HAQuerySelector extends DelegatedEventTarget {
     private _haResolverElements!: Record<keyof typeof HA_LOVELACE_ELEMENT, HAElement>;
 
     private _dialogsObserver!: MutationObserver;
+    private _dialogsChildrenObserver!: MutationObserver;
     private _dialogsContentObserver!: MutationObserver;
     private _panelResolverObserver!: MutationObserver;
     private _lovelaceObserver!: MutationObserver;
 
     private _watchDialogsBinded!: (mutations: MutationRecord[]) => void;
+    private _watchDialogsChildrenBinded!: (mutations: MutationRecord[]) => void;
     private _watchDialogsContentBinded!: (mutations: MutationRecord[]) => void;
     private _watchDashboardsBinded!: (mutations: MutationRecord[]) => void;
     private _watchLovelaceBinded!: (mutations: MutationRecord[]) => void;
@@ -193,6 +195,24 @@ class HAQuerySelector extends DelegatedEventTarget {
         mutations.forEach(({ addedNodes }): void => {
             addedNodes.forEach((node: Node): void => {
                 if (node instanceof Element && node.localName === QUERY_SELECTORS.HA_MORE_INFO_DIALOG) {
+                    this._dialogsChildrenObserver.disconnect();
+                    this._dialogsChildrenObserver.observe(node.shadowRoot!, {
+                        childList: true
+                    });
+                    this._updateDialogElements();
+                }
+            });
+        });
+    }
+
+    private _watchDialogsChildren(mutations: MutationRecord[]) {
+        mutations.forEach(({ addedNodes }): void => {
+            addedNodes.forEach((node: Node): void => {
+                const elements = [
+                    `${QUERY_SELECTORS.HA_DIALOG}`,
+                    `${QUERY_SELECTORS.HA_ADAPTATIVE_DIALOG}`
+                ];
+                if (node instanceof Element && elements.includes(node.localName)) {
                     this._updateDialogElements();
                 }
             });
@@ -246,11 +266,13 @@ class HAQuerySelector extends DelegatedEventTarget {
     public listen() {
 
         this._watchDialogsBinded = this._watchDialogs.bind(this);
+        this._watchDialogsChildrenBinded = this._watchDialogsChildren.bind(this);
         this._watchDialogsContentBinded = this._watchDialogsContent.bind(this);
         this._watchDashboardsBinded = this._watchDashboards.bind(this);
         this._watchLovelaceBinded = this._watchLovelace.bind(this);
 
         this._dialogsObserver = new MutationObserver(this._watchDialogsBinded);
+        this._dialogsChildrenObserver = new MutationObserver(this._watchDialogsChildrenBinded);
         this._dialogsContentObserver = new MutationObserver(this._watchDialogsContentBinded);
         this._panelResolverObserver = new MutationObserver(this._watchDashboardsBinded);
         this._lovelaceObserver = new MutationObserver(this._watchLovelaceBinded);
