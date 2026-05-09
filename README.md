@@ -154,6 +154,7 @@ new HAQuerySelector([config])
 {
     retries?: number;
     delay?: number;
+    shouldReject?: boolean;
     eventThreshold?: number;
 }
 ```
@@ -162,6 +163,7 @@ new HAQuerySelector([config])
 | -------------- | ------------- | --------------------------------------------------- |
 | retries        | yes           | How many retries trying to find an element in the DOM tree before giving up (defaults to 100) |
 | delay          | yes           | Delay between each retry trying to find an element in the DOM tree (defaults to 50)           |
+| shouldReject   | yes           | Indicates if the class should throw errors if some elements are not found (defaults to `false`, the elements will be `null` if they are not found) |
 | eventThreshold | yes           | Timestamp threshold to fire an event. If two consecutive events of the same type have a timestamp difference lower than this value, the second event will be ignored (defaults to 450) |
 
 ### Public methods

@@ -82,10 +82,10 @@
     "typescript-eslint": "^8.59.1"
   },
   "dependencies": {
-    "shadow-dom-selector": "^6.1.0"
+    "shadow-dom-selector": "^6.2.2"
   },
   "peerDependencies": {
-    "shadow-dom-selector": "^6.1.0"
+    "shadow-dom-selector": "^6.2.2"
   },
   "pnpm": {
     "overrides": {
