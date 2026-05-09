@@ -3,6 +3,7 @@ export const $ = '$';
 export const DEFAULT_CONFIG = {
     retries: 100,
     delay: 50,
+    shouldReject: false,
     eventThreshold: 450
 };
 

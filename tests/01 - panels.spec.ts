@@ -2,7 +2,7 @@ import { test, expect } from 'playwright-test-coverage';
 import { SELECTORS } from './constants';
 import { stubGlobalTestElements } from './utils';
 
-test.describe('HAQuerySelector for dashboards', () => {
+test.describe('HAQuerySelector panels', () => {
 
     test.beforeEach(async ({ page }) => {
         await stubGlobalTestElements(page);

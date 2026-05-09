@@ -1,5 +1,9 @@
 # Changelog
 
+## [6.2.0] - 2026-05-10
+
+- Add a `shouldReject` boolean property to the config optional parameter. This property is `false` by default, so the library will return `null` if some element is not found. If this property is set to `true` the library will throw errors if some elements cannot be found.
+
 ## [6.1.0] - 2026-04-05
 
 - Fix `onMoreInfoDialogOpen` event not being triggered in `Home Assistant` `2026.4.1`

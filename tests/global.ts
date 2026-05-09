@@ -5,7 +5,7 @@ declare global {
     interface Window {
         HAQuerySelectorBundle: {
             HAQuerySelector: typeof HAQuerySelector;
-            HAQuerySelectorEvent: HAQuerySelectorEvent;
+            HAQuerySelectorEvent: typeof HAQuerySelectorEvent;
         };
         sinon: typeof sinon;
         __onListen: SinonSpy;

@@ -12,7 +12,7 @@
     "noImplicitAny": true,
     "removeComments": true,
     "skipLibCheck": true,
-    "rootDir": "./src",
+    "rootDir": "./",
     "paths": {
       "@types": ["./src/@types"],
       "@constants": ["./src/constants"],

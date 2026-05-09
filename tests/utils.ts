@@ -7,6 +7,7 @@ interface Options {
     pathname?: string;
     retries?: number;
     delay?: number;
+    shouldReject?: boolean;
     eventThreshold?: number;
     nonLovelace?: boolean;
 }
@@ -31,7 +32,12 @@ export const stubGlobalTestElements = async (
 
     await page.evaluate((options: Options) => {
 
-        const { retries, delay, eventThreshold } = options;
+        const {
+            retries,
+            delay,
+            shouldReject,
+            eventThreshold
+        } = options;
         const { HAQuerySelector, HAQuerySelectorEvent } = window.HAQuerySelectorBundle;
 
         window.__onListen = window.sinon.fake();
@@ -41,10 +47,11 @@ export const stubGlobalTestElements = async (
         window.__onHistoryAndLogBookDialogOpen = window.sinon.fake();
         window.__onSettingsDialogOpen = window.sinon.fake();
 
-        window.__instance = retries || delay || eventThreshold
+        window.__instance = retries || delay || typeof shouldReject === 'boolean' || eventThreshold
             ? new HAQuerySelector({
                 retries: retries || 100,
                 delay: delay || 50,
+                shouldReject: shouldReject ?? false,
                 eventThreshold: eventThreshold || 450
             })
             : new HAQuerySelector();
