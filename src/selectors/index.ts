@@ -22,7 +22,9 @@ export enum QUERY_SELECTORS {
     HA_DIALOG_CONTENT = '.content',
     HA_MORE_INFO_DIALOG_INFO = 'ha-more-info-info',
     HA_DIALOG_MORE_INFO_HISTORY_AND_LOGBOOK = 'ha-more-info-history-and-logbook',
-    HA_DIALOG_MORE_INFO_SETTINGS = 'ha-more-info-settings'
+    HA_DIALOG_MORE_INFO_SETTINGS = 'ha-more-info-settings',
+    DIV = 'div',
+    FIRST_CHILD = ':scope > *'
 }
 
 export const ROOT_SELECTORS: HomeAssistantNodeDescriptor = {

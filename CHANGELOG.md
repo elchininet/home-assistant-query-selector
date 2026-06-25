@@ -1,5 +1,8 @@
 # Changelog
 
+## [7.0.0] - 2026-06-xx
+- Add compatibility with `Home Assistant` `2026.7.0`
+
 ## [6.2.1] - 2026-06-26
 
 - Update `shadow-dom-selector` to solve [a bug](https://github.com/elchininet/shadow-dom-selector/pull/216) that was ignoring the config optional parameter.

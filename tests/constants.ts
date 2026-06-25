@@ -4,7 +4,7 @@ export const SELECTORS = {
     HOME_ASSISTANT: 'home-assistant',
     HA_SIDEBAR: 'ha-sidebar',
     HEADER_HISTORY: 'ha-top-app-bar-fixed',
-    LINKS: 'ha-list-nav > ha-list-item-button',
+    LINKS: 'ha-list-nav > slot[name="main-navigation"] ha-list-item-button',
     CLOSE_DIALOG: 'ha-icon-button[slot="headerNavigationIcon"] ha-button[title="Close"]',
     ENTITY_CARD: 'hui-generic-entity-row',
     HA_MAP: 'ha-map',

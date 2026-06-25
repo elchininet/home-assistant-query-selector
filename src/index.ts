@@ -229,11 +229,22 @@ class HAQuerySelector extends DelegatedEventTarget {
                 } as const;
                 if (
                     node instanceof Element &&
-                    node.localName &&
-                    node.localName in mappers
+                    node.localName
                 ) {
-                    const dialogElementQuery = node.localName as keyof typeof mappers;
-                    this._updateDialogElements(mappers[dialogElementQuery]);
+                    if (node.localName === QUERY_SELECTORS.DIV) {
+                        const firstChild = node.querySelector(QUERY_SELECTORS.FIRST_CHILD);
+                        if (
+                            firstChild &&
+                            firstChild.localName in mappers
+                        ) {
+                            const dialogElementQuery = firstChild.localName as keyof typeof mappers;
+                            this._updateDialogElements(mappers[dialogElementQuery]);
+                        }
+                    } else if (node.localName in mappers) {
+                        const dialogElementQuery = node.localName as keyof typeof mappers;
+                        this._updateDialogElements(mappers[dialogElementQuery]);
+                    }
+                    
                 }
             });
         });
