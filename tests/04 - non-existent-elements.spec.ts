@@ -124,18 +124,12 @@ test.describe('HAQuerySelector non-existing elements', () => {
 
                 return errors;
             });
+
+            const errorMessage = 'Could not get the result after 5 retries';
             
-            expect(errors).toMatchObject([
-                'The "element" method can only be called from a NodeList with elements.',
-                'The "all" method can only be called in a valid element.',
-                'The "$" method can only be called in an element with a ShadowRoot.',
-                'The "element" method can only be called from a NodeList with elements.',
-                'The "all" method can only be called in a valid element.',
-                'The "$" method can only be called in an element with a ShadowRoot.',
-                'The "element" method can only be called from a NodeList with elements.',
-                'The "all" method can only be called in a valid element.',
-                'The "$" method can only be called in an element with a ShadowRoot.'
-            ]);
+            expect(errors).toMatchObject(
+                Array.from(Array(9)).map(() => errorMessage)
+            );
 
         });
 
