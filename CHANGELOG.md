@@ -1,5 +1,9 @@
 # Changelog
 
+## [6.2.1] - 2026-06-26
+
+- Update `shadow-dom-selector` to solve [a bug](https://github.com/elchininet/shadow-dom-selector/pull/216) that was ignoring the config optional parameter.
+
 ## [6.2.0] - 2026-05-10
 
 - Add a `shouldReject` boolean property to the config optional parameter. This property is `false` by default, so the library will return `null` if some element is not found. If this property is set to `true` the library will throw errors if some elements cannot be found.
