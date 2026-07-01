@@ -1,7 +1,7 @@
 # Changelog
 
-## [7.0.0] - 2026-06-xx
-- Add compatibility with `Home Assistant` `2026.7.0`
+## [7.0.0] - 2026-07-01
+- Add compatibility with `Home Assistant` `2026.7.0` (Some `more-info` dialogs events got broken with this new version).
 
 ## [6.2.1] - 2026-06-26
 
