@@ -21,6 +21,6 @@
       "@lib": ["./src/lib"]
     }
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "./playwright.config.ts"],
   "exclude": ["node_modules"]
 }

@@ -1,4 +1,4 @@
-import packageJson from './package.json';
+import packageJson from './package.json' with { type: 'json' };
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import ts from '@rollup/plugin-typescript';
 import terser from '@rollup/plugin-terser';

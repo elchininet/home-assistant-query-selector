@@ -1,6 +1,6 @@
 import { Page } from '@playwright/test';
 import { expect } from 'playwright-test-coverage';
-import path from 'path';
+import path from 'node:path';
 import { BASE_URL, SELECTORS } from './constants';
 
 interface Options {
@@ -18,7 +18,7 @@ export const stubGlobalTestElements = async (
 ) => {
 
     await page.addInitScript({
-        path: path.join(__dirname, '..', './node_modules/sinon/pkg/sinon.js'),
+        path: path.resolve('node_modules/sinon/pkg/sinon.js'),
     });
 
     await page.goto(`${BASE_URL}${options?.pathname ? '/' + options.pathname : ''}`);

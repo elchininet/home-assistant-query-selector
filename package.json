@@ -11,6 +11,7 @@
     "javascript-library",
     "library"
   ],
+  "type": "module",
   "main": "dist/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
@@ -38,7 +39,7 @@
   "scripts": {
     "clean": "rm -rf dist || true",
     "test:clean": "rm -rf .nyc_output coverage || true",
-    "build": "pnpm clean && rollup --config rollup.config.js --bundleConfigAsCjs",
+    "build": "pnpm clean && rollup --config rollup.config.mjs",
     "lint": "eslint \"src/**/*.ts\" \"tests/**/*.ts\"",
     "coverage:report": "nyc report --reporter=lcov --reporter=text-summary",
     "test:ts": "tsc --noEmit",
