@@ -1,8 +1,8 @@
-const tseslint = require('typescript-eslint');
-const js = require('@eslint/js');
-const globals = require('globals');
+import tseslint from 'typescript-eslint';
+import js from '@eslint/js';
+import globals from 'globals';
 
-module.exports = [
+export default [
     {
         languageOptions: {
             globals: {
@@ -34,7 +34,6 @@ module.exports = [
             '@typescript-eslint/ban-ts-ignore': 'off',
             '@typescript-eslint/ban-ts-comment': 'off',
             '@typescript-eslint/no-namespace': 'off'
-
         }
     }
 ];
